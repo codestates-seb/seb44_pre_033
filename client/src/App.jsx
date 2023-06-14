@@ -1,14 +1,16 @@
+<<<<<<< HEAD
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+=======
+>>>>>>> b7aa5adcc0bdf35d88f11a6605c7430bce843949
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
+<<<<<<< HEAD
       <BrowserRouter>
 				<Header />
 				<Routes>
@@ -18,8 +20,11 @@ function App() {
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</BrowserRouter>
+=======
+      <div>우왕 초기세팅</div>
+>>>>>>> b7aa5adcc0bdf35d88f11a6605c7430bce843949
     </>
-  )
+  );
 }
 
-export default App
+export default App;

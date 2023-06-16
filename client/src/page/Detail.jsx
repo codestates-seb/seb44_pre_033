@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
-import Answer from '../components/Answer';
-import Content from '../components/Content';
-import Title from '../components/Title';
+import Answer from '../components/detail/Answer';
+import Content from '../components/detail/Content';
+import Title from '../components/detail/Title';
 
 export default function Detail() {
   return (

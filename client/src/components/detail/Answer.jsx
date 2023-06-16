@@ -1,18 +1,7 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import Content from './Content';
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
 
 export default function Answer() {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
-    const onEditorStateChange = (editorState) => {
-      // editorState에 값 설정
-      setEditorState(editorState);
-    };
   return (
     <Container>
       <AnswerInfo>
@@ -26,13 +15,8 @@ export default function Answer() {
         </div>
       </AnswerInfo>
       <Content />
-      <Editor
-        editorState={editorState}
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editorClassName"
-        onEditorStateChange={onEditorStateChange}
-      />
+      <div>에디터 컴포넌트 예정</div>
+      <button>버튼컴포넌트예정</button>
     </Container>
   );
 }

@@ -8,14 +8,14 @@ import {
 import { RxCounterClockwiseClock } from 'react-icons/rx';
 import styled from 'styled-components';
 
-export default function VoteBtns() {
+export default function VoteBtns({like}) {
   const [isSaveClicked, setIsSaveClicked] = useState(false);
   return (
     <VoteCell>
       <VoteBtn>
         <FaCaretUp />
       </VoteBtn>
-      <Count>0</Count>
+      <Count>{like}</Count>
       <VoteBtn>
         <FaCaretDown />
       </VoteBtn>

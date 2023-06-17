@@ -13,7 +13,7 @@ function App() {
           {/* 메인페이지 */}
           <Route path="/" element={<></>}></Route>
           {/* 상세페이지 */}
-          <Route path="/detail" element={<Detail/>}></Route>
+          <Route path="/detail/:id" element={<Detail/>}></Route>
           {/* 질문작성페이지 */}
           <Route path="/questions/ask" element={<Ask />}></Route>
           {/* 로그인 페이지 */}

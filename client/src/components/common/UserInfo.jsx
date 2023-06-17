@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import ProfileImg from '../../assets/profile.png';
 
-export default function UserInfo() {
+export default function UserInfo({userName}) {
   return (
     <Profile>
       <div>asked 14 hours ago</div>
       <UserDetail>
         <ProfileImage src={ProfileImg}></ProfileImage>
-        <div>Jinsoul Kim</div>
+        <div>{userName}</div>
       </UserDetail>
     </Profile>
   );

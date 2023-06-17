@@ -1,24 +1,24 @@
 import { styled } from 'styled-components';
 
-export default function Title() {
+export default function Title({ questionInfo }) {
   return (
     <Container>
       <QuestionHeader>
-        <div>Why this image is sometimes centered and sometimes not?</div>
+        <div>{questionInfo.title}</div>
         <button>버튼컴포넌트예정</button>
       </QuestionHeader>
       <QuestionInfo>
         <InfoDetail>
           <Span>added</Span>
-          <span>Today</span>
+          <span>{questionInfo.createdDateTime}</span>
         </InfoDetail>
         <InfoDetail>
           <Span>Modified</Span>
-          <span>Today</span>
+          <span>{questionInfo.updatedDateTime}</span>
         </InfoDetail>
         <InfoDetail>
           <Span>Viewed</Span>
-          <span>4 Times</span>
+          <span>{questionInfo.viewed} Times</span>
         </InfoDetail>
       </QuestionInfo>
     </Container>
@@ -39,7 +39,7 @@ const QuestionInfo = styled.div`
   display: flex;
   margin: 0.5rem 0;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #BBC0C4 ;
+  border-bottom: 1px solid var(--color-gray);
 `;
 const InfoDetail = styled.div`
   display: flex;
@@ -48,5 +48,5 @@ const InfoDetail = styled.div`
 `;
 const Span = styled.span`
   margin-right: 0.5rem;
-  color: #BBC0C4;
+  color: var(--color-gray);
 `;

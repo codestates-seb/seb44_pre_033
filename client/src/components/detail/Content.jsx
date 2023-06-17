@@ -2,35 +2,25 @@ import styled from 'styled-components';
 import VoteBtns from './VoteBtns';
 import UserInfo from '../common/UserInfo';
 
-export default function Content() {
+export default function Content({content,like,userName}) {
   return (
     <Container>
-      <VoteBtns />
+      <VoteBtns like={like} />
       <PostCell>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic nobis
-          error iure nemo exercitationem, nulla sunt blanditiis, excepturi
-          fugiat cupiditate aut necessitatibus ex vitae accusamus vero aliquid
-          sed repellat deserunt! Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Minima tempore natus temporibus accusamus doloribus
-          alias voluptatum reprehenderit harum dolorum quis placeat quae,
-          distinctio ratione nulla assumenda excepturi rerum, maiores molestias?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo possimus
-          quaerat sit odio, delectus ut. Omnis maxime labore numquam aperiam,
-          accusantium temporibus repellat praesentium earum molestiae eos.
-          Quidem, tenetur totam!
+          {content}
         </p>
         <ActionsAndProfile>
           <Features>
-            <Div>Share</Div>
-            <Div>
+            <div>Share</div>
+            <div>
               <a href="">Edit</a>
-            </Div>
-            <Div>
+            </div>
+            <div>
               <button>Delete</button>
-            </Div>
+            </div>
           </Features>
-          <UserInfo/>
+          <UserInfo userName={userName}/>
         </ActionsAndProfile>
       </PostCell>
     </Container>
@@ -45,6 +35,7 @@ const Container = styled.section`
 const PostCell = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 
 const ActionsAndProfile = styled.div`
@@ -56,9 +47,9 @@ const ActionsAndProfile = styled.div`
 const Features = styled.div`
   display: flex;
   & * {
-    color: #6a737c;
+    color: var(--color-gray);
   }
-`;
-const Div = styled.div`
-  margin-right: 0.5rem;
+  div{
+    margin-right: 0.5rem;
+  }
 `;

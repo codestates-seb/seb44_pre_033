@@ -12,7 +12,7 @@ export default function VoteBtns({like}) {
   const [isSaveClicked, setIsSaveClicked] = useState(false);
   return (
     <VoteCell>
-      <VoteBtn>
+      <VoteBtn onClick={()=>{}}>
         <FaCaretUp />
       </VoteBtn>
       <Count>{like}</Count>

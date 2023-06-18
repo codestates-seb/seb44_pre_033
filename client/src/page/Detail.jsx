@@ -11,7 +11,7 @@ export default function Detail() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios(
-      `https://f3f88dd8-9808-4603-9595-4222f8943fc3.mock.pstmn.io/detail/${params.id}`
+      `http://localhost:3000/posts/${params.id}`
     )
       .then((res) => setData(res.data))
       .catch(() => {
@@ -26,7 +26,7 @@ export default function Detail() {
   return (
     <Container>
       <Title questionInfo={data} />
-      <Content content={data.content} like={data.like} userName={data.name}/>
+      <Content props={data}/>
       <Answer answerInfo={data.answer}/>
     </Container>
   );

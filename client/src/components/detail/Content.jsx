@@ -2,25 +2,23 @@ import styled from 'styled-components';
 import VoteBtns from './VoteBtns';
 import UserInfo from '../common/UserInfo';
 
-export default function Content({content,like,userName}) {
+export default function Content({ props }) {
   return (
     <Container>
-      <VoteBtns like={like} />
+      <VoteBtns like={props.like} />
       <PostCell>
-        <p>
-          {content}
-        </p>
+        <p>{props.content}</p>
         <ActionsAndProfile>
           <Features>
             <div>Share</div>
             <div>
-              <a href="">Edit</a>
+              <a href={`/posts/${props.id}/edit`}>Edit</a>
             </div>
             <div>
               <button>Delete</button>
             </div>
           </Features>
-          <UserInfo userName={userName}/>
+          <UserInfo userName={props.name} />
         </ActionsAndProfile>
       </PostCell>
     </Container>
@@ -49,7 +47,7 @@ const Features = styled.div`
   & * {
     color: var(--color-gray);
   }
-  div{
+  div {
     margin-right: 0.5rem;
   }
 `;

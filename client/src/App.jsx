@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Detail from './page/Detail';
+import Edit from './page/Edit';
 import Ask from './page/Ask';
 import Login from './page/Login';
 import Logout from './page/Logout';
 import Signup from './page/Signup';
 import NotFound from './page/NotFound';
+
 function App() {
   return (
     <>
@@ -13,7 +15,9 @@ function App() {
           {/* 메인페이지 */}
           <Route path="/" element={<></>}></Route>
           {/* 상세페이지 */}
-          <Route path="/detail/:id" element={<Detail/>}></Route>
+          <Route path="/detail/:id" element={<Detail />}></Route>
+          {/* 답변 수정 페이지 */}
+          <Route path="/posts/:id/edit" element={<Edit />}></Route>
           {/* 질문작성페이지 */}
           <Route path="/questions/ask" element={<Ask />}></Route>
           {/* 로그인 페이지 */}

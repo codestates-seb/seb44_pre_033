@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<></>}></Route>
           {/* 상세페이지 */}
           <Route path="/detail/:id" element={<Detail />}></Route>
-          {/* 답변 수정 페이지 */}
+          {/* 수정 페이지 */}
           <Route path="/posts/:id/edit" element={<Edit />}></Route>
           {/* 질문작성페이지 */}
           <Route path="/questions/ask" element={<Ask />}></Route>

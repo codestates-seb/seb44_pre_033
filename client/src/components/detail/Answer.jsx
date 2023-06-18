@@ -3,11 +3,32 @@ import { useState } from 'react';
 import Content from './Content';
 import TextEditor from '../common/TextEditor.jsx';
 import { BsCheckLg } from 'react-icons/bs';
-
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 export default function Answer({ answerInfo }) {
+  const params = useParams();
+  const navigate = useNavigate();
   const [body, setBody] = useState('');
   const handleBodyChange = (value) => {
     setBody(value);
+  };
+  const handleSubmit = () => {
+    axios
+      .post('http://localhost:3000/answers', {
+        id: new Date().getTime(),
+        questionId: Number(params.id),
+        name: 'userName',
+        content: body,
+        createdDateTime: new Date().toLocaleString(),
+        like: 0,
+      })
+      .then((res) => {
+        console.log(res.data)
+        navigate(`/detail/${params.id}`);
+      })
+      .catch(() => {
+        console.error('잘못된 접근입니다.');
+      });
   };
   const isBodyValid = body.length >= 100;
 
@@ -26,7 +47,7 @@ export default function Answer({ answerInfo }) {
       {answerInfo &&
         answerInfo.map((answer) => (
           <li key={answer.id}>
-            <Content props={answer}/>
+            <Content props={answer} contentType={'answers'} />
           </li>
         ))}
       <BodyContainer isBodyError={!isBodyValid}>
@@ -45,7 +66,7 @@ export default function Answer({ answerInfo }) {
           </div>
         )}
       </BodyContainer>
-      <button>버튼컴포넌트예정</button>
+      <button onClick={handleSubmit}>버튼컴포넌트예정</button>
     </Container>
   );
 }
@@ -69,7 +90,6 @@ const NumAndSort = styled.ul`
 `;
 
 const BodyContainer = styled.div`
-  width: 60vw;
   height: 63vh;
   border: 1px solid #d4d4db;
   border-radius: 5px;
@@ -82,9 +102,7 @@ const BodyContainer = styled.div`
   pointer-events: ${(props) => (props.isTitleError ? 'none' : 'auto')};
 
   .ql-editor {
-    width: 56vw;
     height: 40vh;
-    margin-left: 2vw;
     border: 1px solid
       ${(props) =>
         props.isBodyError && !props.isTitleError

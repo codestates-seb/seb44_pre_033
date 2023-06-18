@@ -1,11 +1,13 @@
 import { styled } from 'styled-components';
-
+import { Link } from 'react-router-dom';
 export default function Title({ questionInfo }) {
   return (
     <Container>
       <QuestionHeader>
         <div>{questionInfo.title}</div>
-        <button>버튼컴포넌트예정</button>
+        <button>
+          <Link to="/questions/ask">글작성페이지로가는버튼</Link>
+        </button>
       </QuestionHeader>
       <QuestionInfo>
         <InfoDetail>

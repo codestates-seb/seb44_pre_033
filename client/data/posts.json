@@ -1,5 +1,5 @@
 {
-  "posts": [
+  "questions": [
     {
       "id": 1,
       "name": "김진솔",
@@ -7,34 +7,8 @@
       "content": "이게무엇이냐하면 질문입니다. 그리고 여기는 아주르입니다. 너무 커피가 너무 맛있어용!!!! 그리고 양이랑 같이 왔습니다. 날씨도 너무 좋고 행복해요잉 캬캬컄캬ㅑ",
       "createdDateTime": "11월 5일",
       "updatedDateTime": "11월 5일",
-      "like": 3,
-      "viewed": 13,
-      "answer": [
-        {
-          "id": 3,
-          "name": "답변러",
-          "content": "첫번째 답변아이양!! 이게 답변이야잉!!!! 아니라구요? 답변 마자잉!!! 캬컄컄캬하이고오오 배고프당 ~ 오십자 백자 ㅋ ㅋ ㅋ ㅋ ~",
-          "createdDateTime": "11월 6일",
-          "updatedDateTime": "11월 6일",
-          "like": 4
-        },
-        {
-          "id": 4,
-          "name": "답변러",
-          "content": "두번째 답변아이양!! 이게 답변이야잉!!!! 아니라구요? 답변 마자잉!!! 캬컄컄캬하이고오오 배고프당 ~ 오십자 백자 ㅋ ㅋ ㅋ ㅋ ~",
-          "createdDateTime": "11월 6일",
-          "updatedDateTime": "11월 6일",
-          "like": 23
-        },
-        {
-          "id": 5,
-          "name": "답변러",
-          "content": "세번째 답변아이양!! 이게 답변이야잉!!!! 아니라구요? 답변 마자잉!!! 캬컄컄캬하이고오오 배고프당 ~ 오십자 백자 ㅋ ㅋ ㅋ ㅋ ~",
-          "createdDateTime": "11월 6일",
-          "updatedDateTime": "11월 6일",
-          "like": 31
-        }
-      ]
+      "like": 5,
+      "viewed": 13
     },
     {
       "id": 2,
@@ -43,18 +17,51 @@
       "content": "로래롬로램로매로매뢔몰 로럄 로랴롬랴모랴몰먀ㅗ랴모랴 자아안!!!! ㄱㅂ재덥ㅈ답지다ㅡㅂ 덥다잉 요잉 캬캬컄캬ㅑ",
       "createdDateTime": "1월 5일",
       "updatedDateTime": "1월 5일",
-      "like": 2,
-      "viewed": 2,
-      "answer": [
-        {
-          "id": 6,
-          "name": "답변을 해보겠어",
-          "content": "답변을 했어염 이제 가두번째 질문의 답변이 됩니다. 하하하하 !!! 이게 맙로나ㅓ오마ㅓ",
-          "createdDateTime": "11월 6일",
-          "updatedDateTime": "11월 6일",
-          "like": 3
-        }
-      ]
+      "like": 7,
+      "viewed": 2
+    }
+  ],
+  "answers": [
+    {
+      "id": 3,
+      "postId": 2,
+      "name": "댓글러",
+      "content": "두번째 질문에 대한 첫번째 댓글입니다!",
+      "createdDateTime": "11월 6일",
+      "updatedDateTime": "11월 6일",
+      "like": 3
+    },
+    {
+      "id": 925.1903216507084,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<p>이게 찐이야잉 !!!</p><p><br></p>",
+      "createdDateTime": "6/19/2023, 12:49:49 AM",
+      "like": 0
+    },
+    {
+      "id": 926.1903216507084,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<p>첫번째 댓글입니다!</p>",
+      "createdDateTime": "6/19/2023, 12:50:00 AM",
+      "like": 0
+    },
+    {
+      "id": 1687105557004,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<ol><li>그렇겟찌</li><li>이건되겠지?</li><li>띄어쓰기하면 ㅋ ㅋ ㅋ ㅋ 글자 넘는다잉 !&gt;_&lt; 완전 좋ㅇ다</li><li>그러면</li><li>끗</li></ol>",
+      "createdDateTime": "6/19/2023, 1:25:57 AM",
+      "like": 0
+    },
+    {
+      "id": 1687105590535,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<ul><li>ㅁㄴㅇㅁㄴㅇ</li><li>ㅁㄴㅇㅁㄴㅇㅁㄴ</li><li>ㅇ</li><li>ㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li><li>ㅁㄴㅇ</li><li>ㅁㄴㅇ</li></ul>",
+      "createdDateTime": "6/19/2023, 1:26:30 AM",
+      "like": 0
     }
   ]
 }

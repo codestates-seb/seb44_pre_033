@@ -8,30 +8,31 @@ import Title from '../components/detail/Title';
 
 export default function Detail() {
   const params = useParams();
-  const [data, setData] = useState([]);
+  const [questionsData, setQuestionData] = useState([]);
+  const [answersData, setAnswersData] = useState([]);
+
   useEffect(() => {
-    axios(
-      `http://localhost:3000/posts/${params.id}`
-    )
-      .then((res) => setData(res.data))
+    axios(`http://localhost:3000/questions/${params.id}`)
+      .then((res) => setQuestionData(res.data))
       .catch(() => {
-        console.error('페이지가 이상해잉');
+        console.error('질문을 가져오는 중에 문제가 발생했어요.');
+      });
+    axios(`http://localhost:3000/answers?questionId=${params.id}`)
+      .then((res) => setAnswersData(res.data))
+      .catch(() => {
+        console.error('댓글을 가져오는 중에 문제가 발생했어요.');
       });
   }, []);
-  console.log(data)
-  if (!data) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Container>
-      <Title questionInfo={data} />
-      <Content props={data}/>
-      <Answer answerInfo={data.answer}/>
+      <Title questionInfo={questionsData} />
+      <Content props={questionsData} contentType={'questions'}/>
+      <Answer answerInfo={answersData} />
     </Container>
   );
 }
 
 const Container = styled.div`
-    padding: 1rem;
-`
+  padding: 1rem;
+`;

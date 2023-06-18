@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import ProfileImg from '../../assets/profile.png';
 
-export default function UserInfo({userName}) {
+export default function UserInfo({userName,createdDateTime}) {
   return (
     <Profile>
-      <div>asked 14 hours ago</div>
+      <div>{createdDateTime}</div>
       <UserDetail>
         <ProfileImage src={ProfileImg}></ProfileImage>
         <div>{userName}</div>

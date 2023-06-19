@@ -6,11 +6,12 @@ import Login from './page/Login';
 import Logout from './page/Logout';
 import Signup from './page/Signup';
 import NotFound from './page/NotFound';
-
+import Header from './components/common/Header'
 function App() {
   return (
     <>
       <BrowserRouter>
+      <Header/>
         <Routes>
           {/* 메인페이지 */}
           <Route path="/" element={<></>}></Route>

@@ -18,7 +18,7 @@ export default function Content({ props,contentType }) {
           <Features>
             <div>Share</div>
             <div>
-              <a href={`/posts/${props.id}/edit`}>Edit</a>
+              <a href={`/posts/${props.id}/edit?type=${contentType}`}>Edit</a>
             </div>
             <div>
               <button onClick={handleDelete}>Delete</button>
@@ -34,6 +34,7 @@ export default function Content({ props,contentType }) {
 const Container = styled.section`
   display: flex;
   padding: 1rem;
+  border-bottom: 1px solid var(--color-gray);
 `;
 
 const PostCell = styled.div`

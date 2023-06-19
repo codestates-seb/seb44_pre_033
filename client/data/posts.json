@@ -4,10 +4,10 @@
       "id": 1,
       "name": "김진솔",
       "title": "이게뭔가요",
-      "content": "이게무엇이냐하면 질문입니다. 그리고 여기는 아주르입니다. 너무 커피가 너무 맛있어용!!!! 그리고 양이랑 같이 왔습니다. 날씨도 너무 좋고 행복해요잉 캬캬컄캬ㅑ",
+      "content": "<p>이게무엇이냐하면 질문입니다. 그리고 여기는 아주르입니다. 너무 커피가 너무 맛있어용!!!! 그리고 양이랑 같이 왔습니다. 날씨도 너무 좋고 행복해요잉 캬캬컄캬ㅑ d이건수정되었습니다.질뭄ㄴ도 수정이됩니다!!!!!!!</p>",
       "createdDateTime": "11월 5일",
       "updatedDateTime": "11월 5일",
-      "like": 5,
+      "like": 3,
       "viewed": 13
     },
     {
@@ -35,9 +35,9 @@
       "id": 925.1903216507084,
       "questionId": 1,
       "name": "userName",
-      "content": "<p>이게 찐이야잉 !!!</p><p><br></p>",
+      "content": "<p>이게 찐이야잉 !!! 수정할래 수정되었어요!!!!</p>",
       "createdDateTime": "6/19/2023, 12:49:49 AM",
-      "like": 0
+      "like": 2
     },
     {
       "id": 926.1903216507084,
@@ -45,22 +45,6 @@
       "name": "userName",
       "content": "<p>첫번째 댓글입니다!</p>",
       "createdDateTime": "6/19/2023, 12:50:00 AM",
-      "like": 0
-    },
-    {
-      "id": 1687105557004,
-      "questionId": 1,
-      "name": "userName",
-      "content": "<ol><li>그렇겟찌</li><li>이건되겠지?</li><li>띄어쓰기하면 ㅋ ㅋ ㅋ ㅋ 글자 넘는다잉 !&gt;_&lt; 완전 좋ㅇ다</li><li>그러면</li><li>끗</li></ol>",
-      "createdDateTime": "6/19/2023, 1:25:57 AM",
-      "like": 0
-    },
-    {
-      "id": 1687105590535,
-      "questionId": 1,
-      "name": "userName",
-      "content": "<ul><li>ㅁㄴㅇㅁㄴㅇ</li><li>ㅁㄴㅇㅁㄴㅇㅁㄴ</li><li>ㅇ</li><li>ㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li><li>ㅁㄴㅇ</li><li>ㅁㄴㅇ</li></ul>",
-      "createdDateTime": "6/19/2023, 1:26:30 AM",
       "like": 0
     }
   ]

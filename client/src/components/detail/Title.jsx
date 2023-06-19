@@ -1,13 +1,15 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
+import ButtonFixed from '../common/ButtonFixed';
 export default function Title({ questionInfo }) {
   return (
     <Container>
       <QuestionHeader>
         <div>{questionInfo.title}</div>
-        <button>
-          <Link to="/questions/ask">글작성페이지로가는버튼</Link>
-        </button>
+        <ButtonFixed
+          label={<Link to="/questions/ask">Ask Question</Link>}
+          color="Blue"
+        ></ButtonFixed>
       </QuestionHeader>
       <QuestionInfo>
         <InfoDetail>

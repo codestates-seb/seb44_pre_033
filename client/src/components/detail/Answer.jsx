@@ -4,7 +4,9 @@ import Content from './Content';
 import TextEditor from '../common/TextEditor.jsx';
 import { BsCheckLg } from 'react-icons/bs';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import ButtonFixed from '../common/ButtonFixed';
+
 export default function Answer({ answerInfo }) {
   const params = useParams();
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ export default function Answer({ answerInfo }) {
         like: 0,
       })
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         navigate(`/detail/${params.id}`);
       })
       .catch(() => {
@@ -35,7 +37,9 @@ export default function Answer({ answerInfo }) {
   return (
     <Container>
       <NumAndSort>
-        <div>{answerInfo && answerInfo.length} Answer</div>
+        <div className="answersNum">
+          {answerInfo && answerInfo.length} Answers
+        </div>
         <div className="sort">
           <label>Sorted by: </label>
           <select>
@@ -66,7 +70,13 @@ export default function Answer({ answerInfo }) {
           </div>
         )}
       </BodyContainer>
-      <button onClick={handleSubmit}>버튼컴포넌트예정</button>
+      <BtnContainer>
+        <ButtonFixed
+          onClick={handleSubmit}
+          color="Blue"
+          label={<Link>Post Your Answer</Link>}
+        ></ButtonFixed>
+      </BtnContainer>
     </Container>
   );
 }
@@ -74,11 +84,16 @@ export default function Answer({ answerInfo }) {
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
 `;
 
 const NumAndSort = styled.ul`
   display: flex;
   justify-content: space-between;
+  .answersNum {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
   .sort {
     display: flex;
     align-items: center;
@@ -105,14 +120,10 @@ const BodyContainer = styled.div`
     height: 40vh;
     border: 1px solid
       ${(props) =>
-        props.isBodyError && !props.isTitleError
-          ? 'red'
-          : 'rgba(247,247,248,0.7)'};
+        props.isBodyError && !props.isTitleError ? 'red' : 'var(--color-gray)'};
 
     background-color: ${(props) =>
-      props.isTitleError
-        ? 'rgba(247,247,248,0.7)'
-        : 'rgba(255, 255, 255, 255)'};
+      props.isTitleError ? 'var(--color-gray)' : null};
   }
 
   .title {
@@ -138,4 +149,9 @@ const BodyContainer = styled.div`
     color: ${(props) => (props.isBodyError ? 'red' : 'balck')};
     color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'red')};
   }
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  margin-top: 1rem;
 `;

@@ -10,7 +10,7 @@ const Header = ()=>{
             <Logo path='/' src={LogoImg} alt='stack overflow'/>
             <ButtonContainer>
                 <LinkBtn>
-                    <ButtonFlex label='Log in' length='0' color=''/>
+                    <ButtonFlex label='Log in' length='0' color='gray'/>
                 </LinkBtn>
                 <LinkBtn>
                     <ButtonFlex label='Sign up' length='0' color='Blue'/>

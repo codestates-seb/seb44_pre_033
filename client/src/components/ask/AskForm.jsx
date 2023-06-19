@@ -1,8 +1,9 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BsCheckLg } from 'react-icons/bs';
 import DiscardAlarm from '../ask/DiscardAlarm.jsx';
 import TextEditor from '../common/TextEditor.jsx';
+import ButtonFlex from '../common/ButtonFlexible.jsx';
 
 const TitleContainer = styled.div`
   width: 60vw;
@@ -103,8 +104,32 @@ const BodyContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
+  margin-top: 2vh;
   width: 55vw;
   height: 20vh;
+  display: flex;
+  flex-direction: row;
+`;
+
+const DiscardButton = styled.button`
+  margin-left: 1vw;
+  width: 7rem;
+  height: 2.6rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  background-color: #f8f9f9;
+  color: #ab262a;
+  border: none;
+  &:hover {
+    background-color: #fdf2f2;
+  }
+  a {
+    color: #ab262a;
+  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const AskForm = () => {
@@ -112,15 +137,49 @@ const AskForm = () => {
   const [body, setBody] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
+  //페이지가 로드될때 마다, 로컬 스토리지에서 이전에 저장한 값이 있는지 확인하고 가져옵니다
+  useEffect(() => {
+    const savedTitle = localStorage.getItem('title');
+    const savedBody = localStorage.getItem('body');
+
+    if (savedTitle) {
+      setTitle(savedTitle);
+    }
+    if (savedBody) {
+      setBody(savedBody);
+    }
+  }, []);
+
+  //입력창의 내용이 변경될때마다 상태를 업데이트하고, 로컬 저장소에 저장합니다
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+    localStorage.setItem('title', newTitle);
   };
+
   const handleBodyChange = (value) => {
     setBody(value);
+    localStorage.setItem('body', value);
   };
 
   const handleOpenModal = () => {
     setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleDiscardQuestion = () => {
+    setTitle('');
+    setBody('');
+    setOpenModal(false);
+    window.scrollTo(0, 0);
+  };
+
+  const handleCancelButton = () => {
+    setOpenModal(false);
+    window.scrollTo(0, 0);
   };
 
   const isTitleValid = title.length >= 15;
@@ -147,8 +206,8 @@ const AskForm = () => {
       <BodyContainer isTitleError={!isTitleValid} isBodyError={!isBodyValid}>
         <div className="title">Body</div>
         <div className="content">
-          The body of your question contains your problem details and results.
-          Minimum 100 characters.
+        The body of your question contains your problem details and results.
+        Minimum 100 characters.
         </div>
         <TextEditor value={body} onChange={handleBodyChange} />
         {!isBodyValid && (
@@ -161,10 +220,16 @@ const AskForm = () => {
         )}
       </BodyContainer>
       <ButtonContainer>
-        <button></button>
-        <button onClick={handleOpenModal}></button>
+        <ButtonFlex label="Post Your Question" color="Blue" />
+        <DiscardButton onClick={handleOpenModal}>Discard draft</DiscardButton>
       </ButtonContainer>
-      {openModal ? <DiscardAlarm /> : null}
+      {openModal ? (
+        <DiscardAlarm
+          onDiscardQuestion={handleDiscardQuestion}
+          onCancelButton={handleCancelButton}
+          handleCloseModal={handleCloseModal}
+        />
+      ) : null}
     </div>
   );
 };

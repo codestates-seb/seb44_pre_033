@@ -1,11 +1,11 @@
 import styled from "styled-components"
 
-export default function ButtonFix({label, color, length}) {
+export default function ButtonFix({label, color, length, onClick}) {
     return (
     <>
         {color==='Blue' ? 
-            <BlueButtonFixed label={label} length={length} >{label}</BlueButtonFixed> : 
-            <GrayButtonFixed label={label} length={length} >{label}</GrayButtonFixed>
+            <BlueButtonFixed onClick = {onClick} label={label} length={length} >{label}</BlueButtonFixed> : 
+            <GrayButtonFixed onClick = {onClick} label={label} length={length} >{label}</GrayButtonFixed>
         }
         
     </>

@@ -1,12 +1,20 @@
 import styled from "styled-components"
 
-// <ButtonFlex label='버튼내용' color='파란버튼일때만 Blue라고 넣으면 됩니다.' length='기본길이는0, 길이 조절하려면 필요한만큼 숫자 넣으면 됩니다.'  />
-export default function ButtonFlex({label, color, length, onClick}) {
+// <ButtonFlex label='버튼내용' color='Blue or Gray' textColor='Blue or Red' length='기본길이는0, 길이 조절하려면 필요한만큼 숫자 넣으면 됩니다.'  />
+export default function ButtonFlex({label, color, textColor, length, onClick}) {
     return (
     <>
-        {color==='Blue' ? 
-            <BlueButtonFlexible onClick = {onClick} label={label} length={length} >{label}</BlueButtonFlexible> : 
-            <GrayButtonFlexible onClick = {onClick} label={label} length={length} >{label}</GrayButtonFlexible>
+        {color ? ( color==='Blue' ? 
+            <BlueButtonFlexible onClick = {onClick} label={label} length={length} >{label}</BlueButtonFlexible> 
+            :
+            <GrayButtonFlexible onClick = {onClick} label={label} length={length} >{label}</GrayButtonFlexible> 
+        )
+        :
+        ( textColor==='Blue' ?
+            <BlueTextButtonFlexible onClick = {onClick} label={label} length={length} >{label}</BlueTextButtonFlexible> 
+            :
+            <RedTextButtonFlexible onClick = {onClick} label={label} length={length} >{label}</RedTextButtonFlexible>
+        )
         }
         
     </>
@@ -41,7 +49,6 @@ const BlueButtonFlexible = styled(ButtonFlexible)`
 `;
 
 const GrayButtonFlexible = styled(ButtonFlexible)`
-    /* 파란색 버튼 */
     background-color: 	#e1ecf4;
     color: 	#39739d;
     border: 1px solid 	#7aa7c7;
@@ -50,5 +57,27 @@ const GrayButtonFlexible = styled(ButtonFlexible)`
     }
     a{
         color:     #39739d;
+    }
+`;
+
+const BlueTextButtonFlexible = styled(ButtonFlexible)`
+    background-color: 	#ffffff;
+    color: var(--color-blue);
+    &:hover {
+        background-color: 	#f0f8ff;
+    }
+    a{
+        color: var(--color-blue);
+    }
+`;
+
+const RedTextButtonFlexible = styled(ButtonFlexible)`
+    background-color: 	#ffffff;
+    color: #FF0000;
+    &:hover {
+        background-color: 	#ffdcdc;
+    }
+    a{
+        color: #FF0000;
     }
 `;

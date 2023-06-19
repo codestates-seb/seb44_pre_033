@@ -5,6 +5,7 @@ import axios from 'axios';
 import Answer from '../components/detail/Answer';
 import Content from '../components/detail/Content';
 import Title from '../components/detail/Title';
+import Aside from '../components/common/Aside';
 
 export default function Detail() {
   const params = useParams();
@@ -27,8 +28,13 @@ export default function Detail() {
   return (
     <Container>
       <Title questionInfo={questionsData} />
-      <Content props={questionsData} contentType={'questions'}/>
-      <Answer answerInfo={answersData} />
+      <ContentAndAside>
+        <div className='contentAndAnswer'>
+          <Content props={questionsData} contentType={'questions'} />
+          <Answer answerInfo={answersData} />
+        </div>
+        <Aside />
+      </ContentAndAside>
     </Container>
   );
 }
@@ -36,3 +42,19 @@ export default function Detail() {
 const Container = styled.div`
   padding: 1rem;
 `;
+const ContentAndAside = styled.div`
+display: flex;
+.contentAndAnswer{
+  margin-right: 2rem;
+}
+@media (max-width: 980px) {
+    flex-direction: column;
+    aside{
+      width:100%;
+      margin-top: 2rem;
+    }
+    .contentAndAnswer{
+      margin-right: 0;
+    }
+  }
+`

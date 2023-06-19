@@ -33,6 +33,10 @@ const BlueButtonFixed = styled(ButtonFixed)`
     &:hover {
         background-color: #075EC3;
     }
+    a{
+        color: white;
+
+    }
 `;
 
 const GrayButtonFixed = styled(ButtonFixed)`
@@ -42,5 +46,8 @@ const GrayButtonFixed = styled(ButtonFixed)`
     border: 1px solid 	#7aa7c7;
     &:hover {
         background-color: #0063bf;
+    }
+    a{
+        color:     #39739d;
     }
 `;

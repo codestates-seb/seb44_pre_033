@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-// <ButtonFlex label='버튼내용' color='파란버튼일때만 Blue라고 넣으면 됩니다.' length='기본길이는0, 길이 조절하려면 필요한만큼 숫자 넣으면 됩니다.'  />
+// <ButtonFlex label='버튼내용' color='Blue or Gray' textColor='Blue or Red' length='기본길이는0, 길이 조절하려면 필요한만큼 숫자 넣으면 됩니다.'  />
 export default function ButtonFlex({label, color, textColor, length, onClick}) {
     return (
     <>

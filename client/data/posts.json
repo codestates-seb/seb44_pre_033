@@ -1,0 +1,51 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "name": "김진솔",
+      "title": "이게뭔가요",
+      "content": "<p>이게무엇이냐하면 질문입니다. 그리고 여기는 아주르입니다. 너무 커피가 너무 맛있어용!!!! 그리고 양이랑 같이 왔습니다. 날씨도 너무 좋고 행복해요잉 캬캬컄캬ㅑ d이건수정되었습니다.질뭄ㄴ도 수정이됩니다!!!!!!!</p>",
+      "createdDateTime": "11월 5일",
+      "updatedDateTime": "11월 5일",
+      "like": 3,
+      "viewed": 13
+    },
+    {
+      "id": 2,
+      "name": "김마자",
+      "title": "두번째질문",
+      "content": "로래롬로램로매로매뢔몰 로럄 로랴롬랴모랴몰먀ㅗ랴모랴 자아안!!!! ㄱㅂ재덥ㅈ답지다ㅡㅂ 덥다잉 요잉 캬캬컄캬ㅑ",
+      "createdDateTime": "1월 5일",
+      "updatedDateTime": "1월 5일",
+      "like": 7,
+      "viewed": 2
+    }
+  ],
+  "answers": [
+    {
+      "id": 3,
+      "postId": 2,
+      "name": "댓글러",
+      "content": "두번째 질문에 대한 첫번째 댓글입니다!",
+      "createdDateTime": "11월 6일",
+      "updatedDateTime": "11월 6일",
+      "like": 3
+    },
+    {
+      "id": 925.1903216507084,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<p>이게 찐이야잉 !!! 수정할래 수정되었어요!!!!</p>",
+      "createdDateTime": "6/19/2023, 12:49:49 AM",
+      "like": 2
+    },
+    {
+      "id": 926.1903216507084,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<p>첫번째 댓글입니다!</p>",
+      "createdDateTime": "6/19/2023, 12:50:00 AM",
+      "like": 0
+    }
+  ]
+}

@@ -1,36 +1,30 @@
 import styled from 'styled-components';
 import VoteBtns from './VoteBtns';
 import UserInfo from '../common/UserInfo';
+import axios from 'axios';
 
-export default function Content() {
+export default function Content({ props,contentType }) {
+  const handleDelete = () =>{
+    axios.delete(`http://localhost:3000/${contentType}/${props.id}`)
+    .then(()=>console.log('성공?'))
+    .catch(()=>console.log('실패!'))
+  }
   return (
     <Container>
-      <VoteBtns />
+      <VoteBtns like={props.like} id={props.id} contentType={contentType}/>
       <PostCell>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic nobis
-          error iure nemo exercitationem, nulla sunt blanditiis, excepturi
-          fugiat cupiditate aut necessitatibus ex vitae accusamus vero aliquid
-          sed repellat deserunt! Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Minima tempore natus temporibus accusamus doloribus
-          alias voluptatum reprehenderit harum dolorum quis placeat quae,
-          distinctio ratione nulla assumenda excepturi rerum, maiores molestias?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo possimus
-          quaerat sit odio, delectus ut. Omnis maxime labore numquam aperiam,
-          accusantium temporibus repellat praesentium earum molestiae eos.
-          Quidem, tenetur totam!
-        </p>
+        <p dangerouslySetInnerHTML={{__html:props.content}}></p>
         <ActionsAndProfile>
           <Features>
-            <Div>Share</Div>
-            <Div>
-              <a href="">Edit</a>
-            </Div>
-            <Div>
-              <button>Delete</button>
-            </Div>
+            <div>Share</div>
+            <div>
+              <a href={`/posts/${props.id}/edit?type=${contentType}`}>Edit</a>
+            </div>
+            <div>
+              <button onClick={handleDelete}>Delete</button>
+            </div>
           </Features>
-          <UserInfo/>
+          <UserInfo userName={props.name} createdDateTime={props.createdDateTime}/>
         </ActionsAndProfile>
       </PostCell>
     </Container>
@@ -40,11 +34,13 @@ export default function Content() {
 const Container = styled.section`
   display: flex;
   padding: 1rem;
+  border-bottom: 1px solid var(--color-gray);
 `;
 
 const PostCell = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 
 const ActionsAndProfile = styled.div`
@@ -56,9 +52,9 @@ const ActionsAndProfile = styled.div`
 const Features = styled.div`
   display: flex;
   & * {
-    color: #6a737c;
+    color: var(--color-gray);
   }
-`;
-const Div = styled.div`
-  margin-right: 0.5rem;
+  div {
+    margin-right: 0.5rem;
+  }
 `;

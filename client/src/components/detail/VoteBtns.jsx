@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   FaCaretUp,
   FaCaretDown,
@@ -7,16 +7,49 @@ import {
 } from 'react-icons/fa';
 import { RxCounterClockwiseClock } from 'react-icons/rx';
 import styled from 'styled-components';
+import axios from 'axios';
 
-export default function VoteBtns() {
+export default function VoteBtns({ like, id, contentType }) {
   const [isSaveClicked, setIsSaveClicked] = useState(false);
+  const [countLike, setCountLike] = useState(like);
+  useEffect(() => {
+    setCountLike(like);
+  }, [like]);
+
   return (
     <VoteCell>
-      <VoteBtn>
+      <VoteBtn
+        onClick={() =>
+          axios
+            .patch(`http://localhost:3000/${contentType}/${id}`, {
+              like: countLike + 1,
+            })
+            .then((res) => {
+              setCountLike(res.data.like);
+            })
+            .catch(() => {
+              console.error('Invalid access to like count update endpoint.');
+            })
+        }
+      >
         <FaCaretUp />
       </VoteBtn>
-      <Count>0</Count>
-      <VoteBtn>
+      <Count>{countLike}</Count>
+      <VoteBtn
+        onClick={() =>
+          axios
+            .patch(`http://localhost:3000/${contentType}/${id}`, {
+              like: countLike - 1,
+            })
+            .then((res) => {
+              console.log(res);
+              setCountLike(res.data.like);
+            })
+            .catch(() => {
+              console.error('Invalid access to like count update endpoint.');
+            })
+        }
+      >
         <FaCaretDown />
       </VoteBtn>
       <SaveBtn
@@ -57,7 +90,8 @@ const SaveBtn = styled.button`
   background-color: transparent;
   width: 2.5rem;
   height: 2rem;
-  color: ${(props) => (props.isSaveClicked ? 'var(--color-orange)' :'var(--color-gray)')};
+  color: ${(props) =>
+    props.isSaveClicked ? 'var(--color-orange)' : 'var(--color-gray)'};
 `;
 
 const TimeBtn = styled.button`

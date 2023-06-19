@@ -13,7 +13,7 @@ export default function ButtonFlex({label, color, length}) {
     );
   }
   
-const ButtonFlexible = styled.div`
+const ButtonFlexible = styled.button`
     /* 버튼 기본 설정 */
     display: flex;
     align-items: center;

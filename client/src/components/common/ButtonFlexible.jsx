@@ -34,6 +34,10 @@ const BlueButtonFlexible = styled(ButtonFlexible)`
     &:hover {
         background-color: #075EC3;
     }
+    a{
+        color: white;
+
+    }
 `;
 
 const GrayButtonFlexible = styled(ButtonFlexible)`
@@ -43,5 +47,8 @@ const GrayButtonFlexible = styled(ButtonFlexible)`
     border: 1px solid 	#7aa7c7;
     &:hover {
         background-color: #0063bf;
+    }
+    a{
+        color:     #39739d;
     }
 `;

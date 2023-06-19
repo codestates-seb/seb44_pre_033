@@ -19,8 +19,8 @@ const ButtonFlexible = styled.div`
     align-items: center;
     justify-content: center;
     width: ${(props)=>(props.label.length*0.6+props.length*0.2)}rem; 
-    height: ${(props)=>(props.label.length*0.2)}rem;
-    padding: ${(props)=>(props.label.length*0.02)}rem;
+    height: 2.6rem;
+    padding: 0.5rem;
     font-size: 1.1rem;
     border-radius: 4px;
 

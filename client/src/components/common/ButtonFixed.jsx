@@ -12,7 +12,7 @@ export default function ButtonFix({label, color, length}) {
     );
   }
   
-const ButtonFixed = styled.div`
+const ButtonFixed = styled.button`
     /* 버튼 기본 설정 */
     display: flex;
     align-items: center;

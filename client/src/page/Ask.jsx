@@ -1,5 +1,6 @@
 import AskForm from '../components/ask/AskForm.jsx';
 import { styled } from 'styled-components';
+import ButtonFlex from '../components/common/ButtonFlexible'
 
 const AskPageContainer = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const Ask = () => {
         <div className="bigtitle">Ask a public question</div>
       </BigTitleContainer>
       <AskForm />
+      <ButtonFlex label='Post Your Question' />
     </AskPageContainer>
   );
 };

@@ -1,11 +1,12 @@
 import styled from "styled-components"
 
-export default function ButtonFlex({label, color}) {
+// <ButtonFlex label='버튼내용' color='파란버튼일때만 Blue라고 넣으면 됩니다.' length='기본길이는0, 길이 조절하려면 필요한만큼 숫자 넣으면 됩니다.'  />
+export default function ButtonFlex({label, color, length}) {
     return (
     <>
         {color==='Blue' ? 
-            <BlueButtonFlexible label={label}>{label}</BlueButtonFlexible> : 
-            <GrayButtonFlexible label={label}>{label}</GrayButtonFlexible>
+            <BlueButtonFlexible label={label} length={length} >{label}</BlueButtonFlexible> : 
+            <GrayButtonFlexible label={label} length={length} >{label}</GrayButtonFlexible>
         }
         
     </>
@@ -17,7 +18,7 @@ const ButtonFlexible = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: ${(props)=>(props.label.length*0.6)}rem; 
+    width: ${(props)=>(props.label.length*0.6+props.length*0.2)}rem; 
     height: ${(props)=>(props.label.length*0.2)}rem;
     padding: ${(props)=>(props.label.length*0.02)}rem;
     font-size: 1.1rem;

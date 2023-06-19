@@ -38,7 +38,11 @@ const TitleContainer = styled.div`
     flex-direction: row;
     margin-left: 2vw;
     margin-top: 1vh;
-    color: ${(props) => (props.isTitleError ? 'red' : 'balck')};
+    color: ${(props) => (props.isTitleError ? 'red' : 'black')};
+  }
+
+  .errorcontent {
+    color: red;
   }
 `;
 
@@ -91,22 +95,16 @@ const BodyContainer = styled.div`
     flex-direction: row;
     margin-left: 2vw;
     margin-top: 2vh;
-    color: ${(props) => (props.isBodyError ? 'red' : 'balck')};
+    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'red')};
+  }
+  .errorcontent {
     color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'red')};
   }
 `;
 
-const PostButton = styled.button`
-  width: 12vw;
-  height: 6vh;
-`;
-
-const DiscardButton = styled.button`
-  width: 12vw;
-  height: 6vh;
-`;
 const ButtonContainer = styled.div`
-  margin-bottom: 15vh;
+  width: 55vw;
+  height: 20vh;
 `;
 
 const AskForm = () => {
@@ -140,7 +138,9 @@ const AskForm = () => {
         {!isTitleValid && (
           <div className="errormessage">
             <BsCheckLg />
-            <div>Title must be at least 15 characters.</div>
+            <div className="errorcontent">
+              Title must be at least 15 characters.
+            </div>
           </div>
         )}
       </TitleContainer>
@@ -154,15 +154,15 @@ const AskForm = () => {
         {!isBodyValid && (
           <div className="errormessage">
             <BsCheckLg />
-            <div>
+            <div className="errorcontent">
               Body must be at least 100 characters; you entered {body.length}.
             </div>
           </div>
         )}
       </BodyContainer>
       <ButtonContainer>
-        <PostButton></PostButton>
-        <DiscardButton onClick={handleOpenModal}></DiscardButton>
+        <button></button>
+        <button onClick={handleOpenModal}></button>
       </ButtonContainer>
       {openModal ? <DiscardAlarm /> : null}
     </div>

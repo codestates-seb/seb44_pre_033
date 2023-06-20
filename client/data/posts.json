@@ -88,6 +88,12 @@
       "memberId": 1,
       "answerId": 1,
       "id": 5
+    },
+    {
+      "voteFlag": false,
+      "userId": 1,
+      "answerId": 1,
+      "id": 6
     }
   ],
   "answersVotes": [
@@ -124,8 +130,20 @@
     {
       "voteFlag": false,
       "userId": 1,
-      "questionId": 1687184478051,
+      "answerId": 1687178093335,
       "id": 6
+    },
+    {
+      "voteFlag": true,
+      "memberId": 1,
+      "answerId": 1687184478051,
+      "id": 7
+    },
+    {
+      "voteFlag": false,
+      "userId": 1,
+      "answerId": 1687184478051,
+      "id": 8
     }
   ]
 }

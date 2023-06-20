@@ -49,7 +49,7 @@ console.log(id)
             .post(`http://localhost:3000/${contentType}`, {
               voteFlag: false,
               userId: 1,
-              questionId: id,
+              [contentType === 'questions' ? 'questionId' : 'answerId']: id,
             })
             .then((res) => {
               setCountLikes(prevCount => prevCount - 1);

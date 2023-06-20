@@ -51,6 +51,12 @@
       "createdDateTime": "6/20/2023, 11:15:45 AM"
     },
     {
+      "id": 1687262887260,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<p>안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어안냥하세요!!ㅁㄴ어무나어</p>",
+      "createdDateTime": "6/20/2023, 9:08:07 PM"
+    },
       "id": 1687237173975,
       "questionId": 1,
       "name": "userName",
@@ -60,47 +66,90 @@
   ],
   "questionVotes": [
     {
-      "id": 1,
       "voteFlag": true,
       "memberId": 1,
-      "questionId": 1
+      "questionId": 1,
+      "id": 1
+    },
+    {
+      "voteFlag": true,
+      "userId": 1,
+      "questionId": 1,
+      "id": 2
+    },
+    {
+      "voteFlag": false,
+      "userId": 1,
+      "questionId": 1,
+      "id": 3
+    },
+    {
+      "voteFlag": false,
+      "userId": 1,
+      "questionId": 1,
+      "id": 4
+    },
+    {
+      "voteFlag": true,
+      "memberId": 1,
+      "answerId": 1,
+      "id": 5
+    },
+    {
+      "voteFlag": false,
+      "userId": 1,
+      "answerId": 1,
+      "id": 6
+    }
+  ],
+  "answersVotes": [
+    {
+      "id": 1,
+      "voteFlag": true,
+      "userId": 1,
+      "answerId": 1687178093335
     },
     {
       "id": 2,
       "voteFlag": false,
-      "memberId": 5,
-      "questionId": 1,
-      "likes": 3
+      "userId": 5,
+      "answerId": 1687178093335
     },
     {
       "id": 3,
       "voteFlag": false,
-      "memberId": 3,
-      "questionId": 2
+      "userId": 3,
+      "answerId": 1687184478051
     },
     {
       "id": 4,
       "voteFlag": true,
-      "memberId": 2,
-      "questionId": 2
+      "userId": 2,
+      "answerId": 1687184478051
     },
     {
       "voteFlag": true,
       "memberId": 1,
-      "questionId": 2,
+      "answerId": 1687178093335,
       "id": 5
     },
     {
-      "voteFlag": true,
-      "memberId": 1,
-      "questionId": 2,
+      "voteFlag": false,
+      "userId": 1,
+      "answerId": 1687178093335,
       "id": 6
     },
     {
       "voteFlag": true,
       "memberId": 1,
-      "questionId": 2,
+      "answerId": 1687184478051,
       "id": 7
+    },
+    {
+      "voteFlag": false,
+      "userId": 1,
+      "answerId": 1687184478051,
+      "id": 8
     }
   ],
    "answersVotes":[

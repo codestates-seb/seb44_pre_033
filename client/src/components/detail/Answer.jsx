@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import Content from './Content';
 import TextEditor from '../common/TextEditor.jsx';
 import { BsCheckLg } from 'react-icons/bs';
@@ -13,6 +13,7 @@ export default function Answer({ answerInfo }) {
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
+
   const handleBodyChange = (value) => {
     setBody(value);
     if (bodyLength < 100) {
@@ -140,7 +141,7 @@ const BodyContainer = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  .content {
+  .content { 
     font-size: 18px;
   }
   .errMsgContainer {

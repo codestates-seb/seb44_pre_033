@@ -12,17 +12,16 @@ import axios from 'axios';
 export default function VoteBtns({ likes, id, contentType }) {
   const [isSaveClicked, setIsSaveClicked] = useState(false);
   const [countLikes, setCountLikes] = useState(likes);
-
   useEffect(() => {
     setCountLikes(likes);
   }, [likes]);
 
-  if(contentType === 'questions'){
-    contentType = 'questionVotes'
-  }else if(contentType === 'answers'){
-    contentType = 'answersVotes'
+  if (contentType === 'questions') {
+    contentType = 'questionVotes';
+  } else if (contentType === 'answers') {
+    contentType = 'answersVotes';
   }
-
+console.log(id)
   return (
     <VoteCell>
       <VoteBtn
@@ -31,10 +30,10 @@ export default function VoteBtns({ likes, id, contentType }) {
             .post(`http://localhost:3000/${contentType}`, {
               voteFlag: true,
               memberId: 1,
-              questionId: id
+              [contentType === 'questions' ? 'questionId' : 'answerId']: id,
             })
             .then((res) => {
-              setCountLikes(res.data.likes);
+              setCountLikes(prevCount => prevCount + 1);
             })
             .catch(() => {
               console.error('Invalid access to likes count update endpoint.');
@@ -47,12 +46,13 @@ export default function VoteBtns({ likes, id, contentType }) {
       <VoteBtn
         onClick={() =>
           axios
-            .patch(`http://localhost:3000/${contentType}/${id}`, {
-              like: countLikes - 1,
+            .post(`http://localhost:3000/${contentType}`, {
+              voteFlag: false,
+              userId: 1,
+              questionId: id,
             })
             .then((res) => {
-              console.log(res);
-              setCountLikes(res.data.likes);
+              setCountLikes(prevCount => prevCount - 1);
             })
             .catch(() => {
               console.error('Invalid access to likes count update endpoint.');

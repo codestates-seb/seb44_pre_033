@@ -49,6 +49,13 @@
       "name": "userName",
       "content": "<p>댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ</p>",
       "createdDateTime": "6/20/2023, 11:15:45 AM"
+    },
+    {
+      "id": 1687237173975,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<p>진솔님 짱이당 ㅎㅎㅎ 호호호호호호호호호호호호홓호호ㅗ호홓ㅎㅎ호호ㅗ호호ㅗ호호호호호ㅗ호호ㅗ호호호ㅗ호호호호ㅗ호호호호ㅗ호호호호호ㅗ호ㅗ호호호ㅗ호호호ㅗ호호호ㅗ호호호ㅗ호호ㅗ호호호ㅗ호호ㅗ호호ㅗ호홓</p>",
+      "createdDateTime": "2023. 6. 20. 오후 1:59:33"
     }
   ],
   "questionVotes": [
@@ -95,5 +102,45 @@
       "questionId": 2,
       "id": 7
     }
-  ]
+  ],
+   "answersVotes":[
+    {
+        "id": 1,
+        "vote_flag" : true,
+        "member_id": 1,
+        "answer_id": 1
+    },
+    {
+        "id": 2,
+        "vote_flag" : false,
+        "member_id": 5,
+        "answer_id": 1
+    },
+    {
+        "id": 3,
+        "vote_flag" : false,
+        "member_id": 3,
+        "answer_id": 2
+    },
+    {
+        "id": 4,
+        "vote_flag" : true,
+        "member_id": 2,
+        "answer_id": 2
+    }
+],
+"userData":[
+  { "userId": "kindjjee@gmail.com",
+    "password": "1234",
+    "user": "지은"},
+    {
+    "userId": "summer@gmail.com",
+    "password": "swim",
+    "user": "어푸어푸"
+    },{
+    "userId": "icecream22@gmail.com",
+    "password": "berry",
+    "user": "베리"
+    }
+]
 }

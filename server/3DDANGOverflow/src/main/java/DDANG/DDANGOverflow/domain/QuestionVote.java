@@ -21,7 +21,7 @@ public class QuestionVote {
 
     private boolean voteFlag;
 
-    private int memberId;
+    private int userId;
     private int questionId;
 
 }

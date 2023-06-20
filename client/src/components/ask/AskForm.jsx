@@ -21,6 +21,7 @@ const TitleContainer = styled.div`
     font-weight: 700;
     margin-left: 2vw;
     margin-bottom: 1vh;
+    color: black;
   }
   .content {
     font-size: 18px;
@@ -60,6 +61,10 @@ const BodyContainer = styled.div`
     props.isTitleError ? 'rgba(247,247,248,0.7)' : 'rgba(255, 255, 255, 255)'};
   pointer-events: ${(props) => (props.isTitleError ? 'none' : 'auto')};
 
+  .textEditor {
+    height: 40vh;
+  }
+
   .ql-editor {
     width: 56vw;
     height: 40vh;
@@ -76,14 +81,6 @@ const BodyContainer = styled.div`
         : 'rgba(255, 255, 255, 255)'};
   }
 
-  .title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-left: 2vw;
-    margin-bottom: 1vh;
-    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'black')};
-  }
-
   .content {
     font-size: 18px;
     margin-left: 2vw;
@@ -92,14 +89,26 @@ const BodyContainer = styled.div`
   }
 
   .errormessage {
+    margin-top: 1.5vh;
+    width: 40rem;
+    height: 1.5rem;
     display: flex;
     flex-direction: row;
     margin-left: 2vw;
-    margin-top: 2vh;
-    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'red')};
   }
   .errorcontent {
-    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'red')};
+    color: ${(props) => (props.isTitleError ? '#f6f6f7' : 'red')};
+  }
+  .errormark {
+    color: ${(props) => (props.isTitleError ? '#f6f6f7' : 'red')};
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 2vw;
+    margin-bottom: 1vh;
+    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'black')};
   }
 `;
 
@@ -183,7 +192,8 @@ const AskForm = () => {
   };
 
   const isTitleValid = title.length >= 15;
-  const isBodyValid = body.length >= 100;
+  let bodyLength = body.replace(/<[^>]*>/g, '').length;
+  const isBodyValid = bodyLength >= 100;
 
   return (
     <div className="questionContianer">
@@ -206,18 +216,24 @@ const AskForm = () => {
       <BodyContainer isTitleError={!isTitleValid} isBodyError={!isBodyValid}>
         <div className="title">Body</div>
         <div className="content">
-        The body of your question contains your problem details and results.
-        Minimum 100 characters.
+          The body of your question contains your problem details and results.
+          Minimum 100 characters.
         </div>
-        <TextEditor value={body} onChange={handleBodyChange} />
-        {!isBodyValid && (
-          <div className="errormessage">
-            <BsCheckLg />
-            <div className="errorcontent">
-              Body must be at least 100 characters; you entered {body.length}.
-            </div>
-          </div>
-        )}
+        <TextEditor
+          classname="textEditor"
+          value={body}
+          onChange={handleBodyChange}
+        />
+        <div className="errormessage">
+          {!isBodyValid && (
+            <>
+              <BsCheckLg className="errormark" />
+              <div className="errorcontent">
+                Body must be at least 100 characters; you entered {bodyLength}.
+              </div>
+            </>
+          )}
+        </div>
       </BodyContainer>
       <ButtonContainer>
         <ButtonFlex label="Post Your Question" color="Blue" />

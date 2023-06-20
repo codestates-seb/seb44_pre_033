@@ -4,8 +4,12 @@ import UserInfo from '../common/UserInfo';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function Content({ props, contentType }) {
+export default function Content({ props, contentType,likes }) {
   const navigate = useNavigate();
+  const likesCount = likes && likes.filter((e)=>e.voteFlag === true).length
+  const disLikesCount = likes && likes.filter(e=>e.voteFlag === false).length
+  let totalLikes = likesCount-disLikesCount
+
   const handleDelete = () => {
     alert("정말 삭제하시겠습니까?");
     axios
@@ -17,7 +21,7 @@ export default function Content({ props, contentType }) {
   };
   return (
     <Container>
-      <VoteBtns like={props.like} id={props.id} contentType={contentType} />
+      <VoteBtns likes={totalLikes} id={props.id} contentType={contentType} />
       <PostCell>
         <p dangerouslySetInnerHTML={{ __html: props.content }}></p>
         <ActionsAndProfile>

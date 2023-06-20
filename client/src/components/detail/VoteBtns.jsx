@@ -9,44 +9,53 @@ import { RxCounterClockwiseClock } from 'react-icons/rx';
 import styled from 'styled-components';
 import axios from 'axios';
 
-export default function VoteBtns({ like, id, contentType }) {
+export default function VoteBtns({ likes, id, contentType }) {
   const [isSaveClicked, setIsSaveClicked] = useState(false);
-  const [countLike, setCountLike] = useState(like);
+  const [countLikes, setCountLikes] = useState(likes);
+
   useEffect(() => {
-    setCountLike(like);
-  }, [like]);
+    setCountLikes(likes);
+  }, [likes]);
+
+  if(contentType === 'questions'){
+    contentType = 'questionVotes'
+  }else if(contentType === 'answers'){
+    contentType = 'answersVotes'
+  }
 
   return (
     <VoteCell>
       <VoteBtn
         onClick={() =>
           axios
-            .patch(`http://localhost:3000/${contentType}/${id}`, {
-              like: countLike + 1,
+            .post(`http://localhost:3000/${contentType}`, {
+              voteFlag: true,
+              memberId: 1,
+              questionId: id
             })
             .then((res) => {
-              setCountLike(res.data.like);
+              setCountLikes(res.data.likes);
             })
             .catch(() => {
-              console.error('Invalid access to like count update endpoint.');
+              console.error('Invalid access to likes count update endpoint.');
             })
         }
       >
         <FaCaretUp />
       </VoteBtn>
-      <Count>{countLike}</Count>
+      <Count>{countLikes}</Count>
       <VoteBtn
         onClick={() =>
           axios
             .patch(`http://localhost:3000/${contentType}/${id}`, {
-              like: countLike - 1,
+              like: countLikes - 1,
             })
             .then((res) => {
               console.log(res);
-              setCountLike(res.data.like);
+              setCountLikes(res.data.likes);
             })
             .catch(() => {
-              console.error('Invalid access to like count update endpoint.');
+              console.error('Invalid access to likes count update endpoint.');
             })
         }
       >

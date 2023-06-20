@@ -11,26 +11,29 @@ export default function Detail() {
   const params = useParams();
   const [questionsData, setQuestionData] = useState([]);
   const [answersData, setAnswersData] = useState([]);
-
+  const [votesData, setVotesData] = useState([])
   useEffect(() => {
-    axios(`http://localhost:3000/questions/${params.id}`)
-      .then((res) => setQuestionData(res.data))
+    axios.all([
+      axios.get(`http://localhost:3000/questions/${params.id}`),
+      axios.get(`http://localhost:3000/answers?questionId=${params.id}`),
+      axios.get(`http://localhost:3000/questionVotes?questionId=${params.id}`)
+    ])
+      .then(axios.spread((questionRes, answersRes, votesRes) => {
+        setQuestionData(questionRes.data);
+        setAnswersData(answersRes.data);
+        setVotesData(votesRes.data);
+      }))
       .catch(() => {
-        console.error('질문을 가져오는 중에 문제가 발생했어요.');
-      });
-    axios(`http://localhost:3000/answers?questionId=${params.id}`)
-      .then((res) => setAnswersData(res.data))
-      .catch(() => {
-        console.error('댓글을 가져오는 중에 문제가 발생했어요.');
+        console.error('데이터를 가져오는 중에 문제가 발생했어요.');
       });
   }, []);
-
+  
   return (
     <Container>
       <Title questionInfo={questionsData} />
       <ContentAndAside>
         <div className='contentAndAnswer'>
-          <Content props={questionsData} contentType={'questions'} />
+          <Content props={questionsData} likes={votesData} contentType={'questions'} />
           <Answer answerInfo={answersData} />
         </div>
         <Aside />

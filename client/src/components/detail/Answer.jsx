@@ -22,22 +22,24 @@ export default function Answer({ answerInfo }) {
     }
   };
   const handleSubmit = () => {
-    axios
-      .post('http://localhost:3000/answers', {
-        id: new Date().getTime(),
-        questionId: Number(params.id),
-        name: 'userName',
-        content: body,
-        createdDateTime: new Date().toLocaleString(),
-        like: 0,
-      })
-      .then((res) => {
-        console.log(res.data);
-        navigate(`/detail/${params.id}`);
-      })
-      .catch(() => {
-        console.error('잘못된 접근입니다.');
-      });
+    if (isBodyValid && bodyLength) {
+      axios
+        .post('http://localhost:3000/answers', {
+          id: new Date().getTime(),
+          questionId: Number(params.id),
+          name: 'userName',
+          content: body,
+          createdDateTime: new Date().toLocaleString(),
+        })
+        .then((res) => {
+          navigate(`/detail/${params.id}`);
+        })
+        .catch(() => {
+          console.error('잘못된 접근입니다.');
+        });
+    }else{
+      console.log('길이를 수정해주세요')
+    }
   };
 
   return (
@@ -50,7 +52,9 @@ export default function Answer({ answerInfo }) {
           <label>Sorted by: </label>
           <select>
             <option value="highest">Highest Score(dafault)</option>
+            <option value="lowest">Lowest Score</option>
             <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
           </select>
         </div>
       </NumAndSort>
@@ -125,7 +129,7 @@ const BodyContainer = styled.div`
   .ql-editor {
     height: 40vh;
     border: 1px solid
-      ${(props) => (props.isBodyError ? 'var(--color-gray)' : 'red')};
+      ${(props) => (props.isBodyValid ? 'var(--color-gray)' : 'red')};
   }
   .titleAndContent {
     padding: 1rem;
@@ -144,10 +148,12 @@ const BodyContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 1rem;
+        div{
+      color: ${(props) => (props.isBodyValid ? 'var(--color-gray)' : 'red')};
+    }
   }
   .errormessage {
     display: flex;
-    color: ${(props) => (props.isBodyError ? 'var(--color-gray)' : 'red')};
   }
 `;
 

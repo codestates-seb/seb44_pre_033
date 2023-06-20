@@ -3,11 +3,10 @@
     {
       "id": 1,
       "name": "김진솔",
-      "title": "이게뭔가요",
-      "content": "<p>이게무엇이냐하면 질문입니다. 그리고 여기는 아주르입니다. 너무 커피가 너무 맛있어용!!!! 그리고 양이랑 같이 왔습니다. 날씨도 너무 좋고 행복해요잉 캬캬컄캬ㅑ d이건수정되었습니다.질뭄ㄴ도 수정이됩니다!!!!!!!</p>",
+      "title": "이게뭔가요 수정되엇나요????",
+      "content": "<p>이게무엇이냐하면 질문입니다. 그리고 여기는 아주르입니다. 너무 커피가 너무 맛있어용!!!! 그리고 양이랑 같이 왔습니다. 날씨도 너무 좋고 행복해요잉 캬캬컄캬ㅑ d이건수정되었습니다.질뭄ㄴ도 수정이됩니다!!!!!!!sdfsdfdsfsdfsdfdsfsdf</p>",
       "createdDateTime": "11월 5일",
       "updatedDateTime": "11월 5일",
-      "like": 3,
       "viewed": 13
     },
     {
@@ -17,35 +16,84 @@
       "content": "로래롬로램로매로매뢔몰 로럄 로랴롬랴모랴몰먀ㅗ랴모랴 자아안!!!! ㄱㅂ재덥ㅈ답지다ㅡㅂ 덥다잉 요잉 캬캬컄캬ㅑ",
       "createdDateTime": "1월 5일",
       "updatedDateTime": "1월 5일",
-      "like": 7,
       "viewed": 2
     }
   ],
   "answers": [
     {
+      "id": 1687178093335,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<p>이건 답변이에요 이걸 쓰면 왜 ? 새로고침이 안될까요 ? 진짜 어이없네요... ㅋ ㅋ ㅋ</p>",
+      "createdDateTime": "6/19/2023, 9:34:53 PM",
+      "title": ""
+    },
+    {
+      "id": 1687184478051,
+      "questionId": 1,
+      "name": "userName",
+      "content": "<ol><li>닭강정</li><li>맛있겠따</li><li>정말로</li><li>맛있겠따</li><li>와맛있겠다</li><li>먹어줘잉</li><li>사와줘잉!!!</li><li>ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅇ</li></ol>",
+      "createdDateTime": "6/19/2023, 11:21:18 PM",
+      "title": ""
+    },
+    {
+      "id": 1687227332923,
+      "questionId": 2,
+      "name": "userName",
+      "content": "<p>댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ</p>",
+      "createdDateTime": "6/20/2023, 11:15:32 AM"
+    },
+    {
+      "id": 1687227345710,
+      "questionId": 2,
+      "name": "userName",
+      "content": "<p>댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ댓글ㄴ이ㅏ른이ㅏㄹ</p>",
+      "createdDateTime": "6/20/2023, 11:15:45 AM"
+    }
+  ],
+  "questionVotes": [
+    {
+      "id": 1,
+      "voteFlag": true,
+      "memberId": 1,
+      "questionId": 1
+    },
+    {
+      "id": 2,
+      "voteFlag": false,
+      "memberId": 5,
+      "questionId": 1,
+      "likes": 3
+    },
+    {
       "id": 3,
-      "postId": 2,
-      "name": "댓글러",
-      "content": "두번째 질문에 대한 첫번째 댓글입니다!",
-      "createdDateTime": "11월 6일",
-      "updatedDateTime": "11월 6일",
-      "like": 3
+      "voteFlag": false,
+      "memberId": 3,
+      "questionId": 2
     },
     {
-      "id": 925.1903216507084,
-      "questionId": 1,
-      "name": "userName",
-      "content": "<p>이게 찐이야잉 !!! 수정할래 수정되었어요!!!!</p>",
-      "createdDateTime": "6/19/2023, 12:49:49 AM",
-      "like": 2
+      "id": 4,
+      "voteFlag": true,
+      "memberId": 2,
+      "questionId": 2
     },
     {
-      "id": 926.1903216507084,
-      "questionId": 1,
-      "name": "userName",
-      "content": "<p>첫번째 댓글입니다!</p>",
-      "createdDateTime": "6/19/2023, 12:50:00 AM",
-      "like": 0
+      "voteFlag": true,
+      "memberId": 1,
+      "questionId": 2,
+      "id": 5
+    },
+    {
+      "voteFlag": true,
+      "memberId": 1,
+      "questionId": 2,
+      "id": 6
+    },
+    {
+      "voteFlag": true,
+      "memberId": 1,
+      "questionId": 2,
+      "id": 7
     }
   ]
 }

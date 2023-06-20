@@ -11,28 +11,36 @@ export default function Answer({ answerInfo }) {
   const params = useParams();
   const navigate = useNavigate();
   const [body, setBody] = useState('');
+  const [isBodyValid, setIsBodyValid] = useState(true);
+  let bodyLength = body.replace(/<[^>]*>/g, '').length;
   const handleBodyChange = (value) => {
     setBody(value);
+    if (bodyLength < 100) {
+      setIsBodyValid(false);
+    } else if (bodyLength >= 100) {
+      setIsBodyValid(true);
+    }
   };
   const handleSubmit = () => {
-    axios
-      .post('http://localhost:3000/answers', {
-        id: new Date().getTime(),
-        questionId: Number(params.id),
-        name: 'userName',
-        content: body,
-        createdDateTime: new Date().toLocaleString(),
-        like: 0,
-      })
-      .then((res) => {
-        console.log(res.data);
-        navigate(`/detail/${params.id}`);
-      })
-      .catch(() => {
-        console.error('잘못된 접근입니다.');
-      });
+    if (isBodyValid && bodyLength) {
+      axios
+        .post('http://localhost:3000/answers', {
+          id: new Date().getTime(),
+          questionId: Number(params.id),
+          name: 'userName',
+          content: body,
+          createdDateTime: new Date().toLocaleString(),
+        })
+        .then((res) => {
+          navigate(`/detail/${params.id}`);
+        })
+        .catch(() => {
+          console.error('잘못된 접근입니다.');
+        });
+    }else{
+      console.log('길이를 수정해주세요')
+    }
   };
-  const isBodyValid = body.length >= 100;
 
   return (
     <Container>
@@ -44,7 +52,9 @@ export default function Answer({ answerInfo }) {
           <label>Sorted by: </label>
           <select>
             <option value="highest">Highest Score(dafault)</option>
+            <option value="lowest">Lowest Score</option>
             <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
           </select>
         </div>
       </NumAndSort>
@@ -54,21 +64,25 @@ export default function Answer({ answerInfo }) {
             <Content props={answer} contentType={'answers'} />
           </li>
         ))}
-      <BodyContainer isBodyError={!isBodyValid}>
-        <div className="title">Body</div>
-        <div className="content">
-          The body of your question contains your problem details and results.
-          Minimum 100 characters.
+      <BodyContainer isBodyError={isBodyValid}>
+        <div className="titleAndContent">
+          <div className="title">Your Answer</div>
+          <div className="content">
+            The Answer contains details and results. Minimum 100 characters.
+          </div>
         </div>
         <TextEditor value={body} onChange={handleBodyChange} />
-        {!isBodyValid && (
-          <div className="errormessage">
-            <BsCheckLg />
-            <div>
-              Body must be at least 100 characters; you entered {body.length}.
+        <div className="errMsgContainer">
+          {!isBodyValid && (
+            <div className="errormessage">
+              <BsCheckLg />
+              <div>
+                The Answer must be at least 100 characters; you entered{' '}
+                {bodyLength}.
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </BodyContainer>
       <BtnContainer>
         <ButtonFixed
@@ -105,49 +119,41 @@ const NumAndSort = styled.ul`
 `;
 
 const BodyContainer = styled.div`
-  height: 63vh;
+  height: 60vh;
   border: 1px solid #d4d4db;
   border-radius: 5px;
   margin-top: 3vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: ${(props) =>
-    props.isTitleError ? 'rgba(247,247,248,0.7)' : 'rgba(255, 255, 255, 255)'};
-  pointer-events: ${(props) => (props.isTitleError ? 'none' : 'auto')};
-
   .ql-editor {
     height: 40vh;
     border: 1px solid
-      ${(props) =>
-        props.isBodyError && !props.isTitleError ? 'red' : 'var(--color-gray)'};
-
-    background-color: ${(props) =>
-      props.isTitleError ? 'var(--color-gray)' : null};
+      ${(props) => (props.isBodyValid ? 'var(--color-gray)' : 'red')};
   }
-
+  .titleAndContent {
+    padding: 1rem;
+  }
   .title {
     font-size: 20px;
     font-weight: 700;
-    margin-left: 2vw;
-    margin-bottom: 1vh;
-    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'black')};
+    margin-bottom: 0.5rem;
   }
 
   .content {
     font-size: 18px;
-    margin-left: 2vw;
-    margin-bottom: 1vh;
-    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'black')};
   }
-
+  .errMsgContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+        div{
+      color: ${(props) => (props.isBodyValid ? 'var(--color-gray)' : 'red')};
+    }
+  }
   .errormessage {
     display: flex;
-    flex-direction: row;
-    margin-left: 2vw;
-    margin-top: 2vh;
-    color: ${(props) => (props.isBodyError ? 'red' : 'balck')};
-    color: ${(props) => (props.isTitleError ? '#dbdcdc' : 'red')};
   }
 `;
 

@@ -12,6 +12,7 @@ export default function Edit() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
+  let [questionId, setQuestionId] = useState(undefined);
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
   const handleBodyChange = (value) => {
     setBody(value);
@@ -27,40 +28,41 @@ export default function Edit() {
   const searchParams = new URLSearchParams(location.search);
   const type = searchParams.get('type');
 
-  let questionId = undefined;
   useEffect(() => {
     axios(`http://localhost:3000/${type}/${params.id}`)
       .then((res) => {
         setBody(res.data.content);
         if (res.data.title) {
           setTitle(res.data.title);
+        }else{
+          setQuestionId(res.data.questionId)
         }
       })
       .catch(() => {
         console.error('질문을 가져오는 중에 문제가 발생했어요.');
       });
   }, []);
+
   const handleTitleChange = (e) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
     localStorage.setItem('title', newTitle);
   };
+
   const handleSubmit = () => {
     axios
       .patch(`http://localhost:3000/${type}/${params.id}`, {
         content: body,
-        title: title,
+        ...(title ? { title: title } : null)
       })
       .then((res) => {
-        if (res.data.questionId) {
-          questionId = res.data.questionId;
-        }
         navigate(`/detail/${questionId || params.id}`);
       })
       .catch((error) => {
         console.error('수정 중에 오류가 발생했습니다:', error);
       });
   };
+
   const isTitleValid = title.length >= 15;
   return (
     <Container>
@@ -106,7 +108,17 @@ export default function Edit() {
         </BodyContainer>
         <ButtonContainer>
           <ButtonFixed onClick={handleSubmit} color="Blue" label="Save edits" />
-          <ButtonFlex label="Discard Draft" length="0" color="" />
+          <ButtonFlex
+            label={
+              <Link
+                to={`/detail/${type === 'questions' ? params.id : questionId}`}
+              >
+                Cancle
+              </Link>
+            }
+            length="0"
+            color=""
+          />
         </ButtonContainer>
       </ContainerLeft>
       <Aside />
@@ -116,15 +128,26 @@ export default function Edit() {
 const Container = styled.div`
   display: flex;
   padding: 1rem;
+  justify-content: space-between;
+  @media (max-width: 980px) {
+    flex-direction: column;
+    aside {
+      width: 100%;
+      margin-top: 2rem;
+    }
+  }
 `;
 const ContainerLeft = styled.div`
   margin-right: 1rem;
+  flex-grow: 1;
+  @media (max-width: 980px) {
+    margin-right: 0;
+  }
 `;
 const TitleContainer = styled.div`
-  width: 60vw;
-  height: 30vh;
   border: 1px solid #d4d4db;
   border-radius: 5px;
+  padding: 1rem;
   margin-top: 3vh;
   display: flex;
   flex-direction: column;
@@ -134,25 +157,20 @@ const TitleContainer = styled.div`
   .title {
     font-size: 20px;
     font-weight: 700;
-    margin-left: 2vw;
     margin-bottom: 1vh;
   }
   .content {
     font-size: 18px;
-    margin-left: 2vw;
     margin-bottom: 1vh;
   }
 
   input {
-    width: 56vw;
     height: 5vh;
-    margin-left: 2vw;
     border: 1px solid ${(props) => (props.isTitleError ? 'red' : 'black')};
   }
   .errormessage {
     display: flex;
     flex-direction: row;
-    margin-left: 2vw;
     margin-top: 1vh;
     color: ${(props) => (props.isTitleError ? 'red' : 'black')};
   }
@@ -169,6 +187,7 @@ const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   .ql-editor {
     height: 40vh;
     border: 1px solid

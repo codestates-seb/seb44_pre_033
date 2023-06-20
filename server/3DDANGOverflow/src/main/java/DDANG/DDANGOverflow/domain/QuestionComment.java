@@ -20,7 +20,7 @@ public class QuestionComment {
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private int memberId;
+    private int userId;
     private int questionId;
 
 }

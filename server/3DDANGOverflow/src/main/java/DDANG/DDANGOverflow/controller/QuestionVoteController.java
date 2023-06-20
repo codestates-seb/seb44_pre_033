@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -46,7 +45,7 @@ public class QuestionVoteController {
 
     @PostMapping("/{question-id}/votes")
     public ResponseEntity postVote(@PathVariable("question-id") int questionId,
-                                   @Valid @RequestBody QuestionVote questionVote) {
+                                   @RequestBody QuestionVote questionVote) {
         questionVote.setQuestionId(questionId);
 
         return new ResponseEntity(questionVoteService.createVote(questionVote), HttpStatus.CREATED);
@@ -55,7 +54,7 @@ public class QuestionVoteController {
     @PatchMapping("/{question-id}/votes/{vote-order}")
     public ResponseEntity postVote(@PathVariable("question-id") int questionId,
                                    @PathVariable("vote-order") int voteOrder,
-                                   @Valid @RequestBody QuestionVote questionVote) {
+                                   @RequestBody QuestionVote questionVote) {
 
         return new ResponseEntity(questionVoteService.updateVote(questionId, voteOrder, questionVote), HttpStatus.OK);
     }

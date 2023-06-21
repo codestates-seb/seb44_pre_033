@@ -1,27 +1,24 @@
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Main from './page/Main';
-import Question from './page/Question';
+import Detail from './page/Detail';
+import Edit from './page/Edit';
 import Ask from './page/Ask';
 import Login from './page/Login';
 import Logout from './page/Logout';
 import Signup from './page/Signup';
 import NotFound from './page/NotFound';
-
-import './App.css'
-
+import Header from './components/common/Header'
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <BrowserRouter>
-                <Header />
-                <Routes>
+      <Header/>
+        <Routes>
           {/* 메인페이지 */}
-                    <Route path="/" element={<Main />}></Route>
+          <Route path="/" element={<></>}></Route>
           {/* 상세페이지 */}
-          <Route path="/questions/${}" element={<Question />}></Route>
+          <Route path="/detail/:id" element={<Detail />}></Route>
+          {/* 수정 페이지 */}
+          <Route path="/posts/:id/edit" element={<Edit />}></Route>
           {/* 질문작성페이지 */}
           <Route path="/questions/ask" element={<Ask />}></Route>
           {/* 로그인 페이지 */}
@@ -32,10 +29,10 @@ function App() {
           <Route path="/users/signup" element={<Signup />}></Route>
           {/* 404 NotFound */}
           <Route path="*" element={<NotFound />}></Route>
-                </Routes>
-            </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

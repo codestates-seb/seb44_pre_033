@@ -1,4 +1,4 @@
-package DDANG.DDANGOverflow.domain;
+package DDANG.DDANGOverflow.questionVote.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

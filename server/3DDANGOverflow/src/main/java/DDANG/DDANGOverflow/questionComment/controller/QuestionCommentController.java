@@ -1,8 +1,7 @@
-package DDANG.DDANGOverflow.controller;
+package DDANG.DDANGOverflow.questionComment.controller;
 
-import DDANG.DDANGOverflow.domain.QuestionComment;
-import DDANG.DDANGOverflow.exception.BusinessLogicException;
-import DDANG.DDANGOverflow.service.QuestionCommentService;
+import DDANG.DDANGOverflow.questionComment.domain.QuestionComment;
+import DDANG.DDANGOverflow.questionComment.service.QuestionCommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

@@ -1,6 +1,9 @@
 package DDANG.DDANGOverflow.questionVote.controller;
 
 import DDANG.DDANGOverflow.questionVote.domain.QuestionVote;
+import DDANG.DDANGOverflow.questionVote.dto.QuestionVotePatchDto;
+import DDANG.DDANGOverflow.questionVote.dto.QuestionVotePostDto;
+import DDANG.DDANGOverflow.questionVote.mapper.QuestionVoteMapper;
 import DDANG.DDANGOverflow.questionVote.service.QuestionVoteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +16,11 @@ import java.util.List;
 public class QuestionVoteController {
 
     private final QuestionVoteService questionVoteService;
+    private final QuestionVoteMapper mapper;
 
-    public QuestionVoteController(QuestionVoteService questionVoteService) {
+    public QuestionVoteController(QuestionVoteService questionVoteService, QuestionVoteMapper mapper) {
         this.questionVoteService = questionVoteService;
+        this.mapper = mapper;
     }
 
     @GetMapping("/{question-id}/votes")
@@ -43,18 +48,22 @@ public class QuestionVoteController {
 
     @PostMapping("/{question-id}/votes")
     public ResponseEntity postVote(@PathVariable("question-id") int questionId,
-                                   @RequestBody QuestionVote questionVote) {
+                                   @RequestBody QuestionVotePostDto questionVotePostDto) {
+        QuestionVote questionVote = mapper.questionVotePostDtoToQuestionVote(questionVotePostDto);
         questionVote.setQuestionId(questionId);
+        QuestionVote response =  questionVoteService.createVote(questionVote);
 
-        return new ResponseEntity(questionVoteService.createVote(questionVote), HttpStatus.CREATED);
+        return new ResponseEntity(mapper.QuestionVoteToQuestionVoteResponseDto(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{question-id}/votes/{vote-order}")
     public ResponseEntity postVote(@PathVariable("question-id") int questionId,
                                    @PathVariable("vote-order") int voteOrder,
-                                   @RequestBody QuestionVote questionVote) {
+                                   @RequestBody QuestionVotePatchDto questionVotePatchDto) {
+        QuestionVote questionVote = mapper.questionVotePatchDtoToQuestionVote(questionVotePatchDto);
+        QuestionVote response = questionVoteService.updateVote(questionId, voteOrder, questionVote);
 
-        return new ResponseEntity(questionVoteService.updateVote(questionId, voteOrder, questionVote), HttpStatus.OK);
+        return new ResponseEntity(mapper.QuestionVoteToQuestionVoteResponseDto(response), HttpStatus.OK);
     }
 
     @DeleteMapping("/{question-id}/votes/{vote-order}")

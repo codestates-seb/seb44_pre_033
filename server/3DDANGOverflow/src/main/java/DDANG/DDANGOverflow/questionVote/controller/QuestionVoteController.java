@@ -1,11 +1,9 @@
-package DDANG.DDANGOverflow.controller;
+package DDANG.DDANGOverflow.questionVote.controller;
 
-import DDANG.DDANGOverflow.domain.QuestionComment;
-import DDANG.DDANGOverflow.domain.QuestionVote;
-import DDANG.DDANGOverflow.service.QuestionVoteService;
+import DDANG.DDANGOverflow.questionVote.domain.QuestionVote;
+import DDANG.DDANGOverflow.questionVote.service.QuestionVoteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

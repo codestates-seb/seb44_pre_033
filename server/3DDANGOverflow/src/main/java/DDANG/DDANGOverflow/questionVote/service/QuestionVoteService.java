@@ -1,9 +1,8 @@
-package DDANG.DDANGOverflow.service;
+package DDANG.DDANGOverflow.questionVote.service;
 
 
-import DDANG.DDANGOverflow.domain.QuestionComment;
-import DDANG.DDANGOverflow.domain.QuestionVote;
-import DDANG.DDANGOverflow.repository.QuestionVotesRepository;
+import DDANG.DDANGOverflow.questionVote.domain.QuestionVote;
+import DDANG.DDANGOverflow.questionVote.repository.QuestionVotesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

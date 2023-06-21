@@ -1,6 +1,6 @@
-package DDANG.DDANGOverflow.repository;
+package DDANG.DDANGOverflow.questionComment.repository;
 
-import DDANG.DDANGOverflow.domain.QuestionComment;
+import DDANG.DDANGOverflow.questionComment.domain.QuestionComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

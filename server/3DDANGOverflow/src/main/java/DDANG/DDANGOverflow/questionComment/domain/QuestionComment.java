@@ -1,4 +1,4 @@
-package DDANG.DDANGOverflow.domain;
+package DDANG.DDANGOverflow.questionComment.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,15 +1,12 @@
-package DDANG.DDANGOverflow.service;
+package DDANG.DDANGOverflow.questionComment.service;
 
-import DDANG.DDANGOverflow.exception.BusinessLogicException;
-import DDANG.DDANGOverflow.exception.ExceptionCode;
-import DDANG.DDANGOverflow.domain.QuestionComment;
-import DDANG.DDANGOverflow.repository.QuestionCommentsRepository;
+import DDANG.DDANGOverflow.questionComment.domain.QuestionComment;
+import DDANG.DDANGOverflow.questionComment.repository.QuestionCommentsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @Service

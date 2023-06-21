@@ -33,6 +33,7 @@ public class QuestionVoteService {
 
         if(voteOrder >= 1 && voteOrder <= votes.size()) {
             votes.get(voteOrder-1).setVoteFlag(questionVote.isVoteFlag());
+            return votes.get(voteOrder - 1);
         }
 
         return null;

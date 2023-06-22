@@ -8,7 +8,7 @@ const LoginBox = styled.div`
   background-color: white;
   box-shadow: 0 0 8px #dee0e3;
   border-radius: 5px;
-  margin-top: 2vh;
+  margin-top: 5vh;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
@@ -79,11 +79,11 @@ export default function LoginInput() {
 
   const login = () => {
     axios
-      .get('http://localhost:3000/userData')
+      .get('http://localhost:3000/user')
       .then((response) => {
         const { data } = response;
         const validUser = data.filter(
-          (item) => item.userId === email && item.password === password
+          (item) => item.email === email && item.password === password
         );
         {
           validUser.length === 1

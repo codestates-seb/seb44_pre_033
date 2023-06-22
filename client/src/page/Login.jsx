@@ -1,5 +1,5 @@
-import SnsLogin from '../components/common/SnsLogin.jsx';
-import styled from 'styled-components';
+import SnsLogin from '../components/login/SnsLogin.jsx';
+import { styled } from 'styled-components';
 import LoginInput from '../components/login/LoginInput.jsx';
 import { Link } from 'react-router-dom';
 
@@ -31,12 +31,14 @@ const LoginPageContainer = styled.div`
   }
 `;
 
+//
+
 const Login = () => {
   return (
     <LoginPageContainer>
       <div className="container">
         <SnsLogin />
-        <LoginInput />
+        <LoginInput className="loginInput" />
       </div>
       <div className="content">
         <div className="ask">Don’t have an account?</div>

@@ -1,9 +1,9 @@
 package DDANG.DDANGOverflow.question.domain;
 
+import DDANG.DDANGOverflow.User.domain.CustomUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,8 +25,8 @@ public class Question {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAT;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User author;
-
+    private CustomUser author;
 }

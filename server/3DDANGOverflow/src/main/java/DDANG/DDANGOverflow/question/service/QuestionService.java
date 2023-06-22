@@ -1,6 +1,8 @@
 package DDANG.DDANGOverflow.question.service;
 
+import DDANG.DDANGOverflow.User.domain.CustomUser;
 import DDANG.DDANGOverflow.exception.NotFoundException;
+import DDANG.DDANGOverflow.exception.UnauthorizedException;
 import DDANG.DDANGOverflow.question.domain.Question;
 import DDANG.DDANGOverflow.question.dto.QuestionDto;
 import DDANG.DDANGOverflow.question.mapper.QuestionMapper;
@@ -22,7 +24,6 @@ public class QuestionService {
         this.questionRepository = questionRepository;
         this.questionMapper = questionMapper;
     }
-
     public List<QuestionDto> getAllQuestions() {
         List<Question> questions = questionRepository.findAll();
         return questions.stream()
@@ -36,14 +37,16 @@ public class QuestionService {
         return questionMapper.toDto(question);
     }
 
-    public QuestionDto createQuestion(QuestionDto questionDto) {
+    public QuestionDto createQuestion(QuestionDto questionDto, CustomUser currentUser) {
         Question question = questionMapper.toEntity(questionDto);
         question.setCreatedAt(LocalDateTime.now());
+        // Set the author of the question
+        question.setAuthor(currentUser);
         Question savedQuestion = questionRepository.save(question);
         return questionMapper.toDto(savedQuestion);
     }
 
-    public QuestionDto updateQuestion(Long id, QuestionDto questionDto) {
+    public QuestionDto updateQuestion(Long id, QuestionDto questionDto, CustomUser currentUser) {
         Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Question not found with id: " + id));
         if (!question.getAuthor().equals(currentUser)) {
@@ -51,12 +54,14 @@ public class QuestionService {
         }
 
         // Update question fields with questionDto values
+        // question.setTitle(questionDto.getTitle());
+        // question.setContent(questionDto.getContent());
 
         Question updatedQuestion = questionRepository.save(question);
         return questionMapper.toDto(updatedQuestion);
     }
 
-    public void deleteQuestion(Long id) {
+    public void deleteQuestion(Long id, CustomUser currentUser) {
         Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Question not found with id: " + id));
         if (!question.getAuthor().equals(currentUser) && !currentUser.isAdmin()) {

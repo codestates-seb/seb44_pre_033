@@ -1,8 +1,8 @@
 package DDANG.DDANGOverflow.config;
 
-import DDANG.DDANGOverflow.authentication.CustomAuthenticationFailureHandler;
-import DDANG.DDANGOverflow.authentication.CustomAuthenticationProvider;
-import DDANG.DDANGOverflow.authentication.CustomAuthenticationSuccessHandler;
+import DDANG.DDANGOverflow.logout.CustomAuthenticationFailureHandler;
+import DDANG.DDANGOverflow.logout.CustomAuthenticationProvider;
+import DDANG.DDANGOverflow.logout.CustomAuthenticationSuccessHandler;
 import DDANG.DDANGOverflow.authorization.CustomAccessDeniedHandler;
 import DDANG.DDANGOverflow.logout.CustomLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -23,15 +25,26 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    private CustomAuthenticationProvider authenticationProvider;
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CustomAuthenticationProvider customAuthenticationProvider() {
+        return new CustomAuthenticationProvider(userDetailsService, passwordEncoder());
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider);
+        auth.authenticationProvider(customAuthenticationProvider());
     }
 
     @Override

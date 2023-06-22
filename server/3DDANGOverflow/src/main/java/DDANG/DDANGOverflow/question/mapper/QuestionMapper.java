@@ -5,8 +5,10 @@ import DDANG.DDANGOverflow.question.dto.QuestionDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 @Mapper
+@Component
 public interface QuestionMapper {
     QuestionMapper INSTANCE = Mappers.getMapper(QuestionMapper.class);
 

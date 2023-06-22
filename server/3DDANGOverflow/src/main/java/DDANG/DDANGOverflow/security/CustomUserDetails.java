@@ -1,27 +1,27 @@
 package DDANG.DDANGOverflow.security;
 
+import DDANG.DDANGOverflow.User.domain.CustomUser;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private final CustomUser user;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(CustomUser user) {
         this.user = user;
+    }
+
+    public Long getUserId() {
+        return user.getId(); // 사용자 ID를 반환
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // 사용자의 권한을 반환하는 코드
-        return user.getAuthorities().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
@@ -31,32 +31,32 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getEmail();
     }
 
-    // 사용자 계정의 유효성, 만료 여부 등을 구현하는 메서드.
+    public LocalDateTime getCreated_at() {
+        return user.getCreated_at();
+    }
 
-    // 사용자의 계정이 만료되지 않았는지 확인
     @Override
     public boolean isAccountNonExpired() {
-        return true; // 계정 만료 확인 로직 작성
+        LocalDateTime expirationTime = user.getCreated_at().plusHours(1);
+        LocalDateTime currentTime = LocalDateTime.now();
+        return currentTime.isBefore(expirationTime);
     }
 
-    // 사용자의 계정이 잠겨있지 않은지 확인
     @Override
     public boolean isAccountNonLocked() {
-        return true; // 계정 잠김 여부 확인 로직 작성
+        return !user.isLocked();
     }
 
-    // 사용자의 비밀번호가 만료되지 않았는지 확인
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // 비밀번호 만료 여부 확인 로직 작성
+        return true;
     }
 
-    // 사용자 계정이 활성화 상태인지 확인
     @Override
     public boolean isEnabled() {
-        return user.isActive(); // 계정 활성화 여부 확인 로직 작성
+        return true;
     }
 }

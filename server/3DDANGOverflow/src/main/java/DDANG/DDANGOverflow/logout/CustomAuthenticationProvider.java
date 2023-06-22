@@ -1,4 +1,4 @@
-package DDANG.DDANGOverflow.authentication;
+package DDANG.DDANGOverflow.logout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,12 +17,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
+
     @Autowired
     public CustomAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -31,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Invalid username or password");
+            throw new BadCredentialsException("유효하지 않은 사용자 이름 또는 비밀번호");
         }
 
         return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

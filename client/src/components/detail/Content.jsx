@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import VoteBtns from './VoteBtns';
 import UserInfo from '../common/UserInfo';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 
 export default function Content({ props, contentType, likes }) {
   let [likeCount, setLikeCount] = useState(0);
@@ -12,14 +12,15 @@ export default function Content({ props, contentType, likes }) {
   let totalLikes = likesCount - disLikesCount;
 
   useEffect(() => {
-    axios(`http://localhost:3000/answersVotes?answerId=${props.id}`).then(
+    axios(`http://localhost:3000/answersVotes?answerId=${props.id}`)
+    .then(
       (res) => {
         let likesCount = res.data.filter((e) => e.voteFlag === true).length;
         let disLikesCount = res.data.filter((e) => e.voteFlag === false).length;
         let totalLikes = likesCount - disLikesCount;
         setLikeCount(totalLikes);
       }
-    );
+    )
   }, []);
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -29,7 +30,6 @@ export default function Content({ props, contentType, likes }) {
   };
 
   const handleConfirm = () => {
-    // 삭제 확인 시 처리 로직 작성
     axios
       .delete(`http://localhost:3000/${contentType}/${props.id}`)
       .then(() => {
@@ -65,19 +65,19 @@ export default function Content({ props, contentType, likes }) {
               <button onClick={handleDelete}>Delete</button>
             </div>
           </Features>
-          <UserInfo
-            userName={props.user}
-            createdDateTime={props.createdDateTime}
-          />
+          {contentType === 'answers' && props.modifiedAt ? (
+            <div>edited {props.modifiedAt}</div>
+          ) : null}
+          <UserInfo userName={props.name} createdAt={props.createdAt} />
         </ActionsAndProfile>
       </PostCell>
       {isModalOpen && (
         <ModalContainer>
           <ModalContent>
-            <div>정말 삭제하시겠습니까?</div>
+            <div>Are you sure to cancle?</div>
             <ButtonContainer>
-              <Button onClick={handleConfirm}>확인</Button>
-              <Button onClick={handleCancel}>취소</Button>
+              <Button onClick={handleConfirm}>Confirm</Button>
+              <Button onClick={handleCancel}>Cancle</Button>
             </ButtonContainer>
           </ModalContent>
         </ModalContainer>

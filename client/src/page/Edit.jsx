@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { styled } from 'styled-components';
 import { BsCheckLg } from 'react-icons/bs';
-import TextEditor from '../components/common/TextEditor.jsx';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+
+import styled from 'styled-components';
 import axios from 'axios';
+
+import TextEditor from '../components/common/TextEditor.jsx';
 import ButtonFixed from '../components/common/ButtonFixed';
 import ButtonFlex from '../components/common/ButtonFlexible';
 import Aside from '../components/common/Aside';
@@ -14,6 +16,7 @@ export default function Edit() {
   const [isBodyValid, setIsBodyValid] = useState(true);
   let [questionId, setQuestionId] = useState(undefined);
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
+
   const handleBodyChange = (value) => {
     setBody(value);
     if (bodyLength < 100) {
@@ -34,8 +37,8 @@ export default function Edit() {
         setBody(res.data.content);
         if (res.data.title) {
           setTitle(res.data.title);
-        }else{
-          setQuestionId(res.data.questionId)
+        } else {
+          setQuestionId(res.data.questionId);
         }
       })
       .catch(() => {
@@ -53,7 +56,8 @@ export default function Edit() {
     axios
       .patch(`http://localhost:3000/${type}/${params.id}`, {
         content: body,
-        ...(title ? { title: title } : null)
+        modifiedAt: new Date().toLocaleString(),
+        ...(title ? { title: title } : null),
       })
       .then((res) => {
         navigate(`/detail/${questionId || params.id}`);
@@ -116,8 +120,6 @@ export default function Edit() {
                 Cancle
               </Link>
             }
-            length="0"
-            color=""
           />
         </ButtonContainer>
       </ContainerLeft>
@@ -172,7 +174,7 @@ const TitleContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 1vh;
-    color: ${(props) => (props.isTitleError ? 'red' : 'black')};
+    color: red;
   }
 
   .errorcontent {
@@ -213,7 +215,9 @@ const BodyContainer = styled.div`
   }
   .errormessage {
     display: flex;
-    color: ${(props) => (props.isBodyError ? 'var(--color-gray)' : 'red')};
+    * {
+      color: red;
+    }
   }
 `;
 

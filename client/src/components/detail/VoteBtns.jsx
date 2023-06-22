@@ -16,25 +16,32 @@ export default function VoteBtns({ likes, id, contentType }) {
     setCountLikes(likes);
   }, [likes]);
 
+  let voteType = '';
+
   if (contentType === 'questions') {
-    contentType = 'questionVotes';
+    voteType = 'questionVotes';
   } else if (contentType === 'answers') {
-    contentType = 'answersVotes';
+    voteType = 'answersVotes';
   }
-console.log(id)
+
   return (
     <VoteCell>
       <VoteBtn
         onClick={() =>
           axios
-            .post(`http://localhost:3000/${contentType}`, {
+            .post(`http://localhost:3000/${voteType}`, {
               voteFlag: true,
-              memberId: 1,
-              [contentType === 'questions' ? 'questionId' : 'answerId']: id,
+              userId: 1, //user.id 로 바뀌어야함
+              [contentType === 'questions' ? 'questionId' : 'answerId']: id, // 지우기
             })
             .then((res) => {
-              setCountLikes(prevCount => prevCount + 1);
+              setCountLikes((prevCount) => prevCount + 1);
             })
+            .then(() =>
+              axios.patch(`http://localhost:3000/${contentType}/${id}`, {
+                votes: countLikes + 1,
+              })
+            )
             .catch(() => {
               console.error('Invalid access to likes count update endpoint.');
             })
@@ -46,14 +53,19 @@ console.log(id)
       <VoteBtn
         onClick={() =>
           axios
-            .post(`http://localhost:3000/${contentType}`, {
+            .post(`http://localhost:3000/${voteType}`, {
               voteFlag: false,
-              userId: 1,
-              [contentType === 'questions' ? 'questionId' : 'answerId']: id,
+              userId: 1, //user.id 로 바뀌어야함
+              [contentType === 'questions' ? 'questionId' : 'answerId']: id, // 지우기
             })
             .then((res) => {
-              setCountLikes(prevCount => prevCount - 1);
+              setCountLikes((prevCount) => prevCount - 1);
             })
+            .then(() =>
+              axios.patch(`http://localhost:3000/${contentType}/${id}`, {
+                votes: countLikes-1,
+              })
+            )
             .catch(() => {
               console.error('Invalid access to likes count update endpoint.');
             })
@@ -94,6 +106,7 @@ const VoteBtn = styled.button`
 const Count = styled.div`
   text-align: center;
   margin: 1rem 0;
+  font-weight: 700;
 `;
 const SaveBtn = styled.button`
   background-color: transparent;

@@ -3,7 +3,7 @@ package DDANG.DDANGOverflow.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
-    QUESTIONCOMMENT_NOT_FOUND(404, "questionComment not found");
+    USER_EMAIL_EXIST(1001, "User email already exists");
 
     @Getter
     private int code;

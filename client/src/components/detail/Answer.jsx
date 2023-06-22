@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import Content from './Content';
 import TextEditor from '../common/TextEditor.jsx';
 import { BsCheckLg } from 'react-icons/bs';
@@ -12,7 +12,9 @@ export default function Answer({ answerInfo }) {
   const navigate = useNavigate();
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
+  const [isModalOpen, setModalOpen] = useState(false);
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
+
   const handleBodyChange = (value) => {
     setBody(value);
     if (bodyLength < 100) {
@@ -22,12 +24,16 @@ export default function Answer({ answerInfo }) {
     }
   };
   const handleSubmit = () => {
+    setModalOpen(true);
+  };
+
+  const handleConfirm = () => {
     if (isBodyValid && bodyLength) {
       axios
         .post('http://localhost:3000/answers', {
           id: new Date().getTime(),
           questionId: Number(params.id),
-          name: 'userName',
+          userId: 'userName',
           content: body,
           createdDateTime: new Date().toLocaleString(),
         })
@@ -40,6 +46,11 @@ export default function Answer({ answerInfo }) {
     }else{
       console.log('길이를 수정해주세요')
     }
+    setModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -91,6 +102,17 @@ export default function Answer({ answerInfo }) {
           label={<Link>Post Your Answer</Link>}
         ></ButtonFixed>
       </BtnContainer>
+      {isModalOpen && (
+        <ModalContainer>
+          <ModalContent>
+            <div>정말 제출 하시겠습니까?</div>
+            <ButtonContainer>
+              <Button onClick={handleConfirm}>확인</Button>
+              <Button onClick={handleCancel}>취소</Button>
+            </ButtonContainer>
+          </ModalContent>
+        </ModalContainer>
+      )}
     </Container>
   );
 }
@@ -140,7 +162,7 @@ const BodyContainer = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  .content {
+  .content { 
     font-size: 18px;
   }
   .errMsgContainer {
@@ -160,4 +182,33 @@ const BodyContainer = styled.div`
 const BtnContainer = styled.div`
   display: flex;
   margin-top: 1rem;
+`;
+
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
 `;

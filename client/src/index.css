@@ -91,7 +91,6 @@ button {
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
-  text-decoration: none;
   color: black;
   background-color: transparent;
   font-family:sans-serif;
@@ -135,4 +134,7 @@ table {
 }
 button {
   cursor: pointer;
+}
+a{
+  text-decoration: none;
 }

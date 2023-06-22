@@ -32,13 +32,12 @@ export default function Content({ props, contentType, likes }) {
   const handleConfirm = () => {
     axios
       .delete(`http://localhost:3000/${contentType}/${props.id}`)
-      .then(() => {
-        console.log('성공');
+      .then((res) => {
+        window.location.reload();
       })
       .catch(() => {
-        console.log('실패');
+        console.error('실패');
       });
-
     setModalOpen(false);
   };
 
@@ -74,7 +73,7 @@ export default function Content({ props, contentType, likes }) {
       {isModalOpen && (
         <ModalContainer>
           <ModalContent>
-            <div>Are you sure to cancle?</div>
+            <div>Are you sure to delete?</div>
             <ButtonContainer>
               <Button onClick={handleConfirm}>Confirm</Button>
               <Button onClick={handleCancel}>Cancle</Button>
@@ -143,6 +142,9 @@ const ModalContent = styled.div`
   background-color: white;
   padding: 2rem;
   border-radius: 5px;
+  &:first-child{
+    text-align: center;
+  }
 `;
 
 const ButtonContainer = styled.div`

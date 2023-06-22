@@ -15,8 +15,9 @@ export default function Edit() {
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
   let [questionId, setQuestionId] = useState(undefined);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isCancleModalOpen, setIsCancleModalOpen] = useState(false);
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
-
   const handleBodyChange = (value) => {
     setBody(value);
     if (bodyLength < 100) {
@@ -52,21 +53,56 @@ export default function Edit() {
     localStorage.setItem('title', newTitle);
   };
 
+  // const handleSubmit = () => {
+  //   axios
+  //     .patch(`http://localhost:3000/${type}/${params.id}`, {
+  //       content: body,
+  //       modifiedAt: new Date().toLocaleString(),
+  //       ...(title ? { title: title } : null),
+  //     })
+  //     .then((res) => {
+  //       navigate(`/detail/${questionId || params.id}`);
+  //     })
+  //     .catch((error) => {
+  //       console.error('수정 중에 오류가 발생했습니다:', error);
+  //     });
+  // };
   const handleSubmit = () => {
-    axios
-      .patch(`http://localhost:3000/${type}/${params.id}`, {
-        content: body,
-        modifiedAt: new Date().toLocaleString(),
-        ...(title ? { title: title } : null),
-      })
-      .then((res) => {
-        navigate(`/detail/${questionId || params.id}`);
-      })
-      .catch((error) => {
-        console.error('수정 중에 오류가 발생했습니다:', error);
-      });
+    setModalOpen(true);
   };
 
+  const handleConfirm = () => {
+    if (isBodyValid && bodyLength) {
+      axios
+        .patch(`http://localhost:3000/${type}/${params.id}`, {
+          content: body,
+          modifiedAt: new Date().toLocaleString(),
+          ...(title ? { title: title } : null),
+        })
+        .then((res) => {
+          navigate(`/detail/${questionId || params.id}`);
+        })
+        .catch((error) => {
+          console.error('수정 중에 오류가 발생했습니다:', error);
+        });
+    } else {
+      console.log('길이를 수정해주세요');
+    }
+    setModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setModalOpen(false);
+  };
+  const handleCancleModal = () =>{
+    setIsCancleModalOpen(true);
+  }
+  const handleCancleConfirm = () => {
+    navigate(`/detail/${type === 'questions' ? params.id : questionId}`);
+  };
+  const handleEditCancel = () => {
+    setIsCancleModalOpen(false);
+  };
   const isTitleValid = title.length >= 15;
   return (
     <Container>
@@ -112,16 +148,30 @@ export default function Edit() {
         </BodyContainer>
         <ButtonContainer>
           <ButtonFixed onClick={handleSubmit} color="Blue" label="Save edits" />
-          <ButtonFlex
-            label={
-              <Link
-                to={`/detail/${type === 'questions' ? params.id : questionId}`}
-              >
-                Cancle
-              </Link>
-            }
-          />
+          <ButtonFlex onClick={handleCancleModal} label="Cancle" />
         </ButtonContainer>
+        {isCancleModalOpen && (
+          <ModalContainer>
+            <ModalContent>
+              <div>Are you sure to cancle?</div>
+              <ButtonModalContainer>
+                <Button onClick={handleCancleConfirm}>Confirm</Button>
+                <Button onClick={handleEditCancel}>Cancle</Button>
+              </ButtonModalContainer>
+            </ModalContent>
+          </ModalContainer>
+        )}
+        {isModalOpen && (
+          <ModalContainer>
+            <ModalContent>
+              <div>Are you sure you want to submit?</div>
+              <ButtonModalContainer>
+                <Button onClick={handleConfirm}>Confirm</Button>
+                <Button onClick={handleCancel}>Cancle</Button>
+              </ButtonModalContainer>
+            </ModalContent>
+          </ModalContainer>
+        )}
       </ContainerLeft>
       <Aside />
     </Container>
@@ -227,4 +277,32 @@ const ButtonContainer = styled.div`
   & :first-child {
     margin-right: 1rem;
   }
+`;
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+`;
+
+const ButtonModalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
 `;

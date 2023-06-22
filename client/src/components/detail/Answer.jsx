@@ -43,7 +43,6 @@ export default function Answer() {
   };
   const answerFilterHandler = (e) => {
     serFilterTap(e.target.value);
-  
   };
   const handleConfirm = () => {
     if (isBodyValid && bodyLength) {
@@ -56,7 +55,7 @@ export default function Answer() {
           createdDateTime: new Date().toLocaleString(),
         })
         .then((res) => {
-          navigate(`/detail/${params.id}`);
+          window.location.reload();
         })
         .catch(() => {
           console.error('잘못된 접근입니다.');

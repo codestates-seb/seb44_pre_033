@@ -230,12 +230,14 @@ const AskForm = () => {
         .post('http://localhost:3000/questions', {
           title: title,
           userId: 1, //user.id로 변경하기
-          name: "kimcoding", //서버연결전 지우기
+          name: 'kimcoding', //서버연결전 지우기
           content: body,
           createdAt: new Date().toLocaleString(),
-          modifiedAt: new Date().toLocaleString()
+          modifiedAt: new Date().toLocaleString(),
         })
         .then((res) => {
+          localStorage.removeItem('title');
+          localStorage.removeItem('body');
           navigate(`/`);
         })
         .catch(() => {

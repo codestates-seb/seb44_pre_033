@@ -8,10 +8,10 @@ import Title from '../components/detail/Title';
 import Aside from '../components/common/Aside';
 
 export default function Detail() {
-  const params = useParams();
   const [questionsData, setQuestionData] = useState([]);
   const [answersData, setAnswersData] = useState([]);
   const [votesData, setVotesData] = useState([])
+  const params = useParams();
   useEffect(() => {
     axios.all([
       axios.get(`http://localhost:3000/questions/${params.id}`),

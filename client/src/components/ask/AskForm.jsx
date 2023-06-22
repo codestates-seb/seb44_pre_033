@@ -1,9 +1,11 @@
 import { styled } from 'styled-components';
 import { useState, useEffect } from 'react';
 import { BsCheckLg } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 import DiscardAlarm from '../ask/DiscardAlarm.jsx';
 import TextEditor from '../common/TextEditor.jsx';
 import ButtonFlex from '../common/ButtonFlexible.jsx';
+import axios from 'axios';
 
 const TitleContainer = styled.div`
   width: 60vw;
@@ -140,12 +142,40 @@ const DiscardButton = styled.button`
   align-items: center;
   justify-content: center;
 `;
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+`;
+
+const ButtonContainer2 = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+`;
 const AskForm = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [openModal, setOpenModal] = useState(false);
-
+  const [isModalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
   //페이지가 로드될때 마다, 로컬 스토리지에서 이전에 저장한 값이 있는지 확인하고 가져옵니다
   useEffect(() => {
     const savedTitle = localStorage.getItem('title');
@@ -190,7 +220,38 @@ const AskForm = () => {
     setOpenModal(false);
     window.scrollTo(0, 0);
   };
+  const handleSubmit = () => {
+    setModalOpen(true);
+  };
 
+  const handleConfirm = () => {
+    if (isBodyValid && bodyLength) {
+      axios
+        .post('http://localhost:3000/questions', {
+          title: title,
+          userId: 1, //user.id로 변경하기
+          name: 'kimcoding', //서버연결전 지우기
+          content: body,
+          createdAt: new Date().toLocaleString(),
+          modifiedAt: new Date().toLocaleString(),
+        })
+        .then((res) => {
+          localStorage.removeItem('title');
+          localStorage.removeItem('body');
+          navigate(`/`);
+        })
+        .catch(() => {
+          console.error('잘못된 접근입니다.');
+        });
+    } else {
+      console.log('길이를 수정해주세요');
+    }
+    setModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setModalOpen(false);
+  };
   const isTitleValid = title.length >= 15;
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
   const isBodyValid = bodyLength >= 100;
@@ -236,7 +297,11 @@ const AskForm = () => {
         </div>
       </BodyContainer>
       <ButtonContainer>
-        <ButtonFlex label="Post Your Question" color="Blue" />
+        <ButtonFlex
+          onClick={handleSubmit}
+          label="Post Your Question"
+          color="Blue"
+        />
         <DiscardButton onClick={handleOpenModal}>Discard draft</DiscardButton>
       </ButtonContainer>
       {openModal ? (
@@ -246,6 +311,17 @@ const AskForm = () => {
           handleCloseModal={handleCloseModal}
         />
       ) : null}
+      {isModalOpen && (
+        <ModalContainer>
+          <ModalContent>
+            <div>Are you sure you want to submit?</div>
+            <ButtonContainer2>
+              <Button onClick={handleConfirm}>Confirm</Button>
+              <Button onClick={handleCancel}>Cancel</Button>
+            </ButtonContainer2>
+          </ModalContent>
+        </ModalContainer>
+      )}
     </div>
   );
 };

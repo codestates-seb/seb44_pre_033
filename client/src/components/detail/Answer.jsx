@@ -1,19 +1,34 @@
-import styled from 'styled-components';
-import { useState , useEffect} from 'react';
-import Content from './Content';
-import TextEditor from '../common/TextEditor.jsx';
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { BsCheckLg } from 'react-icons/bs';
-import axios from 'axios';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import ButtonFixed from '../common/ButtonFixed';
 
-export default function Answer({ answerInfo }) {
+import styled from 'styled-components';
+import axios from 'axios';
+
+import TextEditor from '../common/TextEditor.jsx';
+import ButtonFixed from '../common/ButtonFixed';
+import Content from './Content';
+
+export default function Answer() {
   const params = useParams();
-  const navigate = useNavigate();
+
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [answerList, setAnswerList] = useState([]);
+  const [filterTap, serFilterTap] = useState('score'); //필터url위한 상태
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/answers?questionId=${params.id}`)
+      .then((res) => setAnswerList(res.data))
+      .catch((error) => console.errer());
+  }, []);
+
+  // const newestData = answerList.sort(
+  //   (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  // ); // 최신순
 
   const handleBodyChange = (value) => {
     setBody(value);
@@ -26,7 +41,9 @@ export default function Answer({ answerInfo }) {
   const handleSubmit = () => {
     setModalOpen(true);
   };
-
+  const answerFilterHandler = (e) => {
+    serFilterTap(e.target.value);
+  };
   const handleConfirm = () => {
     if (isBodyValid && bodyLength) {
       axios
@@ -38,7 +55,7 @@ export default function Answer({ answerInfo }) {
           createdDateTime: new Date().toLocaleString(),
         })
         .then((res) => {
-          navigate(`/detail/${params.id}`);
+          window.location.reload();
         })
         .catch(() => {
           console.error('잘못된 접근입니다.');
@@ -52,29 +69,43 @@ export default function Answer({ answerInfo }) {
   const handleCancel = () => {
     setModalOpen(false);
   };
-
+  const answerFilter = [
+    {
+      id: 1,
+      Name: 'Highest score (default)',
+      value: 'score',
+    },
+    {
+      id: 2,
+      Name: 'Date modified (newest first)',
+      value: 'newest',
+    },
+    {
+      id: 3,
+      Name: 'Date created (oldest first)',
+      value: 'oldest',
+    },
+  ];
   return (
     <Container>
       <NumAndSort>
-        <div className="answersNum">
-          {answerInfo && answerInfo.length} Answers
-        </div>
+        <div className="answersNum">{answerList.length} Answers</div>
         <div className="sort">
           <label>Sorted by: </label>
-          <select>
-            <option value="highest">Highest Score(dafault)</option>
-            <option value="lowest">Lowest Score</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
+          <select onChange={answerFilterHandler}>
+            {answerFilter.map((el) => (
+              <option key={el.id} value={el.value}>
+                {el.Name}
+              </option>
+            ))}
           </select>
         </div>
       </NumAndSort>
-      {answerInfo &&
-        answerInfo.map((answer) => (
-          <li key={answer.id}>
-            <Content props={answer} contentType={'answers'} />
-          </li>
-        ))}
+      {answerList.map((answer) => (
+        <li key={answer.id}>
+          <Content props={answer} contentType={'answers'} />
+        </li>
+      ))}
       <BodyContainer isBodyError={isBodyValid}>
         <div className="titleAndContent">
           <div className="title">Your Answer</div>
@@ -104,14 +135,14 @@ export default function Answer({ answerInfo }) {
       </BtnContainer>
       {isModalOpen && (
         <ModalContainer>
-          <ModalContent>
-            <div>정말 제출 하시겠습니까?</div>
-            <ButtonContainer>
-              <Button onClick={handleConfirm}>확인</Button>
-              <Button onClick={handleCancel}>취소</Button>
-            </ButtonContainer>
-          </ModalContent>
-        </ModalContainer>
+        <ModalContent>
+          <div>정말 제출 하시겠습니까?</div>
+          <ButtonContainer>
+            <Button onClick={handleConfirm}>확인</Button>
+            <Button onClick={handleCancel}>취소</Button>
+          </ButtonContainer>
+        </ModalContent>
+      </ModalContainer>
       )}
     </Container>
   );
@@ -162,7 +193,7 @@ const BodyContainer = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  .content { 
+  .content {
     font-size: 18px;
   }
   .errMsgContainer {
@@ -170,8 +201,8 @@ const BodyContainer = styled.div`
     display: flex;
     align-items: center;
     padding: 1rem;
-        div{
-      color: ${(props) => (props.isBodyValid ? 'var(--color-gray)' : 'red')};
+    div {
+      color: red;
     }
   }
   .errormessage {

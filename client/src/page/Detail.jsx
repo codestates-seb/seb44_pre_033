@@ -8,19 +8,17 @@ import Title from '../components/detail/Title';
 import Aside from '../components/common/Aside';
 
 export default function Detail() {
-  const params = useParams();
   const [questionsData, setQuestionData] = useState([]);
   const [answersData, setAnswersData] = useState([]);
   const [votesData, setVotesData] = useState([])
+  const params = useParams();
   useEffect(() => {
     axios.all([
       axios.get(`http://localhost:3000/questions/${params.id}`),
-      axios.get(`http://localhost:3000/answers?questionId=${params.id}`),
       axios.get(`http://localhost:3000/questionVotes?questionId=${params.id}`)
     ])
-      .then(axios.spread((questionRes, answersRes, votesRes) => {
+      .then(axios.spread((questionRes, votesRes) => {
         setQuestionData(questionRes.data);
-        setAnswersData(answersRes.data);
         setVotesData(votesRes.data);
       }))
       .catch(() => {
@@ -34,7 +32,7 @@ export default function Detail() {
       <ContentAndAside>
         <div className='contentAndAnswer'>
           <Content props={questionsData} likes={votesData} contentType={'questions'} />
-          <Answer answerInfo={answersData} />
+          <Answer/>
         </div>
         <Aside />
       </ContentAndAside>

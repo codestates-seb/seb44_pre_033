@@ -14,15 +14,13 @@ export default function Title({ questionInfo }) {
       <QuestionInfo>
         <InfoDetail>
           <Span>added</Span>
-          <span>{questionInfo.createdDateTime}</span>
+          <span>{questionInfo.createdAt}</span>
         </InfoDetail>
         <InfoDetail>
           <Span>Modified</Span>
-          <span>{questionInfo.updatedDateTime}</span>
+          <span>{questionInfo.modifiedAt}</span>
         </InfoDetail>
         <InfoDetail>
-          <Span>Viewed</Span>
-          <span>{questionInfo.viewed} Times</span>
         </InfoDetail>
       </QuestionInfo>
     </Container>

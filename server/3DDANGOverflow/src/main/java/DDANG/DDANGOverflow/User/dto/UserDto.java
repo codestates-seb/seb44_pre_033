@@ -1,17 +1,18 @@
 package DDANG.DDANGOverflow.User.dto;
+
 import java.time.LocalDateTime;
-
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import javax.validation.constraints.Email;
 
 
+@Getter
+@Setter
 public class UserDto {
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class Post {
-
         private String name;
 
         @Email
@@ -20,14 +21,16 @@ public class UserDto {
         private String password;
 
         private LocalDateTime created_at;
+
+        public Post() {
+            // 기본 생성자
+        }
     }
 
     @Getter
     @Setter
-    @AllArgsConstructor
     public static class Patch {
-
-        private long id;
+        private Long id;
 
         private String name;
 
@@ -35,7 +38,6 @@ public class UserDto {
         private String email;
 
         private String password;
-
     }
 
     @Getter
@@ -44,12 +46,6 @@ public class UserDto {
         private long id;
         private String name;
         private String email;
-        private String password;
         private LocalDateTime created_at;
     }
-
-
-
-
-
 }

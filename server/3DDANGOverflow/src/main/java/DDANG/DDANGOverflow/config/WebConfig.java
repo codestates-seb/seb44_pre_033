@@ -1,4 +1,4 @@
-package DDANG.DDANGOverflow;
+package DDANG.DDANGOverflow.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

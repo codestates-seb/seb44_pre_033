@@ -1,10 +1,13 @@
 package DDANG.DDANGOverflow.User.repository;
 
-import DDANG.DDANGOverflow.User.domain.User;
+import DDANG.DDANGOverflow.User.domain.CustomUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+@Repository
+public interface UserRepository extends JpaRepository<CustomUser, Long> {
+    Optional<CustomUser> findByEmail(String email);
+    Optional<CustomUser> findByUsername(String username);
 }

@@ -1,46 +1,52 @@
 package DDANG.DDANGOverflow.User.service;
 
-import DDANG.DDANGOverflow.User.domain.User;
-import DDANG.DDANGOverflow.User.mapper.UserMapper;
+import DDANG.DDANGOverflow.User.domain.CustomUser;
 import DDANG.DDANGOverflow.User.repository.UserRepository;
 import DDANG.DDANGOverflow.exception.BusinessLogicException;
+import DDANG.DDANGOverflow.exception.CustomException;
 import DDANG.DDANGOverflow.exception.ExceptionCode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final UserMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper mapper) {
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    /*회원가입*/
-    public User creatUser(User user) {
-
-        // 중복검사
-        verifyExistsEmail(user.getEmail());
-
-        // 비밀번호 : 암호화
-
+    public CustomUser createUser(CustomUser user) {
+        verifyEmailExists(user.getEmail());
+        // 비밀번호 암호화 등 추가 로직
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    /*로그인*/
+    private void verifyEmailExists(String email) {
+        userRepository.findByEmail(email)
+                .ifPresent(existingUser -> {
+                    throw new BusinessLogicException(ExceptionCode.USER_EMAIL_EXIST);
+                });
+    }
 
-    /*로그아웃*/
+    public CustomUser findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new CustomException("User not found with username: " + username));
+    }
 
-    /*마이페이지*/
+    public CustomUser findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found with email: " + email));
+    }
 
-    /*이메일 중복검사*/
-    private void verifyExistsEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent())
-            throw new BusinessLogicException(ExceptionCode.USER_EMAIL_EXIST);
-
+    public boolean authenticate(String username, String password) {
+        return userRepository.findByUsername(username)
+                .map(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElse(false);
     }
 }

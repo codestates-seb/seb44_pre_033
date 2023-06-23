@@ -1,48 +1,75 @@
 import { styled } from 'styled-components';
-import UserInfo from '../common/UserInfo';
 import ProfileImg from '../../assets/profile.png';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-
+import Pagenation from './Pagenation';
 
 
 const FilteredContent = ()=>{
     const [questions, setQuestions]=useState([]);
+    const [page, setPage] = useState(1); //페이지
+    const limit = 10; // posts가 보일 최대한의 갯수
+    const offset = (page-1)*limit; // 시작점과 끝점을 구하는 offset
+
     useEffect(()=>{
         axios.get('http://localhost:3000/questions')
-        .then((res)=>console.log(res.data))
-        // .then((data)=> setQuestions(data))
+        .then((res)=>{
+            console.log(res.data);
+            setQuestions(res.data);
+        }
+        )
         .catch(() => {
             console.error('데이터를 가져오는 중에 문제가 발생했어요.');
           });
     },[]);
+
+
+    const postsData = (posts) => {
+        if(posts){
+        let result = posts.slice(offset, offset + limit);
+        return result;
+        }
+    }
+
+    const totalPosts=questions.length;
+
+    const onClickPage = (num)=>{
+        setPage(num);
+        console.log(num)
+    }
+
+
+    // 태그를 제거하는 정규식
+    const removeTags = (str)=>{
+        return str.toString().replace(/<[^>]*>/g,"");
+    }
     
     return(
         <ContentContainer>
-            
-        {questions.map(({id,title,content,createdAt,modifiedAt,name,userId,votes})=>{
-            <article key={id}>
-                <ContentRate>
-                    <div>{votes}  votes</div>
-                    <div>2  answers</div>
-                    <div>3  views</div>
-                </ContentRate>
-                <ContentText>
-                    <ContentTextTitle>
-                        {title}
-                    </ContentTextTitle>
-                    <div>
-                        {content}
-                    </div>
-                    <ContentInfo>
-                        <div>label</div>
-                        <Profile userId={userId} modifiedAt={modifiedAt}/>
-                    </ContentInfo>
-                </ContentText>
-            </article>
+            {postsData(questions).map((question)=>{
+                return(<article key={question.id}>
+                    <ContentRate>
+                        <div>{question.votes}  votes</div>
+                        <div>2  answers</div>
+                        <div>3  views</div>
+                    </ContentRate>
+                    <ContentText>
+                        <ContentTextTitle>
+                                {question.title}
+                        </ContentTextTitle>
+                        <ContentTextContent>
+                            {removeTags(question.content)}
+                        </ContentTextContent>
+                        <ContentInfo>
+                            <div>label</div>
+                            <Profile userId={question.userId} modifiedAt={question.modifiedAt}/>
+                        </ContentInfo>
+                    </ContentText>
+                </article>);
                 
             })}
-            </ContentContainer>
+            <Pagenation limit={limit} page={page} totalPosts={totalPosts} onClickPage={onClickPage}/>
+        </ContentContainer>
             
             
     );
@@ -50,10 +77,9 @@ const FilteredContent = ()=>{
 export default FilteredContent;
 
 const ContentContainer = styled.div`
-    border-bottom: 0.05rem solid var(--color-gray);
-    
-    padding: 1.5rem;
-    article{
+    article {
+        border-bottom: 0.05rem solid var(--color-gray);
+        padding: 1.5rem;
         display:flex;
         flex-direction: row;
     }
@@ -64,7 +90,7 @@ const ContentRate = styled.div`
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-end;
-    flex-basis:10rem;
+    width:10rem;
     padding: 0 1rem;
 `;
 
@@ -77,6 +103,14 @@ const ContentText = styled.div`
 const ContentTextTitle = styled.div`
     font-size: 1.2rem;
     padding: 0.5rem 0;
+`;
+
+const ContentTextContent = styled.div`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 `;
 
 const ContentInfo = styled.div`

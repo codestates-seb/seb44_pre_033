@@ -3,8 +3,28 @@ import ButtonFlex from '../common/ButtonFlexible';
 import FilterSection from './FilterSection';
 import FilteredContent from './FilteredContent';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect} from 'react';
+import axios from 'axios';
 
 const MainContent = ()=>{
+    const [filter,setFilter]=useState('Newest');
+    const [questions, setQuestions]=useState([]);
+
+    useEffect(()=>{
+        axios.get('http://localhost:3000/questions')
+        .then((res)=>{
+            setQuestions(res.data);
+        }
+        )
+        .catch(() => {
+            console.error('데이터를 가져오는 중에 문제가 발생했어요.');
+          });
+    },[]);
+
+    
+    const onChangeFilter = (e)=>{
+        setFilter(e.target.value);
+    }
 
     const navigate = useNavigate();
 
@@ -12,7 +32,7 @@ const MainContent = ()=>{
         navigate('/questions/ask');
         console.log('되나');
     }
-    
+
 
     return(
         <MainContentContainer>
@@ -23,9 +43,9 @@ const MainContent = ()=>{
                     </Title>
                     <ButtonFlex label='Ask Question' color='Blue' onClick={onClickQuestion}/>
                 </Header>
-                <FilterSection />
+                <FilterSection questions={questions} onChangeFilter={onChangeFilter} />
             </HeaderContainer>
-            <FilteredContent/>
+            <FilteredContent questions={questions} filter={filter} />
         </MainContentContainer>
     );
 };

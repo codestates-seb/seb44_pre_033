@@ -1,26 +1,13 @@
 import { styled } from 'styled-components';
 import ProfileImg from '../../assets/profile.png';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Pagenation from './Pagenation';
 import { Link } from "react-router-dom";
 
-const FilteredContent = ()=>{
-    const [questions, setQuestions]=useState([]);
+const FilteredContent = ({questions, filter})=>{
     const [page, setPage] = useState(1); //페이지
     const limit = 10; // posts가 보일 최대한의 갯수
     const offset = (page-1)*limit; // 시작점과 끝점을 구하는 offset
-
-    useEffect(()=>{
-        axios.get('http://localhost:3000/questions')
-        .then((res)=>{
-            setQuestions(res.data);
-        }
-        )
-        .catch(() => {
-            console.error('데이터를 가져오는 중에 문제가 발생했어요.');
-          });
-    },[]);
 
 
     const postsData = (posts) => {
@@ -30,12 +17,56 @@ const FilteredContent = ()=>{
         }
     }
 
+    // filter
+    const newestFilter=(posts)=>{
+        if(posts){
+            let result = posts.sort((a,b)=>{
+                return b.id-a.id;
+            });
+            return result;
+            }
+    }
+
+    const oldestFilter=(posts)=>{
+        if(posts){
+            let result = posts.sort((a,b)=>{
+                return a.id-b.id;
+            });
+            return result;
+            }
+    }
+
+    const hottestFilter=(posts)=>{
+        if(posts){
+            let result = posts.sort((a,b)=>{
+                return b.votes-a.votes;
+            });
+            return result;
+            }
+    }
+
+    const chooseFilter = (filter,posts) => {
+        if(filter==='Newest'){
+            return newestFilter(posts);
+        }
+        else if(filter==='Oldest'){
+            return oldestFilter(posts);
+        }
+        else if(filter==='Hottest'){
+            return hottestFilter(posts);
+        }
+        else {
+            return newestFilter(posts);
+        }
+    }
+
+    const filteredQuestions = chooseFilter(filter,questions);
+    //////////////////////
     const totalPosts=questions.length;
 
     const onClickPage = (num)=>{
         setPage(num);
     }
-
 
     // 태그를 제거하는 정규식
     const removeTags = (str)=>{
@@ -44,7 +75,7 @@ const FilteredContent = ()=>{
     
     return(
         <ContentContainer>
-            {postsData(questions).map((question)=>{
+            {postsData(filteredQuestions).map((question)=>{
                 return(<article key={question.id}>
                     <ContentRate>
                         <div>{question.votes}  votes</div>

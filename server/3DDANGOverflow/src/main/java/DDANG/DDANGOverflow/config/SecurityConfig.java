@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
@@ -26,11 +25,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final CustomAuthenticationFailureHandler authenticationFailureHandler;
+    private final CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService, CustomAuthenticationFailureHandler authenticationFailureHandler) {
+    public SecurityConfig(UserDetailsService userDetailsService, CustomAuthenticationFailureHandler authenticationFailureHandler, CustomAuthenticationSuccessHandler authenticationSuccessHandler) {
         this.userDetailsService = userDetailsService;
         this.authenticationFailureHandler = authenticationFailureHandler;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
     }
 
     @Bean
@@ -52,14 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/public/**").permitAll()
+                .antMatchers("/login").permitAll() // /login에 대한 접근 허용
                 .antMatchers("/myposts/**", "/mycomments/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .successHandler(customAuthenticationSuccessHandler())
-                .failureHandler(authenticationFailureHandler) // 주입한 failureHandler 사용
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -70,12 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
     }
-
-    @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
-    }
-
     @Bean
     public LogoutSuccessHandler customLogoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();

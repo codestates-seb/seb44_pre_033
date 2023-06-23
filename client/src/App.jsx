@@ -13,7 +13,7 @@ import HeaderLogin from './components/common/HeaderLogin.jsx';
 import { useState } from 'react';
 
 function App() {
-  const [onLogin, setOnLogin] = useState(true); //일단 로그인 된 헤더를 내보냄, 나중에는 로그인 전 헤더로 수정
+  const [onLogin, setOnLogin] = useState(true); //일단 로그인 된 헤더를 내보냄, false를 넣으면 로그아웃 헤더로 변경됨
 
   return (
     <>

@@ -1,6 +1,7 @@
 package DDANG.DDANGOverflow.logout;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,23 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        // 로그인 성공 후의 처리 로직을 작성
-        response.sendRedirect("/home");
+        String targetUrl = determineTargetUrl(authentication);
+        response.sendRedirect(targetUrl);
+    }
+
+    private String determineTargetUrl(Authentication authentication) {
+        String targetUrl = "/home"; // 기본적으로는 홈 페이지로 이동
+
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                targetUrl = "/admin";
+                break;
+            } else if (authority.getAuthority().equals("ROLE_USER")) {
+                targetUrl = "/user";
+                break;
+            }
+        }
+
+        return targetUrl;
     }
 }

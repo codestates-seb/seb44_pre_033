@@ -1,16 +1,16 @@
 import { styled } from 'styled-components';
 
-const FilterSection = ()=>{
+const FilterSection = ({onChangeFilter, questions})=>{
+
     return (
         <SectionContainer>
-            <NumOfQuestion> 123,456,789 Questions</NumOfQuestion>
+            <NumOfQuestion> {questions.length} Questions</NumOfQuestion>
             <FilterList>
                 <FilterCondition>
-                    <div>Newest</div>
-                    <div>Oldest</div>
-                    <div>Hottest</div>
+                    <Button value='Oldest' onClick={onChangeFilter}>Oldest</Button> 
+                    <Button value='Newest' onClick={onChangeFilter}>Newest</Button>
+                    <Button value='Hottest' onClick={onChangeFilter}>Hottest</Button>
                 </FilterCondition>
-                <FilterButton>Filter</FilterButton>
             </FilterList>
         </SectionContainer>
     );
@@ -39,15 +39,10 @@ const FilterCondition = styled.div`
     flex-direction: row;
     border:0.05rem solid var(--color-gray);
     border-radius: 0.3rem;
-    div{
-        padding:0.5rem;
-        border:0.05rem solid var(--color-gray);
-    }
 `;
 
-const FilterButton = styled.div`
-    margin: 0 1rem;
+const Button = styled.button`
     padding:0.5rem;
-    border: 0.05rem solid var(--color-gray);
-    border-radius: 0.3rem
+    border:0.05rem solid var(--color-gray);
 `;
+

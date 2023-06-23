@@ -38,7 +38,7 @@ const ButtonWrap = styled.div`
     font-size:2rem;
 `;
 
-const Button = styled.div`
+const Button = styled.button`
     padding:0.5rem;
     border:0.05rem solid var(--color-gray);
 `;

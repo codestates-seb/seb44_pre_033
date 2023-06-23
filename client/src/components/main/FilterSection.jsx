@@ -1,14 +1,23 @@
 import { styled } from 'styled-components';
 
+
+
 const FilterSection = ()=>{
+
+    
+
+    const onChangeFilter = ()=>{
+        
+    }
+
     return (
         <SectionContainer>
             <NumOfQuestion> 123,456,789 Questions</NumOfQuestion>
             <FilterList>
                 <FilterCondition>
-                    <div>Newest</div>
-                    <div>Oldest</div>
-                    <div>Hottest</div>
+                    <Button>Newest</Button>
+                    <Button>Oldest</Button>
+                    <Button>Hottest</Button>
                 </FilterCondition>
                 <FilterButton>Filter</FilterButton>
             </FilterList>
@@ -39,10 +48,11 @@ const FilterCondition = styled.div`
     flex-direction: row;
     border:0.05rem solid var(--color-gray);
     border-radius: 0.3rem;
-    div{
-        padding:0.5rem;
-        border:0.05rem solid var(--color-gray);
-    }
+`;
+
+const Button = styled.button`
+    padding:0.5rem;
+    border:0.05rem solid var(--color-gray);
 `;
 
 const FilterButton = styled.div`

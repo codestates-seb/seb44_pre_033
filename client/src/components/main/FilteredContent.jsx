@@ -3,7 +3,7 @@ import ProfileImg from '../../assets/profile.png';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Pagenation from './Pagenation';
-
+import { Link } from "react-router-dom";
 
 const FilteredContent = ()=>{
     const [questions, setQuestions]=useState([]);
@@ -14,7 +14,6 @@ const FilteredContent = ()=>{
     useEffect(()=>{
         axios.get('http://localhost:3000/questions')
         .then((res)=>{
-            console.log(res.data);
             setQuestions(res.data);
         }
         )
@@ -35,7 +34,6 @@ const FilteredContent = ()=>{
 
     const onClickPage = (num)=>{
         setPage(num);
-        console.log(num)
     }
 
 
@@ -54,9 +52,7 @@ const FilteredContent = ()=>{
                         <div>3  views</div>
                     </ContentRate>
                     <ContentText>
-                        <ContentTextTitle>
-                                {question.title}
-                        </ContentTextTitle>
+                        <ContentTextTitle title={question.title} path={`/detail/${question.id}`}/>
                         <ContentTextContent>
                             {removeTags(question.content)}
                         </ContentTextContent>
@@ -75,6 +71,16 @@ const FilteredContent = ()=>{
     );
 }
 export default FilteredContent;
+
+const ContentTextTitle = ({title, path})=>{
+    return(
+        <Link to={path}>
+            <Title>
+                {title}
+            </Title>
+        </Link>
+    );  
+}
 
 const ContentContainer = styled.div`
     article {
@@ -100,7 +106,7 @@ const ContentText = styled.div`
     flex-direction: column;
 `;
 
-const ContentTextTitle = styled.div`
+const Title = styled.div`
     font-size: 1.2rem;
     padding: 0.5rem 0;
 `;

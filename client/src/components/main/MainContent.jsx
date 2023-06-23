@@ -2,8 +2,18 @@ import { styled } from 'styled-components';
 import ButtonFlex from '../common/ButtonFlexible';
 import FilterSection from './FilterSection';
 import FilteredContent from './FilteredContent';
+import { useNavigate } from 'react-router-dom';
 
 const MainContent = ()=>{
+
+    const navigate = useNavigate();
+
+    const onClickQuestion = ()=>{
+        navigate('/questions/ask');
+        console.log('되나');
+    }
+    
+
     return(
         <MainContentContainer>
             <HeaderContainer>
@@ -11,7 +21,7 @@ const MainContent = ()=>{
                     <Title>
                         Top Questions
                     </Title>
-                    <ButtonFlex label='Ask Question' color='Blue'/>
+                    <ButtonFlex label='Ask Question' color='Blue' onClick={onClickQuestion}/>
                 </Header>
                 <FilterSection />
             </HeaderContainer>

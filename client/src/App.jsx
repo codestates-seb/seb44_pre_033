@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Main from './page/Main';
 import Detail from './page/Detail';
 import Edit from './page/Edit';
 import Ask from './page/Ask';
@@ -11,10 +12,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <Header/>
         <Routes>
           {/* 메인페이지 */}
-          <Route path="/" element={<></>}></Route>
+          <Route path="/" element={<Main />}></Route>
           {/* 상세페이지 */}
           <Route path="/detail/:id" element={<Detail />}></Route>
           {/* 수정 페이지 */}

@@ -16,7 +16,6 @@ const Main = ()=>{
             </MainContainer>
         </MainPageContainer>
         
-        
     );
 };
 

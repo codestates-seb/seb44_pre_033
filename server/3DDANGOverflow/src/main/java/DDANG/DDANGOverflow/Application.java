@@ -2,6 +2,7 @@ package DDANG.DDANGOverflow;
 
 import DDANG.DDANGOverflow.User.repository.UserRepository;
 import DDANG.DDANGOverflow.User.service.CustomUserDetailsService;
+import DDANG.DDANGOverflow.logout.CustomAuthenticationFailureHandler;
 import DDANG.DDANGOverflow.logout.CustomAuthenticationProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"DDANG.DDANGOverflow.login", "DDANG.DDANGOverflow.logout", "DDANG.DDANGOverflow.User.service", "DDANG.DDANGOverflow.authentication"})
+@ComponentScan(basePackages = "DDANG.DDANGOverflow")
 public class Application {
 
 	public static void main(String[] args) {
@@ -20,7 +21,7 @@ public class Application {
 	}
 
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
@@ -32,5 +33,9 @@ public class Application {
 	@Bean
 	public CustomAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
 		return new CustomAuthenticationProvider(userDetailsService, passwordEncoder);
+	}
+	@Bean
+	public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
+		return new CustomAuthenticationFailureHandler();
 	}
 }

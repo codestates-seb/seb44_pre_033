@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
@@ -26,10 +25,12 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final CustomAuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(UserDetailsService userDetailsService, CustomAuthenticationFailureHandler authenticationFailureHandler) {
         this.userDetailsService = userDetailsService;
+        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
     @Bean
@@ -58,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .successHandler(customAuthenticationSuccessHandler())
-                .failureHandler(customAuthenticationFailureHandler())
+                .failureHandler(authenticationFailureHandler) // 주입한 failureHandler 사용
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -73,11 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
-    }
-
-    @Bean
-    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean

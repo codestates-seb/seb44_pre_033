@@ -48,7 +48,9 @@ export default function Aside() {
 const AsideContainer = styled.aside`
     display: flex;
     flex-direction: column;
-    min-width: 18rem;
+    max-width: 20rem;
+    min-width: 10rem;
+    flex-grow:0;
 `;
 
 const AsideArticle = styled.article`

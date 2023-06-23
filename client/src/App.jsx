@@ -7,11 +7,14 @@ import Login from './page/Login';
 import Logout from './page/Logout';
 import Signup from './page/Signup';
 import NotFound from './page/NotFound';
-import Header from './components/common/Header'
+import Footer from './components/common/Footer';
+import Header from './components/common/Header';
+
 function App() {
   return (
     <>
       <BrowserRouter>
+        <Header />
         <Routes>
           {/* 메인페이지 */}
           <Route path="/" element={<Main />}></Route>
@@ -30,6 +33,7 @@ function App() {
           {/* 404 NotFound */}
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );

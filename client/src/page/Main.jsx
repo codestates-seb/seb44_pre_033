@@ -1,6 +1,4 @@
 import Aside from "../components/common/Aside";
-import Footer from "../components/common/Footer";
-import Header from "../components/common/Header";
 import Nav from "../components/common/LeftNav";
 import MainContent from "../components/main/MainContent";
 import { styled } from 'styled-components';
@@ -9,7 +7,6 @@ import { styled } from 'styled-components';
 const Main = ()=>{
     return(
         <MainPageContainer>
-            <Header />
             <MainContainer>
                 <Nav />
                 <ContentContainer>
@@ -17,7 +14,6 @@ const Main = ()=>{
                     <Aside />
                 </ContentContainer>
             </MainContainer>
-            <Footer />
         </MainPageContainer>
         
         

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -35,18 +36,41 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model, HttpServletRequest request) {
         if (userService.authenticate(username, password)) {
-            return "redirect:/home";
+            // 로그인 성공 후 작업 수행
+            // ...
+
+            // 원하는 페이지로 이동
+            String targetUrl = determineTargetUrl(request);
+            return "redirect:" + targetUrl;
         } else {
             model.addAttribute("error", "Invalid username or password");
-            return "login";
+            return "redirect:/login?error";
         }
     }
+    // 원하는 페이지를 결정하는 메서드
+    private String determineTargetUrl(HttpServletRequest request) {
+        // 로직에 따라 원하는 페이지 URL을 결정
+        // 예: 사용자의 역할에 따라 다른 페이지로 이동하도록 설정할 수 있음
+        String targetUrl = "/login";  // 기본적으로는 홈 페이지로 이동
 
-    // CustomLogoutSuccessHandler
-    @Autowired
-    private CustomLogoutSuccessHandler logoutSuccessHandler;
+        // 사용자의 역할에 따라 원하는 페이지로 이동하도록 설정
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                    targetUrl = "/admin";
+                    break;
+                } else if (authority.getAuthority().equals("ROLE_USER")) {
+                    targetUrl = "/user";
+                    break;
+                }
+            }
+        }
+
+        return targetUrl;
+    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {

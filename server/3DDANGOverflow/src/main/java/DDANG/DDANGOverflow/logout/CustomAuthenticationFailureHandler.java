@@ -13,15 +13,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
-    @Bean
-    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
-    }
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
@@ -41,6 +38,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         } else if (exception instanceof DisabledException) {
             // 계정 비활성화 오류 메시지
             errorMessage = "Your account has been disabled. Please contact the administrator.";
+        } else if (exception instanceof UsernameNotFoundException) {
+            // 계정 없음 오류 메시지
+            errorMessage = "Invalid username or password.";
         }
 
         // 오류 메시지를 요청 속성에 설정

@@ -9,12 +9,16 @@ const Header = ()=>{
         <HeaderContainer>
             <Logo path='/' src={LogoImg} alt='stack overflow'/>
             <ButtonContainer>
+            <Link to="/users/login">
                 <LinkBtn>
                     <ButtonFlex label='Log in' length='0' color='gray'/>
                 </LinkBtn>
+            </Link>
+            <Link to ="/users/signup">
                 <LinkBtn>
                     <ButtonFlex label='Sign up' length='0' color='Blue'/>
                 </LinkBtn>
+            </Link>
             </ButtonContainer>
         </HeaderContainer>
     );
@@ -35,6 +39,7 @@ const Logo = ({ path, src, alt }) => {
     
 const LogoWrap = styled.div`
     margin:0.2rem;
+    margin-left: 8vw; //추가
 `;
 
 const LogoImage = styled.img`
@@ -56,6 +61,8 @@ const HeaderContainer = styled.div`
 const ButtonContainer = styled.div`
     display: flex;
     flex-direction: row;
+    margin-right: 8vw; //추가
+  align-items: center; //추가
 `;
 const LinkBtn = styled.div`
     margin: 0.4rem 0.5rem;

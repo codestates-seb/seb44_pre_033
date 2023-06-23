@@ -62,7 +62,7 @@ const LoginButton = styled.button`
 `;
 const label = 'Log in';
 
-export default function LoginInput() {
+export default function LoginInput({ setOnLogin }) {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [password, setPassword] = useState('');
@@ -77,22 +77,26 @@ export default function LoginInput() {
     setPassword(value);
   };
 
-  const login = () => {
+  const loginRequestHandler = () => {
     axios
-      .get('http://localhost:3000/user')
+      .post('http://localhost:3000/login', { email, password })
       .then((response) => {
-        const { data } = response;
-        const validUser = data.filter(
-          (item) => item.email === email && item.password === password
-        );
+        // 성공하면 어떤 정보를 받아오나요? 응답데이터 형태(토큰)
+        /*
         {
-          validUser.length === 1
-            ? console.log('로그인 성공')
-            : console.log('유효한 유저가 없음');
-        }
+          id:
+          token: name, email, password
+          }
+         */
+        // 성공하면 헤더에 기본프사와 사용자이름이 떴으면 좋겠어요
+        //로그인 시 토큰을 로컬스토리지에 저장하고, 로그아웃 시 로컬스토리지할때 삭제
+
+        console.log(response);
+        setOnLogin(true);
       })
       .catch((error) => {
-        console.log(`${error} 데이터를 가져오는데 문제가 발생했어요`);
+        console.log(`${error} 로그인에 실패하였습니다`);
+        alert('로그인에 실패하였습니다');
       });
   };
 
@@ -100,7 +104,7 @@ export default function LoginInput() {
     if (!email.includes('@')) {
       setErrorMessage('이메일 형식을 지켜주세요');
     } else {
-      login();
+      loginRequestHandler();
     }
   };
 

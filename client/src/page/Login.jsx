@@ -33,12 +33,12 @@ const LoginPageContainer = styled.div`
 
 //
 
-const Login = () => {
+const Login = ({ setOnLogin }) => {
   return (
     <LoginPageContainer>
       <div className="container">
         <SnsLogin />
-        <LoginInput className="loginInput" />
+        <LoginInput setOnLogin={setOnLogin} className="loginInput" />
       </div>
       <div className="content">
         <div className="ask">Don’t have an account?</div>

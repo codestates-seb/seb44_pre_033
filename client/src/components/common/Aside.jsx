@@ -48,7 +48,6 @@ export default function Aside() {
 const AsideContainer = styled.aside`
     display: flex;
     flex-direction: column;
-    max-width: 20rem;
     min-width: 10rem;
     flex-grow:0;
 `;

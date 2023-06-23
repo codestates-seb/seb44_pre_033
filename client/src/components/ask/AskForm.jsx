@@ -255,7 +255,10 @@ const AskForm = () => {
   const isTitleValid = title.length >= 15;
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
   const isBodyValid = bodyLength >= 100;
-
+  //reload시 경고문
+  window.addEventListener('beforeunload', (event) => {
+    setOpenModal(true);
+  });
   return (
     <div className="questionContianer">
       <TitleContainer isTitleError={!isTitleValid}>

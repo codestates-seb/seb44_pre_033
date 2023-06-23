@@ -1,27 +1,31 @@
 import { styled } from 'styled-components';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalView = styled.div`
-  width: 35vw;
-  height: 24vh;
-  background-color: #ffffff;
-  border-radius: 0.3rem;
   display: flex;
-  align-items: center;
-  justify-content: space-around;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  width: 32rem;
+  height: 15rem;
+  background-color: #ffffff;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-
+  svg {
+    font-size: 1.5rem;
+  }
   .titleContainer {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
   }
 
@@ -32,15 +36,11 @@ const ModalView = styled.div`
   .title {
     color: #ae2d31;
     font-size: 1.8rem;
-    margin-right: 17rem;
     font-weight: 500;
   }
 
   .buttonContainer {
     display: flex;
-    flex-direction: row;
-    width: 35vw;
-    margin-left: 4vw;
   }
 
   .discardButtonText {
@@ -86,10 +86,12 @@ const DiscardAlarm = ({
   return (
     <ModalContainer>
       <ModalBackground onClick={handleCloseModal}>
+        <button className="closeBtn" onClick={handleCloseModal}>
+          <AiOutlineCloseCircle />
+        </button>
         <ModalView onClick={(event) => event.stopPropagation()}>
           <div className="titleContainer">
             <div className="title">Discard question</div>
-            <button onClick={handleCloseModal}>✕</button>
           </div>
           <div className="content">
             Are you sure you want to discard this question? This cannot be

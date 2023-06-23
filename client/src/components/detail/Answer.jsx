@@ -10,58 +10,48 @@ import ButtonFixed from '../common/ButtonFixed';
 import Content from './Content';
 
 export default function Answer() {
-  const params = useParams();
-
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
+  const [isbodyError, setIsBodyError] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
   const [answerList, setAnswerList] = useState([]);
-  const [filterTap, serFilterTap] = useState('score'); //필터url위한 상태
+
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3000/answers?questionId=${params.id}`)
-      .then((res) => setAnswerList(res.data))
-      .catch((error) => console.errer());
-  }, []);
-
-  // const newestData = answerList.sort(
-  //   (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  // ); // 최신순
+  const params = useParams();
+  const newestData = answerList.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  ); // 최신순
 
   const handleBodyChange = (value) => {
     setBody(value);
-    if (bodyLength < 100) {
-      setIsBodyValid(false);
-    } else if (bodyLength >= 100) {
-      setIsBodyValid(true);
-    }
   };
   const handleSubmit = () => {
-    setModalOpen(true);
+    if (isBodyValid) {
+      setModalOpen(true);
+      setIsBodyError(true);
+    } else {
+      setIsBodyError(false);
+    }
   };
-  const answerFilterHandler = (e) => {
-    serFilterTap(e.target.value);
-  };
+
   const handleConfirm = () => {
-    if (isBodyValid && bodyLength) {
+    if (isBodyValid) {
       axios
         .post('http://localhost:3000/answers', {
-          id: new Date().getTime(),
           questionId: Number(params.id),
-          userId: 'userName',
+          userId: 1, //user.id
           content: body,
-          createdDateTime: new Date().toLocaleString(),
+          createAt: new Date().toLocaleString(), // 지우기
+          name: 'kimgcoding', // 지우기
         })
         .then((res) => {
           window.location.reload();
         })
         .catch(() => {
-          console.error('잘못된 접근입니다.');
+          console.error('Fail to post');
         });
-    }else{
-      console.log('길이를 수정해주세요')
+    } else {
+      console.log('길이를 수정해주세요');
     }
     setModalOpen(false);
   };
@@ -86,6 +76,21 @@ export default function Answer() {
       value: 'oldest',
     },
   ];
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/answers?questionId=${params.id}`)
+      .then((res) => setAnswerList(res.data))
+      .catch((error) => console.errer());
+  }, []);
+
+  useEffect(() => {
+    if (bodyLength < 100) {
+      setIsBodyValid(false);
+    } else if (bodyLength >= 100) {
+      setIsBodyValid(true);
+      setIsBodyError(true);
+    }
+  }, [body]);
   return (
     <Container>
       <NumAndSort>
@@ -106,14 +111,18 @@ export default function Answer() {
           <Content props={answer} contentType={'answers'} />
         </li>
       ))}
-      <BodyContainer isBodyError={isBodyValid}>
+      <BodyContainer isBodyError={isbodyError}>
         <div className="titleAndContent">
           <div className="title">Your Answer</div>
           <div className="content">
             The Answer contains details and results. Minimum 100 characters.
           </div>
         </div>
-        <TextEditor value={body} onChange={handleBodyChange} />
+        <TextEditor
+          classname="textEditor"
+          value={body}
+          onChange={handleBodyChange}
+        />
         <div className="errMsgContainer">
           {!isBodyValid && (
             <div className="errormessage">
@@ -135,14 +144,14 @@ export default function Answer() {
       </BtnContainer>
       {isModalOpen && (
         <ModalContainer>
-        <ModalContent>
-          <div>정말 제출 하시겠습니까?</div>
-          <ButtonContainer>
-            <Button onClick={handleConfirm}>확인</Button>
-            <Button onClick={handleCancel}>취소</Button>
-          </ButtonContainer>
-        </ModalContent>
-      </ModalContainer>
+          <ModalContent>
+            <div>Are you sure you want to submit?</div>
+            <ButtonContainer>
+              <Button onClick={handleConfirm}>Confirm</Button>
+              <Button onClick={handleCancel}>Cancle</Button>
+            </ButtonContainer>
+          </ModalContent>
+        </ModalContainer>
       )}
     </Container>
   );
@@ -181,8 +190,8 @@ const BodyContainer = styled.div`
   justify-content: center;
   .ql-editor {
     height: 40vh;
-    border: 1px solid
-      ${(props) => (props.isBodyValid ? 'var(--color-gray)' : 'red')};
+    border: 2px solid
+      ${(props) => (props.isBodyError ? 'var(--color-gray)' : 'red')};
   }
   .titleAndContent {
     padding: 1rem;
@@ -228,9 +237,15 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 5px;
+  width: 32rem;
+  height: 10rem;
 `;
 
 const ButtonContainer = styled.div`

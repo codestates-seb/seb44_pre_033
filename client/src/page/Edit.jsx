@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BsCheckLg } from 'react-icons/bs';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 import axios from 'axios';
@@ -14,10 +14,17 @@ export default function Edit() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
-  let [questionId, setQuestionId] = useState(undefined);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCancleModalOpen, setIsCancleModalOpen] = useState(false);
+  let [questionId, setQuestionId] = useState(undefined);
+  
+  const params = useParams();
+  const navigate = useNavigate();
+  const type = searchParams.get('type');
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
+  const searchParams = new URLSearchParams(location.search);
+  const isTitleValid = title.length >= 15;
+
   const handleBodyChange = (value) => {
     setBody(value);
     if (bodyLength < 100) {
@@ -26,11 +33,6 @@ export default function Edit() {
       setIsBodyValid(true);
     }
   };
-  const navigate = useNavigate();
-  const params = useParams();
-
-  const searchParams = new URLSearchParams(location.search);
-  const type = searchParams.get('type');
 
   useEffect(() => {
     axios(`http://localhost:3000/${type}/${params.id}`)
@@ -53,20 +55,6 @@ export default function Edit() {
     localStorage.setItem('title', newTitle);
   };
 
-  // const handleSubmit = () => {
-  //   axios
-  //     .patch(`http://localhost:3000/${type}/${params.id}`, {
-  //       content: body,
-  //       modifiedAt: new Date().toLocaleString(),
-  //       ...(title ? { title: title } : null),
-  //     })
-  //     .then((res) => {
-  //       navigate(`/detail/${questionId || params.id}`);
-  //     })
-  //     .catch((error) => {
-  //       console.error('수정 중에 오류가 발생했습니다:', error);
-  //     });
-  // };
   const handleSubmit = () => {
     setModalOpen(true);
   };
@@ -103,7 +91,6 @@ export default function Edit() {
   const handleEditCancel = () => {
     setIsCancleModalOpen(false);
   };
-  const isTitleValid = title.length >= 15;
   return (
     <Container>
       <ContainerLeft>

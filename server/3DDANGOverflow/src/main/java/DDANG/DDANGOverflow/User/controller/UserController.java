@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postUser(@Valid @RequestBody UserDto.Post userPostDto) {
-        CustomUser user = userMapper.toUser(userPostDto);
+    public ResponseEntity<?> postUser(@Valid @RequestBody UserDto.SignupRequest signupRequest) {
+        CustomUser user = userMapper.toUser(signupRequest);
         CustomUser response = userService.createUser(user);
 
         URI location = UriComponentsBuilder

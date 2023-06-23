@@ -39,6 +39,6 @@ public class UserController {
                 .path(USER_DEFAULT_URL + "/{user-id}")
                 .buildAndExpand(response.getId())
                 .toUri();
-        return ResponseEntity.created(location).build();
+       return ResponseEntity.created(location).build();
     }
 }

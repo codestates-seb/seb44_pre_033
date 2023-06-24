@@ -15,6 +15,7 @@ export default function Answer() {
   const [isbodyError, setIsBodyError] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
   const [answerList, setAnswerList] = useState([]);
+  const [filterTap, serFilterTap] = useState('score'); //필터url위한 상태
 
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
   const params = useParams();
@@ -33,7 +34,9 @@ export default function Answer() {
       setIsBodyError(false);
     }
   };
-
+  const answerFilterHandler = (e) => {
+    serFilterTap(e.target.value);
+  };
   const handleConfirm = () => {
     if (isBodyValid) {
       axios
@@ -42,6 +45,7 @@ export default function Answer() {
           userId: 1, //user.id
           content: body,
           createAt: new Date().toLocaleString(), // 지우기
+          modifiedAt: null, //지우기
           name: 'kimgcoding', // 지우기
         })
         .then((res) => {

@@ -1,11 +1,12 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import ButtonFixed from '../common/ButtonFixed';
-export default function Title({ questionInfo }) {
+
+export default function Title({ title, createdAt, modifiedAt }) {
   return (
     <Container>
       <QuestionHeader>
-        <div>{questionInfo.title}</div>
+        <div>{title}</div>
         <ButtonFixed
           label={<Link to="/questions/ask">Ask Question</Link>}
           color="Blue"
@@ -14,13 +15,16 @@ export default function Title({ questionInfo }) {
       <QuestionInfo>
         <InfoDetail>
           <Span>added</Span>
-          <span>{questionInfo.createdAt}</span>
+          <span>{createdAt}</span>
         </InfoDetail>
         <InfoDetail>
           <Span>Modified</Span>
-          <span>{questionInfo.modifiedAt}</span>
+          <span>{modifiedAt}</span>
         </InfoDetail>
         <InfoDetail>
+          <Span>viewed</Span>
+          {/* 조회수 기능 완료시 변수명 표기 */}
+          <span>{3} times</span> 
         </InfoDetail>
       </QuestionInfo>
     </Container>
@@ -33,6 +37,7 @@ const Container = styled.div`
 `;
 const QuestionHeader = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 1.65rem;
   margin-bottom: 0.5rem;

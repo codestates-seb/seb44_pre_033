@@ -85,7 +85,7 @@ export default function Content({ props, contentType, likes }) {
   );
 }
 
-const Container = styled.section`
+const Container = styled.article`
   display: flex;
   padding: 1rem;
   border-bottom: 1px solid var(--color-gray);

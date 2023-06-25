@@ -7,7 +7,8 @@ public enum ExceptionCode {
     USER_NOT_FOUND(404, "user not found"),
     USER_EXISTS(409, "user exists"),
     QUESTIONCOMMENT_NOT_FOUND(404, "questionComment not found"),
-    QUESTIONVOTE_NOT_FOUND(404, "questionVote not found");
+    QUESTIONVOTE_NOT_FOUND(404, "questionVote not found"),
+    ANSWER_NOT_FOUND(404, "Answer not found");
 
     @Getter
     private int code;

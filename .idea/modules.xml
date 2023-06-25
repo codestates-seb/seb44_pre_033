@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/3DDANGOverflow.main.iml" filepath="$PROJECT_DIR$/.idea/modules/3DDANGOverflow.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/seb44_pre_033.iml" filepath="$PROJECT_DIR$/.idea/seb44_pre_033.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server.3DDANGOverflow.main.iml" filepath="$PROJECT_DIR$/.idea/modules/server.3DDANGOverflow.main.iml" />
     </modules>
   </component>
 </project>

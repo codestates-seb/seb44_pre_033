@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 
 @RestController
@@ -30,15 +32,37 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postUser(@Valid @RequestBody UserDto.SignupRequest signupRequest) {
+    public ResponseEntity<?> postUser(@Valid @RequestBody UserDto.SignupRequest signupRequest, HttpServletResponse response) {
         CustomUser user = userMapper.toUser(signupRequest);
-        CustomUser response = userService.createUser(user);
+        CustomUser createdUser = userService.createUser(user);
+
+        // 회원가입 성공 후 로그인 화면으로 리다이렉트
+        try {
+            response.sendRedirect("/login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         URI location = UriComponentsBuilder
                 .newInstance()
                 .path(USER_DEFAULT_URL + "/{user-id}")
-                .buildAndExpand(response.getId())
+                .buildAndExpand(createdUser.getId())
                 .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).build(); // users/1
     }
 }
+
+
+//    @PostMapping
+//    public ResponseEntity<?> postUser(@Valid @RequestBody UserDto.SignupRequest signupRequest) {
+//        CustomUser user = userMapper.toUser(signupRequest);
+//        CustomUser response = userService.createUser(user);
+//
+//        URI location = UriComponentsBuilder
+//                .newInstance()
+//                .path(USER_DEFAULT_URL + "/{user-id}")
+//                .buildAndExpand(response.getId())
+//                .toUri();
+//        return ResponseEntity.created(location).build();
+//    }
+//}

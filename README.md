@@ -1,8 +1,10 @@
 # 🎴 3ddang Over Flow
 
 프로젝트 기간 : 2023.06.09 ~ 2023.06.27 (13일)
-<br/> 🗂️ <a href="https://www.notion.so/codestates/5efceb8f2bd6488ab344038ca84c4bdf?pvs=4">사용자 요구사항 정의서<a/>
 
+## 🗂️ Project Docs
+📋 <a href="https://www.notion.so/codestates/5efceb8f2bd6488ab344038ca84c4bdf?pvs=4">사용자 요구사항 정의서<a/>
+<br/> 🎨 <a href="https://www.figma.com/file/rZQ9dlYffNx9ynTCKaqPtC/pre_project_033?type=design&node-id=92%3A5&mode=dev">피그마 프로토타입<a/>
 
 ## 👨‍👨‍👧‍👦 Team members
 

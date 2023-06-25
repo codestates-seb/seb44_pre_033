@@ -36,8 +36,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model, HttpServletRequest request) {
-        if (userService.authenticate(username, password)) {
+    public String login(@RequestParam("email") String email, @RequestParam("password") String password, Model model, HttpServletRequest request) {
+        if (userService.authenticate(email, password)) {
             // 로그인 성공 후 작업 수행
             // ...
 
@@ -45,7 +45,7 @@ public class LoginController {
             String targetUrl = determineTargetUrl(request);
             return "redirect:" + targetUrl;
         } else {
-            model.addAttribute("error", "Invalid username or password");
+            model.addAttribute("error", "Invalid email or password");
             return "redirect:/login?error";
         }
     }

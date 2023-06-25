@@ -22,4 +22,8 @@ public class BusinessLogicException extends RuntimeException {
                 ", message='" + getMessage() + '\'' +
                 '}';
     }
+
+    public int getCode() {
+        return this.exceptionCode.getCode();
+    }
 }

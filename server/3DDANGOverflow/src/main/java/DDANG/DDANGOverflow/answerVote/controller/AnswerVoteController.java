@@ -5,6 +5,8 @@ import DDANG.DDANGOverflow.answerVote.dto.AnswerVotePatchDto;
 import DDANG.DDANGOverflow.answerVote.dto.AnswerVotePostDto;
 import DDANG.DDANGOverflow.answerVote.mapper.AnswerVoteMapper;
 import DDANG.DDANGOverflow.answerVote.service.AnswerVoteService;
+import DDANG.DDANGOverflow.exception.BusinessLogicException;
+import DDANG.DDANGOverflow.exception.ExceptionCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,19 +29,19 @@ public class AnswerVoteController {
         return new ResponseEntity(answerVoteService.findVotes(answerId), HttpStatus.OK);
     }
 
-    @GetMapping("/{answer-id}/votes/{vote-order}")
+    @GetMapping("/{answer-id}/votes/{user-id}")
     public ResponseEntity getVote(@PathVariable("answer-id") int answerId,
-                                  @PathVariable("vote-order") int voteOrder) {
-        if(voteOrder <= 0) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+                                  @PathVariable("user-id") int userId) {
+        try {
+            AnswerVote answerVote = answerVoteService.findVote(answerId, userId);
+            return new ResponseEntity(mapper.answerVoteToAnswerVoteResponseDto(answerVote), HttpStatus.OK);
+        } catch (BusinessLogicException ex) {
+            if (ex.getCode() == ExceptionCode.USER_NOT_FOUND.getCode()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
-
-        List<AnswerVote> votes = answerVoteService.findVotes(answerId);
-
-        if (voteOrder > votes.size()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity(votes.get(voteOrder - 1), HttpStatus.OK);
     }
 
     @PostMapping("/{answer-id}/votes")
@@ -47,24 +49,49 @@ public class AnswerVoteController {
                                    @RequestBody AnswerVotePostDto answerVotePostDto) {
         AnswerVote answerVote = mapper.answerVotePostDtoToAnswerVote(answerVotePostDto);
         answerVote.setAnswerId(answerId);
-        AnswerVote response = answerVoteService.createVote(answerVote);
-        return new ResponseEntity(mapper.answerVoteToAnswerVoteResponseDto(response), HttpStatus.CREATED);
+        try {
+            AnswerVote response = answerVoteService.createVote(answerId, answerVote);
+            return new ResponseEntity(mapper.answerVoteToAnswerVoteResponseDto(response), HttpStatus.CREATED);
+        } catch (BusinessLogicException ex) {
+            if (ex.getCode() == ExceptionCode.USER_EXISTS.getCode()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
     }
 
-    @PatchMapping("/{answer-id}/votes/{vote-order}")
+    @PatchMapping("/{answer-id}/votes/{user-id}")
     public ResponseEntity patchVote(@PathVariable("answer-id") int answerId,
-                                    @PathVariable("vote-order") int voteOrder,
+                                    @PathVariable("user-id") int voteId,
                                     @RequestBody AnswerVotePatchDto answerVotePatchDto) {
+        try {
+            AnswerVote answerVote = mapper.answerVotePatchDtoToAnswerVote(answerVotePatchDto);
+            AnswerVote response = answerVoteService.updateVote(answerId, voteId, answerVote);
+            return new ResponseEntity(mapper.answerVoteToAnswerVoteResponseDto(response), HttpStatus.OK);
+        } catch (BusinessLogicException ex){
+            if (ex.getCode() == ExceptionCode.USER_NOT_FOUND.getCode()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
 
-        AnswerVote answerVote = mapper.answerVotePatchDtoToAnswerVote(answerVotePatchDto);
-        AnswerVote response = answerVoteService.updateVote(answerId, voteOrder, answerVote);
-        return new ResponseEntity(mapper.answerVoteToAnswerVoteResponseDto(response), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{answer-id}/votes/{vote-order}")
+    @DeleteMapping("/{answer-id}/votes/{user-id}")
     public ResponseEntity deleteVote(@PathVariable("answer-id") int answerId,
-                                     @PathVariable("vote-order") int voteOrder) {
-        answerVoteService.removeVote(answerId, voteOrder);
-        return new ResponseEntity(HttpStatus.OK);
+                                     @PathVariable("user-id") int userId) {
+        try {
+            answerVoteService.removeVote(answerId, userId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (BusinessLogicException ex) {
+            if (ex.getCode() == ExceptionCode.USER_NOT_FOUND.getCode()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
     }
 }

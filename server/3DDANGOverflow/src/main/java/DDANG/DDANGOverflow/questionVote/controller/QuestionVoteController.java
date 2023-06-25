@@ -1,5 +1,7 @@
 package DDANG.DDANGOverflow.questionVote.controller;
 
+import DDANG.DDANGOverflow.exception.BusinessLogicException;
+import DDANG.DDANGOverflow.exception.ExceptionCode;
 import DDANG.DDANGOverflow.questionVote.domain.QuestionVote;
 import DDANG.DDANGOverflow.questionVote.dto.QuestionVotePatchDto;
 import DDANG.DDANGOverflow.questionVote.dto.QuestionVotePostDto;
@@ -28,22 +30,19 @@ public class QuestionVoteController {
         return new ResponseEntity(questionVoteService.findVotes(questionId) ,HttpStatus.OK);
     }
 
-    @GetMapping("/{question-id}/votes/{vote-order}")
+    @GetMapping("/{question-id}/votes/{user-id}")
     public ResponseEntity getVote(@PathVariable("question-id") int questionId,
-                                  @PathVariable("vote-order") int voteOrder) {
-
-        if(voteOrder <= 0) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+                                  @PathVariable("user-id") int userId) {
+        try {
+            QuestionVote questionVote = questionVoteService.findVote(questionId, userId);
+            return new ResponseEntity(mapper.QuestionVoteToQuestionVoteResponseDto(questionVote), HttpStatus.OK);
+        } catch (BusinessLogicException ex) {
+            if (ex.getCode() == ExceptionCode.USER_NOT_FOUND.getCode()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
-
-        List<QuestionVote> votes = questionVoteService.findVotes(questionId);
-
-        if(voteOrder > votes.size()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity(votes.get(voteOrder-1), HttpStatus.OK);
-
     }
 
     @PostMapping("/{question-id}/votes")
@@ -51,27 +50,52 @@ public class QuestionVoteController {
                                    @RequestBody QuestionVotePostDto questionVotePostDto) {
         QuestionVote questionVote = mapper.questionVotePostDtoToQuestionVote(questionVotePostDto);
         questionVote.setQuestionId(questionId);
-        QuestionVote response =  questionVoteService.createVote(questionVote);
+        try {
+            QuestionVote response =  questionVoteService.createVote(questionId, questionVote);
+            return new ResponseEntity(mapper.QuestionVoteToQuestionVoteResponseDto(response), HttpStatus.CREATED);
+        } catch (BusinessLogicException ex) {
+            if (ex.getCode() == ExceptionCode.USER_EXISTS.getCode()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
 
-        return new ResponseEntity(mapper.QuestionVoteToQuestionVoteResponseDto(response), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{question-id}/votes/{vote-order}")
+    @PatchMapping("/{question-id}/votes/{user-id}")
     public ResponseEntity postVote(@PathVariable("question-id") int questionId,
-                                   @PathVariable("vote-order") int voteOrder,
+                                   @PathVariable("user-id") int userId,
                                    @RequestBody QuestionVotePatchDto questionVotePatchDto) {
-        QuestionVote questionVote = mapper.questionVotePatchDtoToQuestionVote(questionVotePatchDto);
-        QuestionVote response = questionVoteService.updateVote(questionId, voteOrder, questionVote);
+        try {
+            QuestionVote questionVote = mapper.questionVotePatchDtoToQuestionVote(questionVotePatchDto);
+            QuestionVote response = questionVoteService.updateVote(questionId, userId, questionVote);
+            return new ResponseEntity(mapper.QuestionVoteToQuestionVoteResponseDto(response), HttpStatus.OK);
 
-        return new ResponseEntity(mapper.QuestionVoteToQuestionVoteResponseDto(response), HttpStatus.OK);
+        } catch (BusinessLogicException ex) {
+            if(ex.getCode() == ExceptionCode.USER_NOT_FOUND.getCode()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
     }
 
-    @DeleteMapping("/{question-id}/votes/{vote-order}")
+    @DeleteMapping("/{question-id}/votes/{user-id}")
     public ResponseEntity deleteVote(@PathVariable("question-id") int questionId,
-                                     @PathVariable("vote-order") int voteOrder) {
+                                     @PathVariable("user-id") int userId) {
 
-        questionVoteService.removeVote(questionId, voteOrder);
+        try{
+            questionVoteService.removeVote(questionId, userId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (BusinessLogicException ex) {
+            if(ex.getCode() == ExceptionCode.QUESTIONVOTE_NOT_FOUND.getCode()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
 
-        return new ResponseEntity(HttpStatus.OK);
     }
 }

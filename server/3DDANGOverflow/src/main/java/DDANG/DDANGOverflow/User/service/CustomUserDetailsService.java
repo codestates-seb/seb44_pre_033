@@ -7,10 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
-@Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -21,15 +21,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        CustomUser user = userRepository.findByName(name)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + name));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<CustomUser> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new UsernameNotFoundException("Invalid email or password.");
+        }
 
-        // 사용자 정보를 UserDetails로 변환하여 반환
-        return new org.springframework.security.core.userdetails.User(
-                user.getName(),
-                user.getPassword(),
-                user.getAuthorities()
-        );
+        // 사용자 정보 반환
+        return user.get();
     }
 }

@@ -41,14 +41,14 @@ public class LoginController {
             // 로그인 성공 후 작업 수행
             // ...
 
-            // 원하는 페이지로 이동
-            String targetUrl = determineTargetUrl(request);
-            return "redirect:" + targetUrl;
+            // 홈으로 리다이렉트
+            return "redirect:/home";
         } else {
             model.addAttribute("error", "Invalid email or password");
             return "redirect:/login?error";
         }
     }
+
     // 원하는 페이지를 결정하는 메서드
     private String determineTargetUrl(HttpServletRequest request) {
         // 로직에 따라 원하는 페이지 URL을 결정

@@ -13,11 +13,7 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String targetUrl = determineTargetUrl(authentication);
-        response.sendRedirect(targetUrl);
-    }
+
 
     private String determineTargetUrl(Authentication authentication) {
         String targetUrl = "/home"; // 기본적으로는 홈 페이지로 이동
@@ -33,5 +29,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }
 
         return targetUrl;
+    }
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        String targetUrl = determineTargetUrl(authentication);
+
+        // 로그인 성공 시 200 OK 응답 반환
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write("Login success");
+        // 또는 필요한 경우 다른 작업 수행
+
+        // 로그인 후 페이지로 리다이렉트
+        response.sendRedirect(targetUrl);
     }
 }

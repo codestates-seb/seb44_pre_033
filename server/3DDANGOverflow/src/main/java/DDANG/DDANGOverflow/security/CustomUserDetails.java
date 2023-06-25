@@ -31,9 +31,10 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getName();
     }
 
+    public String getEmail() {return user.getEmail();}
     public LocalDateTime getCreated_at() {
         return user.getCreated_at();
     }

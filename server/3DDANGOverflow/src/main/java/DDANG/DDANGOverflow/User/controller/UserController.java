@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/users")
@@ -34,8 +35,9 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> postUser(@Valid @RequestBody UserDto.SignupRequest signupRequest, HttpServletResponse response) {
         CustomUser user = userMapper.toUser(signupRequest);
+        // 생성 시간 설정
+        user.setCreated_at(LocalDateTime.now());
         CustomUser createdUser = userService.createUser(user);
-
         // 회원가입 성공 후 로그인 화면으로 리다이렉트
         try {
             response.sendRedirect("/login");
@@ -48,7 +50,7 @@ public class UserController {
                 .path(USER_DEFAULT_URL + "/{user-id}")
                 .buildAndExpand(createdUser.getId())
                 .toUri();
-        return ResponseEntity.created(location).build(); // users/1
+        return ResponseEntity.created(location).body(userMapper.toUserResponseDto(createdUser));
     }
 }
 

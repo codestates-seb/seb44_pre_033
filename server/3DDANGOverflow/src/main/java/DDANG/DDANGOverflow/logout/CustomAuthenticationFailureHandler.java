@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
@@ -46,7 +45,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         // 오류 메시지를 요청 속성에 설정
         request.setAttribute("errorMessage", errorMessage);
 
-        // 로그인 페이지로 포워드
-        request.getRequestDispatcher("/login").forward(request, response);
+        // 401 Unauthorized 응답 반환
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write(errorMessage);
+        response.getWriter().flush();
     }
 }

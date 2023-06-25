@@ -28,6 +28,9 @@ public class TokenProvider {
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
+        Claims claims = Jwts.claims().setSubject(Long.toString(userDetails.getUserId()));
+        claims.put("username", userDetails.getUsername());
+        claims.put("email", userDetails.getEmail());
 
         String token = Jwts.builder()
                 .setSubject(Long.toString(userDetails.getUserId()))

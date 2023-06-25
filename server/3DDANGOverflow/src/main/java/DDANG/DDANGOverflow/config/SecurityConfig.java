@@ -53,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/login").permitAll() // /login에 대한 접근 허용
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
                 .antMatchers("/myposts/**", "/mycomments/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and()

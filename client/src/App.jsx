@@ -23,11 +23,11 @@ function App() {
           {/* 메인페이지 */}
           <Route path="/" element={<Main />}></Route>
           {/* 상세페이지 */}
-          <Route path="/detail/:id" element={<Detail />}></Route>
+          <Route path="/detail/:id" element={<Detail onLogin={onLogin}/>}></Route>
           {/* 수정 페이지 */}
-          <Route path="/posts/:id/edit" element={<Edit />}></Route>
+          <Route path="/posts/:id/edit" element={<Edit onLogin={onLogin}/>}></Route>
           {/* 질문작성페이지 */}
-          <Route path="/questions/ask" element={<Ask />}></Route>
+          <Route path="/questions/ask" element={<Ask onLogin={onLogin}/>}></Route>
           {/* 로그인 페이지 */}
           <Route
             path="/users/login"

@@ -1,15 +1,30 @@
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ButtonFixed from '../common/ButtonFixed';
 
-export default function Title({ title, createdAt, modifiedAt }) {
+export default function Title({
+  questionTitle,
+  createdAt,
+  modifiedAt,
+  onLogin,
+}) {
+  const navigate = useNavigate();
+  const askClickHandler = () => {
+    if (!onLogin) {
+      alert('Please log in to post a question.');
+      navigate('/users/login')
+    } else {
+      navigate('/questions/ask');
+    }
+  };
   return (
     <Container>
       <QuestionHeader>
-        <div>{title}</div>
+        <div className="questionTitle">{questionTitle}</div>
         <ButtonFixed
-          label={<Link to="/questions/ask">Ask Question</Link>}
+          label="Ask Question"
           color="Blue"
+          onClick={askClickHandler}
         ></ButtonFixed>
       </QuestionHeader>
       <QuestionInfo>
@@ -23,8 +38,8 @@ export default function Title({ title, createdAt, modifiedAt }) {
         </InfoDetail>
         <InfoDetail>
           <Span>viewed</Span>
-          {/* 조회수 기능 완료시 변수명 표기 */}
-          <span>{3} times</span> 
+          {/* 조회수 기능 완료시 변수명으로 수정하기 */}
+          <span>{3} times</span>
         </InfoDetail>
       </QuestionInfo>
     </Container>
@@ -39,8 +54,11 @@ const QuestionHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.65rem;
   margin-bottom: 0.5rem;
+  .questionTitle {
+    font-size: 1.65rem;
+    font-weight: 700;
+  }
 `;
 const QuestionInfo = styled.div`
   display: flex;

@@ -8,27 +8,33 @@ import Title from '../components/detail/Title';
 import Aside from '../components/common/Aside';
 import LeftNav from '../components/common/LeftNav';
 
-export default function Detail() {
+export default function Detail({onLogin}) {
   const [questionsData, setQuestionData] = useState([]);
-  const [votesData, setVotesData] = useState([]);
+  const [questionTotalVotes, setQuestionTotalVotes] = useState(0);
   const params = useParams();
 
   useEffect(() => {
     axios
       .all([
-        axios.get(`http://localhost:3000/questions/${params.id}`),
-        axios.get(
-          `http://localhost:3000/questionVotes?questionId=${params.id}`
-        ),
+        axios(`http://localhost:3000/questions/${params.id}`),
+        axios(`http://localhost:3000/questionVotes?questionId=${params.id}`),
       ])
       .then(
         axios.spread((questionRes, votesRes) => {
           setQuestionData(questionRes.data);
-          setVotesData(votesRes.data);
+          // 질문 좋아요 카운팅
+          const questionLikes = votesRes.data.filter(
+            (e) => e.voteFlag === true
+          ).length;
+          const questionDisLikes = votesRes.data.filter(
+            (e) => e.voteFlag === false
+          ).length;
+          const questionTotalVotes = questionLikes - questionDisLikes;
+          setQuestionTotalVotes(questionTotalVotes);
         })
       )
-      .catch(() => {
-        console.error('An error occurred while retrieving the data.');
+      .catch((error) => {
+        console.error(`Fail to get questions data. Error Detail: ${error}`);
       });
   }, []);
 
@@ -37,18 +43,19 @@ export default function Detail() {
       <LeftNav />
       <DetailSection>
         <Title
-          title={questionsData.title}
+          questionTitle={questionsData.title}
           createdAt={questionsData.createdAt}
           modifiedAt={questionsData.modifiedAt}
+          onLogin={onLogin}
         />
         <div className="withAside">
-          <div className="contentAndAnswer">
+          <div className="questionAndAnswer">
             <Content
-              props={questionsData}
-              likes={votesData}
-              contentType={'questions'}
+              contentData={questionsData}
+              questionTotalVotes={questionTotalVotes}
+              contentType="questions"
             />
-            <Answer />
+            <Answer onLogin={onLogin} />
           </div>
           <Aside />
         </div>
@@ -65,12 +72,14 @@ const DetailSection = styled.section`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  .contentAndAnswer {
-    margin-right: 2rem;
-    flex-basis: 50rem;
+  .questionAndAnswer {
+    margin-right: 1rem;
     flex-grow: 1;
-    flex-shrink: 0;
   }
+  aside {
+    flex-grow: 1;
+  }
+
   .withAside {
     display: flex;
     @media (max-width: 980px) {
@@ -79,7 +88,7 @@ const DetailSection = styled.section`
         width: 100%;
         margin-top: 2rem;
       }
-      .contentAndAnswer {
+      .questionAndAnswer {
         margin-right: 0;
       }
       .withAside {

@@ -1,5 +1,7 @@
 import AskForm from '../components/ask/AskForm.jsx';
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const AskPageContainer = styled.div`
   display: flex;
@@ -7,26 +9,39 @@ const AskPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f1f2f3;
+  padding: 1rem;
 `;
 const BigTitleContainer = styled.div`
-  width: 60vw;
-  height: 15vh;
-
+width:100%;
+padding: 1rem;
+margin-bottom: 3rem;
+margin-left:3rem;
   .bigtitle {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 500;
-    margin-top: 8vh;
   }
 `;
 
-const Ask = () => {
+const Ask = ({ onLogin }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!onLogin) {
+      alert('Wrong Excess');
+      navigate('/');
+    }
+  }, []);
+
   return (
-    <AskPageContainer>
-      <BigTitleContainer>
-        <div className="bigtitle">Ask a public question</div>
-      </BigTitleContainer>
-      <AskForm />
-    </AskPageContainer>
+    <>
+      {onLogin ? (
+        <AskPageContainer>
+          <BigTitleContainer>
+            <div className="bigtitle">Ask a public question</div>
+          </BigTitleContainer>
+          <AskForm />
+        </AskPageContainer>
+      ) : null}
+    </>
   );
 };
 

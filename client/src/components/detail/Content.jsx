@@ -3,83 +3,86 @@ import styled from 'styled-components';
 import axios from 'axios';
 import VoteBtns from './VoteBtns';
 import UserInfo from '../common/UserInfo';
+import Modal from './Modal';
 
-export default function Content({ props, contentType, likes }) {
-  let [likeCount, setLikeCount] = useState(0);
+export default function Content({
+  contentData,
+  contentType,
+  questionTotalVotes,
+}) {
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [answerTotalVotes, setAnswerTotalVotes] = useState(0);
 
-  let likesCount = likes && likes.filter((e) => e.voteFlag === true).length;
-  let disLikesCount = likes && likes.filter((e) => e.voteFlag === false).length;
-  let totalLikes = likesCount - disLikesCount;
-
+  // 답변 좋아요 카운팅
   useEffect(() => {
-    axios(`http://localhost:3000/answersVotes?answerId=${props.id}`)
+    axios(`http://localhost:3000/answersVotes?answerId=${contentData.id}`)
     .then(
       (res) => {
-        let likesCount = res.data.filter((e) => e.voteFlag === true).length;
-        let disLikesCount = res.data.filter((e) => e.voteFlag === false).length;
-        let totalLikes = likesCount - disLikesCount;
-        setLikeCount(totalLikes);
+        const answerLikes = res.data.filter((e) => e.voteFlag === true).length;
+        const answerDisLikes = res.data.filter(
+          (e) => e.voteFlag === false
+        ).length;
+        const answerTotalVotes = answerLikes - answerDisLikes;
+        setAnswerTotalVotes(answerTotalVotes);
       }
     )
+    .catch((error)=>{
+      console.error(`Fail to get answers votes data. Error Detail: ${error}`);
+    })
   }, []);
 
-  const [isModalOpen, setModalOpen] = useState(false);
-
   const handleDelete = () => {
-    setModalOpen(true);
+    setDeleteModalOpen(true);
   };
 
   const handleConfirm = () => {
     axios
-      .delete(`http://localhost:3000/${contentType}/${props.id}`)
+      .delete(`http://localhost:3000/${contentType}/${contentData.id}`)
       .then((res) => {
         window.location.reload();
       })
-      .catch(() => {
-        console.error('실패');
+      .catch((error) => {
+        console.error(`Fail to delete. Error Detail: ${error}`);
       });
-    setModalOpen(false);
+      setDeleteModalOpen(false);
   };
 
   const handleCancel = () => {
-    setModalOpen(false);
+    setDeleteModalOpen(false);
   };
 
   return (
     <Container>
       <VoteBtns
-        likes={totalLikes || likeCount}
-        id={props.id}
+        votes={questionTotalVotes || answerTotalVotes}
+        id={contentData.id}
         contentType={contentType}
       />
       <PostCell>
-        <p dangerouslySetInnerHTML={{ __html: props.content }}></p>
+        {/* 사용자가 에디터에 쓴 내용 html 형식으로 내보내기 */}
+        <article dangerouslySetInnerHTML={{ __html: contentData.content }}></article>
         <ActionsAndProfile>
           <Features>
-            <div>Share</div>
-            <div>
-              <a href={`/posts/${props.id}/edit?type=${contentType}`}>Edit</a>
-            </div>
-            <div>
-              <button onClick={handleDelete}>Delete</button>
-            </div>
+            <a href={`/posts/${contentData.id}/edit?type=${contentType}`}>
+              Edit
+            </a>
+            <button onClick={handleDelete}>Delete</button>
           </Features>
-          {contentType === 'answers' && props.modifiedAt ? (
-            <div>edited {props.modifiedAt}</div>
+          {contentType === 'answers' && contentData.modifiedAt ? (
+            <div>edited {contentData.modifiedAt}</div>
           ) : null}
-          <UserInfo userName={props.name} createdAt={props.createdAt} />
+          <UserInfo
+            userName={contentData.name}
+            createdAt={contentData.createdAt}
+          />
         </ActionsAndProfile>
       </PostCell>
-      {isModalOpen && (
-        <ModalContainer>
-          <ModalContent>
-            <div>Are you sure to delete?</div>
-            <ButtonContainer>
-              <Button onClick={handleConfirm}>Confirm</Button>
-              <Button onClick={handleCancel}>Cancle</Button>
-            </ButtonContainer>
-          </ModalContent>
-        </ModalContainer>
+      {isDeleteModalOpen && (
+        <Modal
+          meassage={'Are you sure to delete?'}
+          confirmFunction={handleConfirm}
+          closeFunction={handleCancel}
+        />
       )}
     </Container>
   );
@@ -95,6 +98,7 @@ const PostCell = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  //전역 스타일 리셋 설정으로 Content컴포넌트 개별 스타일링 설정
   ul {
     li {
       list-style: initial;
@@ -116,44 +120,13 @@ const ActionsAndProfile = styled.div`
 `;
 
 const Features = styled.div`
-  display: flex;
+  a {
+    margin-right: 1rem;
+  }
   & * {
     color: var(--color-gray);
+    &:hover{
+      color:var(--color-orange);
+    }
   }
-  div {
-    margin-right: 0.5rem;
-  }
-`;
-
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-`;
-
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 2rem;
-  border-radius: 5px;
-  &:first-child{
-    text-align: center;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  margin: 0 0.5rem;
 `;

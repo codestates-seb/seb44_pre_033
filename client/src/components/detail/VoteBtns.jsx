@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { RxCounterClockwiseClock } from 'react-icons/rx';
 import {
   FaCaretUp,
   FaCaretDown,
   FaRegBookmark,
   FaBookmark,
 } from 'react-icons/fa';
-import { RxCounterClockwiseClock } from 'react-icons/rx';
-import styled from 'styled-components';
-import axios from 'axios';
 
-export default function VoteBtns({ likes, id, contentType }) {
+export default function VoteBtns({ votes, id, contentType }) {
   const [isSaveClicked, setIsSaveClicked] = useState(false);
-  const [countLikes, setCountLikes] = useState(likes);
+  const [countVotes, setCountVotes] = useState(votes);
+
   useEffect(() => {
-    setCountLikes(likes);
-  }, [likes]);
+    setCountVotes(votes);
+  }, [votes]);
 
   let voteType = '';
 
@@ -23,7 +24,6 @@ export default function VoteBtns({ likes, id, contentType }) {
   } else if (contentType === 'answers') {
     voteType = 'answersVotes';
   }
-
   return (
     <VoteCell>
       <VoteBtn
@@ -35,21 +35,21 @@ export default function VoteBtns({ likes, id, contentType }) {
               [contentType === 'questions' ? 'questionId' : 'answerId']: id, // 지우기
             })
             .then((res) => {
-              setCountLikes((prevCount) => prevCount + 1);
+              setCountVotes((prevCount) => prevCount + 1);
             })
             .then(() =>
               axios.patch(`http://localhost:3000/${contentType}/${id}`, {
-                votes: countLikes + 1,
+                votes: countVotes + 1,
               })
             )
-            .catch(() => {
-              console.error('Invalid access to likes count update endpoint.');
+            .catch((error) => {
+              console.error(`Fail to post a vote. Error detail: ${error}`);
             })
         }
       >
         <FaCaretUp />
       </VoteBtn>
-      <Count>{countLikes}</Count>
+      <Count>{countVotes}</Count>
       <VoteBtn
         onClick={() =>
           axios
@@ -59,15 +59,15 @@ export default function VoteBtns({ likes, id, contentType }) {
               [contentType === 'questions' ? 'questionId' : 'answerId']: id, // 지우기
             })
             .then((res) => {
-              setCountLikes((prevCount) => prevCount - 1);
+              setCountVotes((prevCount) => prevCount - 1);
             })
             .then(() =>
               axios.patch(`http://localhost:3000/${contentType}/${id}`, {
-                votes: countLikes-1,
+                votes: countVotes - 1,
               })
             )
-            .catch(() => {
-              console.error('Invalid access to likes count update endpoint.');
+            .catch((error) => {
+              console.error(`Fail to post a vote. Error detail: ${error}`);
             })
         }
       >
@@ -77,7 +77,7 @@ export default function VoteBtns({ likes, id, contentType }) {
         onClick={() => {
           setIsSaveClicked(!isSaveClicked);
         }}
-        isSaveClicked={isSaveClicked}
+        issaveclicked={isSaveClicked?1:0}
       >
         {isSaveClicked ? <FaBookmark /> : <FaRegBookmark />}
       </SaveBtn>
@@ -90,7 +90,7 @@ export default function VoteBtns({ likes, id, contentType }) {
 const VoteCell = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 1rem;
+  margin-right: 2rem;
 `;
 const VoteBtn = styled.button`
   width: 2.5rem;
@@ -113,7 +113,7 @@ const SaveBtn = styled.button`
   width: 2.5rem;
   height: 2rem;
   color: ${(props) =>
-    props.isSaveClicked ? 'var(--color-orange)' : 'var(--color-gray)'};
+    props.issaveclicked ? 'var(--color-orange)' : 'var(--color-gray)'};
 `;
 
 const TimeBtn = styled.button`

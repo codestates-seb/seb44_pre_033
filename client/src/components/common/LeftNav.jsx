@@ -1,12 +1,12 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom'
 
-export default function Nav() {
+export default function Nav({current}) {
     return (
         <NavContainer>
-            <Home>
+            <Home current={current} currentTo='home'>
                 <Title>
-                    Home
+                    <Link to='/'>Home</Link>
                 </Title>
 
             </Home>
@@ -15,17 +15,17 @@ export default function Nav() {
                     PUBLIC
                 </Title>
                 <Content>
-                    <ContentTitle>
-                        Questions
+                    <ContentTitle current={current} currentTo='questionscontent'>
+                        <Link to='/questionscontent'>Questions</Link>
                     </ContentTitle>
-                    <ContentTitle>
-                        Tags
+                    <ContentTitle current={current} currentTo='tagcontent'>
+                        <Link to='/tagcontent'>Tags</Link>
                     </ContentTitle>
-                    <ContentTitle>
-                        Users
+                    <ContentTitle current={current} currentTo='usercontent'>
+                        <Link to='/usercontent'>Users</Link>
                     </ContentTitle>
-                    <ContentTitle>
-                        Companies
+                    <ContentTitle current={current} currentTo='companiescontent'>
+                        <Link to='/companiescontent'>Companies</Link>
                     </ContentTitle>
                 </Content>
             </Public>
@@ -34,8 +34,8 @@ export default function Nav() {
                     COLLECTIVES
                 </Title>
                 <Content>
-                    <ContentTitle>
-                        Explore Collectives
+                    <ContentTitle current={current} currentTo='explorecollectives'>
+                        <Link to='/explorecollectives'>Explore Collectives</Link>
                     </ContentTitle>
                 </Content>
             </Collectives>
@@ -44,8 +44,8 @@ export default function Nav() {
                     TEAMS
                 </Title>
                 <Content>
-                    <ContentTitle>
-                        Create free Team
+                    <ContentTitle current={current} currentTo='createfreeteamcontent'>
+                        <Link to='/createfreeteamcontent'>Create free Team</Link>
                     </ContentTitle>
                 </Content>
             </Teams>
@@ -80,7 +80,10 @@ const Container = styled.div`
 `;
 
 const Home = styled(Container)`
-
+    background-color: ${(props)=>(props.currentTo===props.current) ?  '#f1f2f3' : 'transparent'
+    };
+    border-right: 0.3rem solid ${(props)=>(props.currentTo===props.current) ?  'var(--color-orange)' : 'transparent'
+    };
 `;
 
 const Public = styled(Container)`
@@ -110,7 +113,10 @@ const Content = styled(Container)`
 const ContentTitle = styled(Container)`
     color: var(--color-gray);
     padding-left:2rem;
-
+    background-color: ${(props)=>(props.currentTo===props.current) ?  '#f1f2f3' : 'transparent'
+    };
+    border-right: 0.3rem solid ${(props)=>(props.currentTo===props.current) ?  'var(--color-orange)' : 'transparent'
+    };
 `;
 
 const Button = styled.button`

@@ -12,7 +12,7 @@ const HeaderLogin = ({ userinfo }) => {
         <LinkBtn>
           <UserInfo>
             <img src={설리} alt="icon"></img>
-            <div>{userinfo.username}</div>
+            <div>김코딩</div>
           </UserInfo>
         </LinkBtn>
         <LinkBtn>

@@ -8,6 +8,8 @@ import 스택익스체인지 from '../../assets/스택익스체인지.png';
 import 스택오버플로우 from '../../assets/logo-only.svg';
 import 슈퍼유저 from '../../assets/슈퍼유저.png';
 import ButtonFlex from '../common/ButtonFlexible.jsx';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LogoutBoxFrame = styled.div`
   width: 20rem;
@@ -92,10 +94,21 @@ const BottomContanier = styled.div`
   }
 `;
 
-const LogoutBox = ({ setOnLogin }) => {
+const LogoutBox = ({ setOnLogin, onLogin }) => {
+  const navigate = useNavigate();
+  const [validUserinfo, setValidUserinfo] = useState(true);
+
   const logoutRequestHandler = () => {
     setOnLogin(false);
+    setValidUserinfo(false);
   };
+
+  //로그아웃 버튼을 누르면 메인페이지로 이동
+  useEffect(() => {
+    if (!validUserinfo) {
+      navigate('/');
+    }
+  }, [validUserinfo]);
 
   return (
     <LogoutBoxFrame>

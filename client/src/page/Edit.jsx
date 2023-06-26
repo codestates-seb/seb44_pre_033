@@ -5,12 +5,11 @@ import styled from 'styled-components';
 import axios from 'axios';
 import TextEditor from '../components/common/TextEditor.jsx';
 import ButtonFixed from '../components/common/ButtonFixed';
-import ButtonFlex from '../components/common/ButtonFlexible';
 import Aside from '../components/common/Aside';
 import Modal from '../components/detail/Modal';
 import LeftNav from '../components/common/LeftNav';
 
-export default function Edit({onLogin}) {
+export default function Edit() {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -20,6 +19,8 @@ export default function Edit({onLogin}) {
   const [isBodyValid, setIsBodyValid] = useState(true);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   const [isCancleModalOpen, setIsCancleModalOpen] = useState(false);
+
+  // const token = localStorage.getItem('token');
 
   let titleLength = title.length;
   let bodyLength = body.replace(/<[^>]*>/g, '').length;
@@ -57,11 +58,11 @@ export default function Edit({onLogin}) {
         } else {
           //답변이라면 라우팅을 위해 questionId 값을 저장합니다.
           const questionId = res.data.questionId;
-          return questionId
+          return questionId;
         }
       })
-      .catch(() => {
-        console.error('질문을 가져오는 중에 문제가 발생했어요.');
+      .catch((error) => {
+        console.error(`Fail to get contents. Error Detail: ${error}`);
       });
   }, []);
 
@@ -74,19 +75,26 @@ export default function Edit({onLogin}) {
   const handleEditConfirm = () => {
     if (isBodyValid && isTitleValid) {
       axios
-        .patch(`http://localhost:3000/${type}/${params.id}`, {
-          content: body,
-          modifiedAt: new Date().toLocaleString(),
-          ...(title ? { title: title } : null),
-        })
+        .patch(
+          `http://localhost:3000/${type}/${params.id}`,
+          {
+            content: body,
+            modifiedAt: new Date().toLocaleString(),
+            ...(title ? { title: title } : null),
+          },
+          {
+            headers: {
+              // Authorization: token,
+              // 'ngrok-skip-browser-warning': true, //ngrok 홈페이지 연결 막는 속성
+            },
+          }
+        )
         .then((res) => {
           navigate(`/detail/${questionId || params.id}`);
         })
         .catch((error) => {
-          console.error('수정 중에 오류가 발생했습니다:', error);
+          console.error(`Fail to edit. Error Detail: ${error}`);
         });
-    } else {
-      console.log('길이를 수정해주세요');
     }
     setIsPostModalOpen(false);
   };
@@ -159,7 +167,11 @@ export default function Edit({onLogin}) {
               color="Blue"
               label="Save edits"
             />
-            <ButtonFlex onClick={handleCancleModal} label="Cancle" />
+            <ButtonFixed
+              onClick={handleCancleModal}
+              color="Red"
+              label="Cancle"
+            />
           </ButtonContainer>
           {/* 수정 완료 모달 */}
           {isPostModalOpen && (

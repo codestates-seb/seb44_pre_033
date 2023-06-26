@@ -142,24 +142,29 @@ const SignupInput = () => {
   const signup = async () => {
     //2차 검사: 이미 존재하는 가입정보인지
     try {
-      const response = await axios.get('http://localhost:3000/user');
-      const { data } = response;
-      const duplicateUserEmail = data.filter((item) => item.email === email);
-      const duplicateUserName = data.filter((item) => item.name === name);
+      const response = await axios.post('https://c1f2-1-240-215-58.ngrok-free.app/signup',{
+        name:name,
+        email:email,
+        password:password,
+      });
+      console.log(response)
+      // const { data } = response;
+      // const duplicateUserEmail = data.filter((item) => item.email === email);
+      // const duplicateUserName = data.filter((item) => item.name === name);
 
-      if (duplicateUserEmail.length === 0) {
-        setEmailErrorMessage('');
-      } else {
-        setEmailErrorMessage('이미 가입한 이메일입니다');
-      }
+      // if (duplicateUserEmail.length === 0) {
+      //   setEmailErrorMessage('');
+      // } else {
+      //   setEmailErrorMessage('이미 가입한 이메일입니다');
+      // }
 
-      if (duplicateUserName.length === 0) {
-        setNameErrorMessage('');
-      } else {
-        setNameErrorMessage('이미 존재하는 이름입니다');
-      }
+      // if (duplicateUserName.length === 0) {
+      //   setNameErrorMessage('');
+      // } else {
+      //   setNameErrorMessage('이미 존재하는 이름입니다');
+      // }
 
-      console.log(emailErrorMessage, nameErrorMessage);
+      // console.log(emailErrorMessage, nameErrorMessage);
 
       // 에러메세지 확인 후 , 다른 페이지로 넘어가는 기능이 구현안됨
       /*if (emailErrorMessage === '' && nameErrorMessage === '') {

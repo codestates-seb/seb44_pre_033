@@ -11,8 +11,10 @@ import LeftNav from '../components/common/LeftNav';
 export default function Detail({onLogin}) {
   const [questionsData, setQuestionData] = useState([]);
   const [questionTotalVotes, setQuestionTotalVotes] = useState(0);
+  
   const params = useParams();
 
+  // 질문 제목, 내용, 투표 데이터를 받아옵니다.
   useEffect(() => {
     axios
       .all([
@@ -34,13 +36,13 @@ export default function Detail({onLogin}) {
         })
       )
       .catch((error) => {
-        console.error(`Fail to get questions data. Error Detail: ${error}`);
+        console.error(`Fail to get questions data. ${error}`);
       });
   }, []);
 
   return (
     <Continer>
-      <LeftNav />
+      <LeftNav current={'questionscontent'} />
       <DetailSection>
         <Title
           questionTitle={questionsData.title}
@@ -54,6 +56,7 @@ export default function Detail({onLogin}) {
               contentData={questionsData}
               questionTotalVotes={questionTotalVotes}
               contentType="questions"
+              onLogin={onLogin}
             />
             <Answer onLogin={onLogin} />
           </div>
@@ -75,6 +78,7 @@ const DetailSection = styled.section`
   .questionAndAnswer {
     margin-right: 1rem;
     flex-grow: 1;
+    max-width: 1280px;
   }
   aside {
     flex-grow: 1;

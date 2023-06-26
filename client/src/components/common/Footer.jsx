@@ -79,7 +79,7 @@ const Logo = ({ path, src, alt }) => {
       );
 };
 
-const LogoWrap = styled.div`
+const LogoWrap = styled.footer`
     display: flex;
     flex-direction: row-reverse;
     width:10rem;

@@ -10,6 +10,7 @@ export default function Title({
   onLogin,
 }) {
   const navigate = useNavigate();
+  
   const askClickHandler = () => {
     if (!onLogin) {
       alert('Please log in to post a question.');
@@ -22,7 +23,7 @@ export default function Title({
   return (
     <Container>
       <QuestionHeader>
-        <div className="questionTitle">{questionTitle}</div>
+        <h1 className="questionTitle">{questionTitle}</h1>
         <ButtonFixed
           label="Ask Question"
           color="Blue"

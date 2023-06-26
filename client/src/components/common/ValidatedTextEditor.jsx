@@ -1,42 +1,54 @@
 import { useState, useEffect } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BsCheckLg } from 'react-icons/bs';
 import styled from 'styled-components';
+import { BsCheckLg } from 'react-icons/bs';
 import ButtonFixed from '../common/ButtonFixed';
 import Modal from '../detail/Modal';
-import TextEditor from '../common/TextEditor.jsx';
+import TextEditor from '../common/TextEditor';
 
 export default function ValidatedTextEditor({ questionId, onLogin }) {
-  const navigate = useNavigate();
-
   const [body, setBody] = useState('');
   const [isBodyValid, setIsBodyValid] = useState(true);
   const [isbodyError, setIsBodyError] = useState(true);
+  const [bodyLength, setBodyLength] = useState(0);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
-  let bodyLength = body.replace(/<[^>]*>/g, '').length;
+  const navigate = useNavigate();
+
+  // const userId = localStorage.getItem('userId'); 로그인 시 저장한 유저의 아이디를 들고옵니다.
+  // const token = localStorage.getItem('token');
 
   const handleBodyChange = (value) => {
     if (!onLogin) {
       alert('Please log in to post an answer.');
-      navigate('/users/login')
+      navigate('/users/login');
     } else {
       setBody(value);
+      setBodyLength(body.replace(/<[^>]*>/g, '').length);
     }
   };
 
   const handleConfirm = () => {
     axios
-      .post('http://localhost:3000/answers', {
-        questionId: Number(questionId),
-        userId: 1, //user.id
-        content: body,
-        createdAt: new Date().toLocaleString(), // 지우기
-        modifiedAt: null, //지우기
-        name: 'kimgcoding', // 지우기
-        votes: 0, //지우기
-      })
+      .post(
+        'http://localhost:3000/answers',
+        {
+          questionId: Number(questionId),
+          userId: 1, //user.id
+          content: body,
+          createdAt: new Date().toLocaleString(), // 지우기
+          modifiedAt: null, //지우기
+          name: 'kimgcoding', // 지우기
+          votes: 0, //지우기
+        },
+        {
+          headers: {
+            // Authorization: localStorage.getItem('token');
+            // 'ngrok-skip-browser-warning': true, //ngrok 홈페이지 연결 막는 속성
+          },
+        }
+      )
       .then((res) => {
         window.location.reload();
       })
@@ -113,7 +125,7 @@ export default function ValidatedTextEditor({ questionId, onLogin }) {
 }
 
 const BodyContainer = styled.div`
-  height: 30rem;
+  height: 33rem;
   border: 1px solid var(--color-gray);
   border-radius: 5px;
   margin-top: 3rem;
@@ -141,7 +153,7 @@ const BodyContainer = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding:0.5rem;
     div {
       color: red;
     }

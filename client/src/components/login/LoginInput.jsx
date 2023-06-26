@@ -79,7 +79,7 @@ export default function LoginInput({ setOnLogin }) {
 
   const loginRequestHandler = () => {
     axios
-      .post('http://localhost:3000/login', { email, password })
+      .post('https://c1f2-1-240-215-58.ngrok-free.app/login', { email:email, password:password })
       .then((response) => {
         // 성공하면 어떤 정보를 받아오나요? 응답데이터 형태(토큰)
         /*

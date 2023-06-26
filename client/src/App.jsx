@@ -11,6 +11,12 @@ import Footer from './components/common/Footer';
 import Header from './components/common/Header';
 import HeaderLogin from './components/common/HeaderLogin.jsx';
 import { useState } from 'react';
+import Users from './page/Users';
+import Tag from './page/Tag';
+import Companies from './page/Companies';
+import ExploreCollectives from './page/ExploreCollectives';
+import CreateFreeTeam from './page/CreateFreeTeam';
+import Questions from './page/Questions';
 
 function App() {
   const [onLogin, setOnLogin] = useState(true); //일단 로그인 된 헤더를 내보냄, false를 넣으면 로그아웃 헤더로 변경됨
@@ -23,6 +29,12 @@ function App() {
         <Routes>
           {/* 메인페이지 */}
           <Route path="/" element={<Main />}></Route>
+          <Route path="/questionscontent" element={<Questions />}></Route>
+          <Route path='/tagcontent' element={<Tag />}></Route>
+          <Route path='/usercontent' element={<Users />}></Route>
+          <Route path='/companiescontent' element={<Companies />}></Route>
+          <Route path='/explorecollectives' element={<ExploreCollectives />}></Route>
+          <Route path='/createfreeteamcontent' element={<CreateFreeTeam />}></Route>
           {/* 상세페이지 */}
           <Route
             path="/detail/:id"

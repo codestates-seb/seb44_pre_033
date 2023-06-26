@@ -1,17 +1,17 @@
 import Aside from "../components/common/Aside";
 import Nav from "../components/common/LeftNav";
-import MainContent from "../components/main/MainContent";
+import CreateFreeTeamContent from "../components/main/CreateFreeTeamContent";
 import { styled } from 'styled-components';
 
 
-const Main = ()=>{
-    const current = window.location.href.split('/')[3]+'home';
+const CreateFreeTeam = ()=>{
+    const current = window.location.href.split('/')[3];
     return(
         <MainPageContainer>
             <MainContainer>
                 <Nav current={current}/>
                 <ContentContainer>
-                    <MainContent />
+                    <CreateFreeTeamContent />
                     <Aside />
                 </ContentContainer>
             </MainContainer>
@@ -20,7 +20,7 @@ const Main = ()=>{
     );
 };
 
-export default Main;
+export default CreateFreeTeam;
 
 const MainPageContainer = styled.div`
     display:flex;

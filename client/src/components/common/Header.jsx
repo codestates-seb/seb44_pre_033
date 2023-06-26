@@ -57,6 +57,9 @@ const HeaderContainer = styled.div`
     border-top-width: 0.3rem;
     border-bottom-color: #d6d9dc;
     border-bottom-width:0.05rem;
+    background-color:white;
+    position:sticky;
+    top:0;
 `;
 const ButtonContainer = styled.div`
     display: flex;

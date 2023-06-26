@@ -49,7 +49,7 @@ const AsideContainer = styled.aside`
     display: flex;
     flex-direction: column;
     min-width: 10rem;
-    flex-grow:0;
+    flex-grow:0.3;
 `;
 
 const AsideArticle = styled.article`

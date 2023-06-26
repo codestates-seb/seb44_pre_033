@@ -53,7 +53,7 @@ const MainContent = ()=>{
 export default MainContent;
 
 const MainContentContainer = styled.main`
-    flex-basis: 50rem;
+    flex-basis: 80rem;
     flex-grow:1;
     padding:0 1rem 0 0;
 

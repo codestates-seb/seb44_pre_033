@@ -64,6 +64,8 @@ const NavContainer = styled.nav`
     min-width:14rem;
     padding-top: 1rem;
     padding-left:3rem;
+    position:sticky;
+    left:0;
 `;
 
 const Container = styled.div`

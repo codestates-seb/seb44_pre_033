@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -116,13 +116,19 @@ const LoginButton = styled.button`
 const label = 'Sign up';
 
 const SignupInput = () => {
-  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [nameErrorMessage, setNameErrorMessage] = useState('');
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [pwErrorMessage, setPwlErrorMessage] = useState('');
+  const [signupUserinfo, setSignupUserinfo] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (signupUserinfo) {
+      navigate('/users/login');
+    }
+  }, [signupUserinfo]);
 
   const handlePwChange = (e) => {
     const value = e.target.value;
@@ -138,46 +144,23 @@ const SignupInput = () => {
     const value = e.target.value;
     setName(value);
   };
-
-  const signup = async () => {
-    //2차 검사: 이미 존재하는 가입정보인지
-    try {
-      const response = await axios.post('https://c1f2-1-240-215-58.ngrok-free.app/signup',{
-        name:name,
-        email:email,
-        password:password,
+  // 가입형식만 지키면 로그인페이지로 이동
+  const postSignupData = () => {
+    return axios
+      .get('http://localhost:3000/user')
+      .then((res) => {
+        const { data } = res;
+        setSignupUserinfo(true);
+      }) //
+      .catch((err) => {
+        console.log(err, '이미 가입이 되어있는 이메일입니다');
+        alert('이미 가입이 되어있는 이메일입니다');
       });
-      console.log(response)
-      // const { data } = response;
-      // const duplicateUserEmail = data.filter((item) => item.email === email);
-      // const duplicateUserName = data.filter((item) => item.name === name);
-
-      // if (duplicateUserEmail.length === 0) {
-      //   setEmailErrorMessage('');
-      // } else {
-      //   setEmailErrorMessage('이미 가입한 이메일입니다');
-      // }
-
-      // if (duplicateUserName.length === 0) {
-      //   setNameErrorMessage('');
-      // } else {
-      //   setNameErrorMessage('이미 존재하는 이름입니다');
-      // }
-
-      // console.log(emailErrorMessage, nameErrorMessage);
-
-      // 에러메세지 확인 후 , 다른 페이지로 넘어가는 기능이 구현안됨
-      /*if (emailErrorMessage === '' && nameErrorMessage === '') {
-    navigate('/');
-  }*/
-    } catch (error) {
-      console.log(`${error} 데이터를 가져오는데 문제가 발생했어요`);
-    }
   };
 
   const handleSignupClick = () => {
     let hasError = false;
-    // 1차 검사: 이메일 형식과 비밀번호 형식 지킴 여부
+    //클라이언트 검사: 이메일 형식과 비밀번호 형식 지킴 여부
     if (!email.includes('@')) {
       setEmailErrorMessage('이메일 형식이 아닙니다');
       hasError = true;
@@ -191,14 +174,9 @@ const SignupInput = () => {
     } else {
       setPwlErrorMessage('');
     }
-    //console.log(hasError) false
-    //console.log(emailErrorMessage, nameErrorMessage); 빈배열
 
     if (!hasError) {
-      signup();
-
-      // 에러가 없으면 메인페이지로 이동
-      //서버에 회원가입 데이터 전송
+      postSignupData();
     }
   };
 
@@ -215,9 +193,6 @@ const SignupInput = () => {
             type="text"
             id="name"
           />
-          {nameErrorMessage && (
-            <div className="errorname">{nameErrorMessage}</div>
-          )}
           <label htmlFor="email" className="title1">
             Email
           </label>

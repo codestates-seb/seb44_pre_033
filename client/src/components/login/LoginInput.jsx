@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoginBox = styled.div`
   width: 18rem;
@@ -62,10 +63,12 @@ const LoginButton = styled.button`
 `;
 const label = 'Log in';
 
-export default function LoginInput({ setOnLogin }) {
+export default function LoginInput({ setOnLogin, userinfo, onLogin }) {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [password, setPassword] = useState('');
+  const [validUserinfo, setValidUserinfo] = useState(false);
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
@@ -77,9 +80,13 @@ export default function LoginInput({ setOnLogin }) {
     setPassword(value);
   };
 
-  const loginRequestHandler = () => {
+  const loginRequestHandler = ({ setUserinfo }) => {
     axios
-      .post('http://localhost:3000/login', { email, password })
+      .post('http://localhost:3000/login', {
+        email: email,
+        password: password,
+        token: { username: '김코딩', email: email },
+      })
       .then((response) => {
         // 성공하면 어떤 정보를 받아오나요? 응답데이터 형태(토큰)
         /*
@@ -90,11 +97,13 @@ export default function LoginInput({ setOnLogin }) {
          */
         // 성공하면 헤더에 기본프사와 사용자이름이 떴으면 좋겠어요
         //로그인 시 토큰을 로컬스토리지에 저장하고, 로그아웃 시 로컬스토리지할때 삭제
-
         console.log(response);
         setOnLogin(true);
+        setUserinfo({ username: '김코딩', email: email });
+        setValidUserinfo(true);
       })
       .catch((error) => {
+        setValidUserinfo(false);
         console.log(`${error} 로그인에 실패하였습니다`);
         alert('로그인에 실패하였습니다');
       });
@@ -107,6 +116,12 @@ export default function LoginInput({ setOnLogin }) {
       loginRequestHandler();
     }
   };
+
+  useEffect(() => {
+    if (validUserinfo) {
+      navigate('/');
+    }
+  }, [onLogin, userinfo]);
 
   return (
     <LoginBox>

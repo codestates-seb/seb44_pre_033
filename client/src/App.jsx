@@ -9,7 +9,6 @@ import Signup from './page/Signup';
 import NotFound from './page/NotFound';
 import Footer from './components/common/Footer';
 import Header from './components/common/Header';
-import HeaderLogin from './components/common/HeaderLogin.jsx';
 import { useState } from 'react';
 import Users from './page/Users';
 import Tag from './page/Tag';
@@ -25,7 +24,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        {onLogin ? <HeaderLogin userinfo={userinfo} /> : <Header />}
+        <Header onLogin={onLogin} userinfo={userinfo} />
         <Routes>
           {/* 메인페이지 */}
           <Route path="/" element={<Main />}></Route>

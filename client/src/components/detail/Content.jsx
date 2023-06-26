@@ -9,42 +9,52 @@ export default function Content({
   contentData,
   contentType,
   questionTotalVotes,
+  onLogin,
+  userId,
 }) {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [answerTotalVotes, setAnswerTotalVotes] = useState(0);
 
+  // const authorId = conTentData.userId
+  // const userId = localStorage.getItem('userId'); 로그인 시 저장한 유저의 아이디를 들고옵니다.
+  // const token = localStorage.getItem('token');
+
   // 답변 좋아요 카운팅
   useEffect(() => {
     axios(`http://localhost:3000/answersVotes?answerId=${contentData.id}`)
-    .then(
-      (res) => {
+      .then((res) => {
         const answerLikes = res.data.filter((e) => e.voteFlag === true).length;
         const answerDisLikes = res.data.filter(
           (e) => e.voteFlag === false
         ).length;
         const answerTotalVotes = answerLikes - answerDisLikes;
         setAnswerTotalVotes(answerTotalVotes);
-      }
-    )
-    .catch((error)=>{
-      console.error(`Fail to get answers votes data. Error Detail: ${error}`);
-    })
+      })
+      .catch((error) => {
+        console.error(`Fail to get answers votes data. ${error}`);
+      });
   }, []);
 
   const handleDelete = () => {
     setDeleteModalOpen(true);
   };
 
+  // 질문||답변 삭제 핸들러
   const handleConfirm = () => {
     axios
-      .delete(`http://localhost:3000/${contentType}/${contentData.id}`)
+      .delete(`http://localhost:3000/${contentType}/${contentData.id}`, {
+        headers: {
+          // Authorization: token,
+          // 'ngrok-skip-browser-warning': true, //ngrok 홈페이지 연결 막는 속성
+        },
+      })
       .then((res) => {
         window.location.reload();
       })
       .catch((error) => {
-        console.error(`Fail to delete. Error Detail: ${error}`);
+        console.error(`Fail to delete. ${error}`);
       });
-      setDeleteModalOpen(false);
+    setDeleteModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -57,16 +67,25 @@ export default function Content({
         votes={questionTotalVotes || answerTotalVotes}
         id={contentData.id}
         contentType={contentType}
+        onLogin={onLogin}
       />
       <PostCell>
         {/* 사용자가 에디터에 쓴 내용 html 형식으로 내보내기 */}
-        <article dangerouslySetInnerHTML={{ __html: contentData.content }}></article>
+        <article
+          dangerouslySetInnerHTML={{ __html: contentData.content }}
+        ></article>
         <ActionsAndProfile>
           <Features>
-            <a href={`/posts/${contentData.id}/edit?type=${contentType}`}>
-              Edit
-            </a>
-            <button onClick={handleDelete}>Delete</button>
+            {/* 본인 게시물에만 수정,버튼이 보입니다. */}
+            {/* onLogin => authorId === userId */}
+            {onLogin && (
+              <>
+                <a href={`/posts/${contentData.id}/edit?type=${contentType}`}>
+                  Edit
+                </a>
+                <button onClick={handleDelete}>Delete</button>
+              </>
+            )}
           </Features>
           {contentType === 'answers' && contentData.modifiedAt ? (
             <div>edited {contentData.modifiedAt}</div>
@@ -125,8 +144,8 @@ const Features = styled.div`
   }
   & * {
     color: var(--color-gray);
-    &:hover{
-      color:var(--color-orange);
+    &:hover {
+      color: var(--color-orange);
     }
   }
 `;

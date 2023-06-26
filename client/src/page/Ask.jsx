@@ -9,8 +9,9 @@ const AskPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f1f2f3;
-  padding: 1rem;
+  padding: 1rem 1rem 5rem 1rem;
 `;
+
 const BigTitleContainer = styled.div`
 width:100%;
 padding: 1rem;

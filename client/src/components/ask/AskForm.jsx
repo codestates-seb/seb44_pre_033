@@ -9,11 +9,11 @@ import axios from 'axios';
 import Modal from '../detail/Modal';
 
 const QuestionContianer = styled.div`
-display: flex;
-flex-direction: column;
-margin: auto;
-justify-content: center;
-align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
 `;
 const TitleContainer = styled.div`
   border: 1px solid var(--color-gray);
@@ -23,7 +23,7 @@ const TitleContainer = styled.div`
   justify-content: center;
   background-color: rgba(255, 255, 255, 255);
   padding: 1rem;
-  width:100%;
+  width: 100%;
   .title {
     font-size: 20px;
     font-weight: 700;
@@ -51,7 +51,8 @@ const TitleContainer = styled.div`
 `;
 
 const BodyContainer = styled.div`
-  width:100%;
+  width: 100%;
+      max-width: 780px;
   border: 1px solid #d4d4db;
   border-radius: 5px;
   margin-top: 1rem;
@@ -73,7 +74,7 @@ const BodyContainer = styled.div`
     height: 18rem;
     border: 1px solid
       ${(props) =>
-        props.isbodyerror && !props.istitleerror
+        !props.isbodyerror && !props.istitleerror
           ? 'red'
           : 'rgba(247,247,248,0.7)'};
 
@@ -102,6 +103,7 @@ const BodyContainer = styled.div`
   }
   .errormessage {
     display: flex;
+    margin-top: 1rem;
     * {
       color: red;
     }
@@ -109,11 +111,9 @@ const BodyContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 2vh;
-  width: 55vw;
-  height: 20vh;
+  margin-top: 2rem;
   display: flex;
-  flex-direction: row;
+  width: 100%;
 `;
 
 const DiscardButton = styled.button`
@@ -136,6 +136,7 @@ const DiscardButton = styled.button`
   align-items: center;
   justify-content: center;
 `;
+
 const AskForm = () => {
   const navigate = useNavigate();
 
@@ -144,6 +145,9 @@ const AskForm = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
+  // const userId = localStorage.getItem('userId'); 로그인 시 저장한 유저의 아이디를 들고옵니다.
+  // const token = localStorage.getItem('token');
+  
   const handleTitleChange = (e) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
@@ -179,14 +183,23 @@ const AskForm = () => {
   const handleConfirm = () => {
     if (isBodyValid && bodyLength) {
       axios
-        .post('http://localhost:3000/questions', {
-          title: title,
-          userId: 1, //user.id로 변경하기
-          name: 'kimcoding', //서버연결전 지우기
-          content: body,
-          createdAt: new Date().toLocaleString(),
-          modifiedAt: new Date().toLocaleString(),
-        })
+        .post(
+          'http://localhost:3000/questions',
+          {
+            title: title,
+            userId: 1, //user.id로 변경하기
+            name: 'kimcoding', //서버연결전 지우기
+            content: body,
+            createdAt: new Date().toLocaleString(),
+            modifiedAt: new Date().toLocaleString(),
+          },
+          {
+            headers: {
+              // Authorization: token,
+              // 'ngrok-skip-browser-warning': true, //ngrok 홈페이지 연결 막는 속성
+            },
+          }
+        )
         .then((res) => {
           navigate(`/`);
         })
@@ -226,7 +239,7 @@ const AskForm = () => {
       </TitleContainer>
       <BodyContainer
         istitleerror={isTitleValid ? 0 : 1}
-        isbodyerror={isBodyValid ? 0 : 1}
+        isbodyerror={isBodyValid ? 1 : 0}
       >
         <div className="bodyAndContent">
           <div className="title">Body</div>

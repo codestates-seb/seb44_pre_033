@@ -9,42 +9,60 @@ import {
   FaBookmark,
 } from 'react-icons/fa';
 
-export default function VoteBtns({ votes, id, contentType }) {
+export default function VoteBtns({ votes, id, contentType, onLogin }) {
   const [isSaveClicked, setIsSaveClicked] = useState(false);
   const [countVotes, setCountVotes] = useState(votes);
+
+  // const userId = localStorage.getItem('userId'); 로그인 시 저장한 유저의 아이디를 들고옵니다.
+  // const token = localStorage.getItem('token');
 
   useEffect(() => {
     setCountVotes(votes);
   }, [votes]);
 
-  let voteType = '';
+  // let voteType = '';
 
-  if (contentType === 'questions') {
-    voteType = 'questionVotes';
-  } else if (contentType === 'answers') {
-    voteType = 'answersVotes';
-  }
+  // if (contentType === 'questions') {
+  //   voteType = 'questionVotes';
+  // } else if (contentType === 'answers') {
+  //   voteType = 'answersVotes';
+  // }
+  // 서버 연결하면 지우기
+
   return (
     <VoteCell>
       <VoteBtn
         onClick={() =>
-          axios
-            .post(`http://localhost:3000/${voteType}`, {
-              voteFlag: true,
-              userId: 1, //user.id 로 바뀌어야함
-              [contentType === 'questions' ? 'questionId' : 'answerId']: id, // 지우기
-            })
-            .then((res) => {
-              setCountVotes((prevCount) => prevCount + 1);
-            })
-            .then(() =>
-              axios.patch(`http://localhost:3000/${contentType}/${id}`, {
-                votes: countVotes + 1,
-              })
-            )
-            .catch((error) => {
-              console.error(`Fail to post a vote. Error detail: ${error}`);
-            })
+          onLogin
+            ? axios
+                .post(
+                  `https://550f-49-163-135-89.ngrok-free.app/${contentType}/${id}/votes`,
+                  {
+                    voteFlag: true,
+                    userId: 1, //userId 로 바뀌어야함
+                    [contentType === 'questions' ? 'questionId' : 'answerId']:
+                      id, // 지우기
+                  },
+                  {
+                    headers: {
+                      // Authorization: localStorage.getItem('token');
+                      // 'ngrok-skip-browser-warning': true, //ngrok 홈페이지 연결 막는 속성
+                    },
+                  }
+                )
+                .then((res) => {
+                  setCountVotes((prevCount) => prevCount + 1);
+                })
+                .then(() =>
+                  axios.patch(`http://localhost:8080/${contentType}/${id}`, {
+                    votes: countVotes + 1,
+                  })
+                )
+                .catch((error) => {
+                  alert('You can\'t vote twice for same content');
+                  console.error(`Fail to post a vote. ${error}`);
+                })
+            : alert('Please log in to vote')
         }
       >
         <FaCaretUp />
@@ -52,23 +70,36 @@ export default function VoteBtns({ votes, id, contentType }) {
       <Count>{countVotes}</Count>
       <VoteBtn
         onClick={() =>
-          axios
-            .post(`http://localhost:3000/${voteType}`, {
-              voteFlag: false,
-              userId: 1, //user.id 로 바뀌어야함
-              [contentType === 'questions' ? 'questionId' : 'answerId']: id, // 지우기
-            })
-            .then((res) => {
-              setCountVotes((prevCount) => prevCount - 1);
-            })
-            .then(() =>
-              axios.patch(`http://localhost:3000/${contentType}/${id}`, {
-                votes: countVotes - 1,
-              })
-            )
-            .catch((error) => {
-              console.error(`Fail to post a vote. Error detail: ${error}`);
-            })
+          onLogin
+            ? axios
+                .post(
+                  `http://localhost:3000/${voteType}`,
+                  {
+                    voteFlag: false,
+                    userId: 1, //userId 로 바뀌어야함
+                    [contentType === 'questions' ? 'questionId' : 'answerId']:
+                      id, // 지우기
+                  },
+                  {
+                    headers: {
+                      // Authorization: localStorage.getItem('token');
+                      // 'ngrok-skip-browser-warning': true, //ngrok 홈페이지 연결 막는 속성
+                    },
+                  }
+                )
+                .then((res) => {
+                  setCountVotes((prevCount) => prevCount - 1);
+                })
+                .then(() =>
+                  axios.patch(`http://localhost:3000/${contentType}/${id}`, {
+                    votes: countVotes - 1,
+                  })
+                )
+                .catch((error) => {
+                  alert('You can\'t vote twice for same content'); //409에러 여부에 따라 alert 할 수 있는지 체크
+                  console.error(`Fail to post a vote. ${error}`);
+                })
+            : alert('Please log in to vote')
         }
       >
         <FaCaretDown />
@@ -77,7 +108,7 @@ export default function VoteBtns({ votes, id, contentType }) {
         onClick={() => {
           setIsSaveClicked(!isSaveClicked);
         }}
-        issaveclicked={isSaveClicked?1:0}
+        issaveclicked={isSaveClicked ? 1 : 0}
       >
         {isSaveClicked ? <FaBookmark /> : <FaRegBookmark />}
       </SaveBtn>

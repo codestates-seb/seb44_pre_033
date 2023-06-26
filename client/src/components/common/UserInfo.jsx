@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import ProfileImg from '../../assets/profile.png';
+import displayedAt from '../common/DisplayedAt';
 
 export default function UserInfo({userName,createdAt}) {
   return (
     <Profile>
-      <div>{createdAt}</div>
+      <div>{displayedAt(new Date(createdAt))}</div>
       <UserDetail>
         <ProfileImage src={ProfileImg}></ProfileImage>
         <div>{userName}</div>

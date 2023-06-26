@@ -36,7 +36,11 @@ export default function Answer({onLogin}) {
   //답변 데이터를 받아와서 필터링
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/answers?questionId=${params.id}`)
+      .get(`http://localhost:3000/answers?questionId=${params.id}`,{
+        headers: {
+          // 'ngrok-skip-browser-warning': true, //ngrok 홈페이지 연결 막는 속성
+        }
+      })
       .then((res) => {
         if (filterTap === 'score') {
           const sortedAnswerList = res.data.sort((a, b) => b.votes - a.votes);
@@ -60,22 +64,22 @@ export default function Answer({onLogin}) {
 
   return (
     <Container>
-      <NumAndSort>
-        <div className="answersNum">{answerList.length} Answers</div>
+      <AnswerHeader>
+        <div className="answerCount">{answerList.length} Answers</div>
         <div className="sort">
           <label>Sorted by: </label>
           <select onChange={answerFilterHandler}>
-            {answerFilter.map((el) => (
-              <option key={el.id} value={el.value}>
-                {el.Name}
+            {answerFilter.map((sortType) => (
+              <option key={sortType.id} value={sortType.value}>
+                {sortType.Name}
               </option>
             ))}
           </select>
         </div>
-      </NumAndSort>
+      </AnswerHeader>
       {answerList.map((answer) => (
         <li key={answer.id}>
-          <Content contentData={answer} contentType={'answers'} />
+          <Content onLogin={onLogin} contentData={answer} contentType={'answers'} />
         </li>
       ))}
       <ValidatedTextEditor onLogin={onLogin} questionId={params.id}/>
@@ -89,10 +93,10 @@ const Container = styled.section`
   margin-top: 1rem;
 `;
 
-const NumAndSort = styled.ul`
+const AnswerHeader = styled.ul`
   display: flex;
   justify-content: space-between;
-  .answersNum {
+  .answerCount {
     font-size: 1.2rem;
     font-weight: 700;
   }

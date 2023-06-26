@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import ButtonFixed from '../common/ButtonFixed';
+import displayedAt from '../common/DisplayedAt';
 
 export default function Title({
   questionTitle,
@@ -9,18 +10,20 @@ export default function Title({
   onLogin,
 }) {
   const navigate = useNavigate();
+  
   const askClickHandler = () => {
     if (!onLogin) {
       alert('Please log in to post a question.');
-      navigate('/users/login')
+      navigate('/users/login');
     } else {
       navigate('/questions/ask');
     }
   };
+
   return (
     <Container>
       <QuestionHeader>
-        <div className="questionTitle">{questionTitle}</div>
+        <h1 className="questionTitle">{questionTitle}</h1>
         <ButtonFixed
           label="Ask Question"
           color="Blue"
@@ -30,11 +33,11 @@ export default function Title({
       <QuestionInfo>
         <InfoDetail>
           <Span>added</Span>
-          <span>{createdAt}</span>
+          <span>{displayedAt(new Date(createdAt))}</span>
         </InfoDetail>
         <InfoDetail>
           <Span>Modified</Span>
-          <span>{modifiedAt}</span>
+          <span>{displayedAt(new Date(modifiedAt))}</span>
         </InfoDetail>
         <InfoDetail>
           <Span>viewed</Span>

@@ -29,11 +29,14 @@ public class CustomUser implements Serializable, UserDetails {
     @Column(nullable = false)
     private String password;
 
-//    @Column(nullable = false)
-    private LocalDateTime created_at;
+    //    @Column(nullable = false)
+    private LocalDateTime created_at = LocalDateTime.now();
 
 //    @Column(nullable = false)
     private boolean locked;
+
+    @Column(name = "account_non_expired")
+    private boolean accountNonExpired;
 
     // 사용자의 ID를 반환합니다.
     public Long getId() {

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ButtonFlex from './ButtonFlexible.jsx';
 import 설리 from '../../assets/설리.png';
 
-const HeaderLogin = () => {
+const HeaderLogin = ({ userinfo }) => {
   return (
     <HeaderContainer>
       <Logo path="/" src={LogoImg} alt="stack overflow" />
@@ -12,7 +12,7 @@ const HeaderLogin = () => {
         <LinkBtn>
           <UserInfo>
             <img src={설리} alt="icon"></img>
-            <div>유저이름</div>
+            <div>{userinfo.username}</div>
           </UserInfo>
         </LinkBtn>
         <LinkBtn>

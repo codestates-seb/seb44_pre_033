@@ -14,29 +14,43 @@ import { useState } from 'react';
 
 function App() {
   const [onLogin, setOnLogin] = useState(true); //일단 로그인 된 헤더를 내보냄, false를 넣으면 로그아웃 헤더로 변경됨
+  const [userinfo, setUserinfo] = useState('유저이름');
 
   return (
     <>
       <BrowserRouter>
-        {onLogin ? <HeaderLogin /> : <Header />}
+        {onLogin ? <HeaderLogin userinfo={userinfo} /> : <Header />}
         <Routes>
           {/* 메인페이지 */}
           <Route path="/" element={<Main />}></Route>
           {/* 상세페이지 */}
-          <Route path="/detail/:id" element={<Detail onLogin={onLogin}/>}></Route>
+          <Route
+            path="/detail/:id"
+            element={<Detail onLogin={onLogin} />}
+          ></Route>
           {/* 수정 페이지 */}
-          <Route path="/posts/:id/edit" element={<Edit onLogin={onLogin}/>}></Route>
+          <Route
+            path="/posts/:id/edit"
+            element={<Edit onLogin={onLogin} />}
+          ></Route>
           {/* 질문작성페이지 */}
-          <Route path="/questions/ask" element={<Ask onLogin={onLogin}/>}></Route>
+          <Route
+            path="/questions/ask"
+            element={<Ask onLogin={onLogin} />}
+          ></Route>
           {/* 로그인 페이지 */}
           <Route
             path="/users/login"
-            element={<Login setOnLogin={setOnLogin} />}
+            element={
+              <Login userinfo={userinfo} onLogin={onLogin} setOnLogin={setOnLogin} setUserinfo={setUserinfo} />
+            }
           ></Route>
           {/* 로그아웃 페이지 */}
           <Route
             path="/users/logout"
-            element={<Logout setOnLogin={setOnLogin} />}
+            element={
+              <Logout setOnLogin={setOnLogin} setUserinfo={setUserinfo} />
+            }
           ></Route>
           {/* 회원가입 페이지 */}
           <Route path="/users/signup" element={<Signup />}></Route>

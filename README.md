@@ -18,7 +18,7 @@
 | :--------: | :--------: | :--------: |
 | <img src="" alt="김윤" width="100" height="100"> | <img src="" alt="정우형" width="100" height="100"> | <img src="" alt="정다희" width="100" height="100"> |
 | [@Yooney1](https://github.com/Yooney1) | [@rktdngud](https://github.com/rktdngud) | [@sftm0715](https://github.com/sftm0715) |
-| <p align="left">- Main Page (Inf. Scroll)<br/>- UI Design & User Flow Head<br/>- Token Authentication<br/>- Login Status & Member <br/>&nbsp; &nbsp; Access Control<br/>- Ask Page (C)<br/>- Q&A & QA-Replies CRUD<br/>- Header / Sidebar <br/>- Responsive Design<br/>|<p align="left">- Question Page<br/>- Question UD<br/>- Answer CRUD<br/>- QA-Replies CRUD<br/>- Members-Only Features<br/>- Header<br/>- AWS Deployment / Release <br/>|<p align="left">- Member Info Page (RUD)<br/>- Login (R), Signup (C) Page<br/>- ID/PW Validation<br/> - Logo Design<br/>||||
+| <p align="left">- 보안관련 데이터 관리<br/>- 질문 데이터<br/>|<p align="left">- 좋아요/싫어요<br/>- 유저 데이터 관리<br/>|<p align="left">- Member Info Page (RUD)<br/>- 회원가입 데이터<br/>- 답변 데이터<br/>||||
 
 </br>
 

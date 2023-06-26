@@ -49,7 +49,7 @@ function App() {
           <Route
             path="/users/logout"
             element={
-              <Logout setOnLogin={setOnLogin} setUserinfo={setUserinfo} />
+              <Logout onLogin={onLogin} setOnLogin={setOnLogin} setUserinfo={setUserinfo} />
             }
           ></Route>
           {/* 회원가입 페이지 */}

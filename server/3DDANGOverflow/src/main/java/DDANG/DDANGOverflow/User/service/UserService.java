@@ -47,8 +47,7 @@ public class UserService {
     }
 
     public boolean authenticate(String email, String password) {
-        return userRepository.findByEmail(email)
-                .map(user -> passwordEncoder.matches(password, user.getPassword()))
-                .orElse(false);
+        CustomUser user = findUserByEmail(email);
+        return passwordEncoder.matches(password, user.getPassword());
     }
 }

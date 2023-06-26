@@ -28,7 +28,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         String errorMessage = "Invalid username or password.";
 
         Logger logger = Logger.getLogger(getClass().getName());
-        logger.log(Level.SEVERE, "Login failed for IP: " + ipAddress + ", Time: " + now + ", Error Message: " + errorMessage);
+//        logger.log(Level.SEVERE, "Login failed for IP: " + ipAddress + ", Time: " + now + ", Error Message: " + errorMessage);
 
         // 사용자에게 적절한 오류 메시지를 표시할 수도 있습니다.
         // 실패한 이유에 따라 다른 메시지를 전달하는 경우:

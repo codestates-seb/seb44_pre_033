@@ -10,15 +10,15 @@
 
 | 김진솔<br>(FE Leader) | 이준석<br>(FE) | 정지은<br>(FE) |
 |:--------:| :--------: | :--------: |
-| <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/45d0c722-34d4-4d6e-ae7f-4ca74b7f9e46" alt="김진솔" width="100" height="100">| <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/9b3e7fab-9cdb-4901-af12-0ddd94d47f6d" alt="이준석" width="100" height="100"> | <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/15d84434-2aa6-45a8-963b-9b90b51e6923" alt="정지은" width="100" height="100"> | 
+| <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/45d0c722-34d4-4d6e-ae7f-4ca74b7f9e46" alt="김진솔" width="150" height="150">| <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/179f695f-9638-4e57-aa20-ae67f74f91fc" alt="이준석" width="150" height="150"> | <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/15d84434-2aa6-45a8-963b-9b90b51e6923" alt="정지은" width="150" height="150"> | 
 |[@jinsoul75](https://github.com/jinsoul75) | [@LeeJSYS](https://github.com/LeeJSYS) | [@jieun9999](https://github.com/jieun9999) | 
-| <p align="left"><br/>- 질문 CRUD <br/>- 답변 CRUD<br/> | <p align="left">- 메인페이지 <br/>- 공통 컴포넌트 <br/>header/footer/aside/navbar <br/>- 페이지네이션| <p align="left">- 질문 작성페이지<br/>- 로그인 <br/>- 로그아웃 <br />- 회원가입 | 
+|<p align="left"><br/>- 질문 CRUD <br/>- 답변 CRUD<br/>- 좋아요/싫어요<br/> | <p align="left">- 메인페이지 <br/>- 공통 컴포넌트 <br/>header/footer/aside/navbar <br/>- 페이지네이션| <p align="left">- 질문 작성페이지<br/>- 로그인 <br/>- 로그아웃 <br />- 회원가입 | 
 
 | 김윤<br>(BE Leader) | 최우형<br>(BE) | 정다희<br>(BE) |
 | :--------: | :--------: | :--------: |
-| <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/b7a19bdd-3a32-46f1-b251-518ca96c3624" alt="김윤" width="100" height="100"> | <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/7524d290-f8db-4844-ad53-7c22a67eb150" alt="최우형" width="100" height="100"> | <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/7ac94843-ee32-4ab3-bffb-22ba6143d3e2" alt="정다희" width="100" height="100"> |
+| <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/b7a19bdd-3a32-46f1-b251-518ca96c3624" alt="김윤" width="150" height="150"> | <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/7524d290-f8db-4844-ad53-7c22a67eb150" alt="최우형" width="150" height="150"> | <img src="https://github.com/codestates-seb/seb44_pre_033/assets/112951633/7ac94843-ee32-4ab3-bffb-22ba6143d3e2" alt="정다희" width="150" height="150"> |
 | [@Yooney1](https://github.com/Yooney1) | [@rktdngud](https://github.com/rktdngud) | [@sftm0715](https://github.com/sftm0715) |
-| <p align="left">- 보안관련 데이터 관리<br/>- 질문 데이터<br/>|<p align="left">- 좋아요/싫어요<br/>- 유저 데이터 관리<br/>|<p align="left"><br/>- 회원가입 데이터<br/>- 답변 데이터<br/>||||
+| <p align="left">- 보안관리<br/>- 질문 <br/>|<p align="left">- 좋아요/싫어요<br/>- 질문답변 대댓글<br/>|<p align="left"><br/>- 회원가입<br/>- 답변<br/>|
 
 </br>
 

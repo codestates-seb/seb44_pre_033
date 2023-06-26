@@ -21,21 +21,22 @@ public class CustomUser implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
-    private String name;
     @Column(nullable = false, unique = true, length = 255)
-    private String username;
+    private String name;
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private LocalDateTime created_at;
+    //    @Column(nullable = false)
+    private LocalDateTime created_at = LocalDateTime.now();
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private boolean locked;
+
+    @Column(name = "account_non_expired")
+    private boolean accountNonExpired;
 
     // 사용자의 ID를 반환합니다.
     public Long getId() {

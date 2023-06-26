@@ -62,17 +62,19 @@ const LogoWrap = styled.div`
 const LogoImage = styled.img`
   width: 10rem;
 `;
-
-const HeaderContainer = styled.header`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: center;
-  border-style: solid;
-  border-top-color: var(--color-orange);
-  border-top-width: 0.3rem;
-  border-bottom-color: #d6d9dc;
-  border-bottom-width: 0.05rem;
+const HeaderContainer = styled.div`
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    border-style:solid;
+    border-top-color: var(--color-orange);
+    border-top-width: 0.3rem;
+    border-bottom-color: #d6d9dc;
+    border-bottom-width:0.05rem;
+    background-color:white;
+    position:sticky;
+    top:0;
 `;
 const ButtonContainer = styled.div`
   display: flex;

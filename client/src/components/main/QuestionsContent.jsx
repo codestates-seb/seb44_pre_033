@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect} from 'react';
 import axios from 'axios';
 
-const MainContent = ()=>{
+const QuestionsContent = ()=>{
     const [filter,setFilter]=useState('Newest');
     const [questions, setQuestions]=useState([]);
 
@@ -38,7 +38,7 @@ const MainContent = ()=>{
             <HeaderContainer>
                 <Header>
                     <Title>
-                        Top Questions
+                        All Questions
                     </Title>
                     <ButtonFlex label='Ask Question' color='Blue' onClick={onClickQuestion}/>
                 </Header>
@@ -49,7 +49,7 @@ const MainContent = ()=>{
     );
 };
 
-export default MainContent;
+export default QuestionsContent;
 
 const MainContentContainer = styled.main`
     flex-basis: 80rem;

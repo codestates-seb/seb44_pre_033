@@ -33,15 +33,21 @@ public class SignupController {
 
     @PostMapping
     public ResponseEntity<?> signupUser(@Valid @RequestBody UserDto.SignupRequest signupRequest) {
-        CustomUser user = userMapper.toUser(signupRequest);
-        CustomUser response = userService.createUser(user);
+        try {
+            CustomUser user = userMapper.toUser(signupRequest);
+            CustomUser response = userService.createUser(user);
 
-        URI location = UriComponentsBuilder
-                .newInstance()
-                .path(USER_DEFAULT_URL + "/{user-id}")
-                .buildAndExpand(response.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+            URI location = UriComponentsBuilder
+                    .newInstance()
+                    .path(USER_DEFAULT_URL + "/{user-id}")
+                    .buildAndExpand(response.getId())
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        }
+
+        catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
+        }
     }
     @Autowired
     private RequestMappingHandlerMapping handlerMapping;

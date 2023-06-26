@@ -135,11 +135,13 @@ const ContentRate = styled.div`
 const ContentText = styled.div`
     display: flex;
     flex-direction: column;
+    width:100%;
 `;
 
 const Title = styled.div`
     font-size: 1.2rem;
     padding: 0.5rem 0;
+    color: var(--color-blue);
 `;
 
 const ContentTextContent = styled.div`
@@ -148,6 +150,7 @@ const ContentTextContent = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    
 `;
 
 const ContentInfo = styled.div`

@@ -52,7 +52,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class SignupResponse {
         private long id;
-        private String username;
+        private String name;
         private String email;
 
         public SignupResponse() {

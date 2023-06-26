@@ -8,8 +8,10 @@ import DDANG.DDANGOverflow.exception.ExceptionCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -30,13 +32,13 @@ public class UserService {
     private void verifyEmailExists(String email) {
         userRepository.findByEmail(email)
                 .ifPresent(existingUser -> {
-                    throw new BusinessLogicException(ExceptionCode.USER_EMAIL_EXIST);
+                    throw new RuntimeException("Email already exists");
                 });
     }
 
-    public CustomUser findUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new CustomException("User not found with username: " + username));
+    public CustomUser findUserByUsername(String name) {
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new CustomException("User not found with username: " + name));
     }
 
     public CustomUser findUserByEmail(String email) {
@@ -44,9 +46,8 @@ public class UserService {
                 .orElseThrow(() -> new CustomException("User not found with email: " + email));
     }
 
-    public boolean authenticate(String username, String password) {
-        return userRepository.findByUsername(username)
-                .map(user -> passwordEncoder.matches(password, user.getPassword()))
-                .orElse(false);
+    public boolean authenticate(String email, String password) {
+        CustomUser user = findUserByEmail(email);
+        return passwordEncoder.matches(password, user.getPassword());
     }
 }
